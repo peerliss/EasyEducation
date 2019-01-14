@@ -116,11 +116,9 @@
         app:layout_constraintVertical_bias="0.226" />
 
     <ScrollView
-        android:layout_width="415dp"
+        android:layout_width="match_parent"
         android:layout_height="445dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:isScrollContainer="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,11 +129,9 @@
         <LinearLayout
             android:id="@+id/agent_institution_fragment"
             android:name="au.com.easyeducation.easyeducation_3.Fragments.AgentFragment"
-            android:layout_width="415dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
