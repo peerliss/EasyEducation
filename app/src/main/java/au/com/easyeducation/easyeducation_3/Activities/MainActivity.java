@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +42,13 @@ import au.com.easyeducation.easyeducation_3.R;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    RecyclerView agentRecyclerView;
-    AgentAdapter agentAdapter;
     Button agentButton;
     Button instituteButton;
     SearchView searchView;
+    RecyclerView agentRecyclerView;
 
     ArrayList<Agents> agentsList = new ArrayList<>();
+    ArrayList<Agents> institutesList = new ArrayList<>();
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -67,91 +68,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        agentsList.add(0, new Agents("Name",
-                "Username",
-                "Description",
-                "Visa",
-                "Hours",
-                24,
-                11,
-                4));
-
-        agentsList.add(1, new Agents("Name",
-                "Username",
-                "Description",
-                "Visa",
-                "Hours",
-                24,
-                11,
-                4));
-
-        agentsList.add(1, new Agents("Name",
-                "Username",
-                "Description",
-                "Visa",
-                "Hours",
-                24,
-                11,
-                4));
-
-        agentsList.add(1, new Agents("Name",
-                "Username",
-                "Description",
-                "Visa",
-                "Hours",
-                24,
-                11,
-                4));
-
-        agentRecyclerView = findViewById(R.id.main_recyclerView);
-        agentRecyclerView.setHasFixedSize(true);
-        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        agentAdapter = new AgentAdapter(this, agentsList);
-//        agentRecyclerView.setAdapter(agentAdapter);
-
-        TextView agent_name = findViewById(R.id.agent_name);
-        TextView agent_username = findViewById(R.id.agent_username);
-        TextView agent_description = findViewById(R.id.agent_description);
-        TextView agent_visa = findViewById(R.id.agent_visa);
-        TextView agent_hours = findViewById(R.id.agent_hours);
-        TextView agent_distance = findViewById(R.id.agent_distance);
-        TextView agent_reviews = findViewById(R.id.agent_reviews);
-        TextView agent_rating = findViewById(R.id.agent_rating);
         agentButton = findViewById(R.id.agent_button);
         instituteButton = findViewById(R.id.institution_button);
         searchView = findViewById(R.id.searchView);
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.agent_institution_fragment, new AgentFragment());
-        fragmentTransaction.add(R.id.agent_institution_fragment, new AgentFragment());
-        fragmentTransaction.add(R.id.agent_institution_fragment, new AgentFragment());
-        fragmentTransaction.add(R.id.agent_institution_fragment, new AgentFragment());
-        fragmentTransaction.commit();
+        agentRecyclerView = findViewById(R.id.main_recyclerView);
 
         agentButton.setPressed(true);
 
-        searchView.setIconified(true);
-
-        instituteButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (agentButton.isPressed()) {
-                    agentButton.setPressed(false);
-                }
-
-                instituteButton.setPressed(true);
-
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.agent_institution_fragment, new InstitutionFragment());
-                fragmentTransaction.add(R.id.agent_institution_fragment, new InstitutionFragment());
-                fragmentTransaction.add(R.id.agent_institution_fragment, new InstitutionFragment());
-                fragmentTransaction.add(R.id.agent_institution_fragment, new InstitutionFragment());
-
-                fragmentTransaction.commit();
-
-                return true;
-            }
-        });
+        inflateAgentList();
+        inflateInstitutesList();
+        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         agentButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -160,19 +86,120 @@ public class MainActivity extends AppCompatActivity
                     instituteButton.setPressed(false);
                 }
 
+                agentRecyclerView.swapAdapter(new AgentAdapter(getBaseContext(), agentsList), true);
+
                 agentButton.setPressed(true);
-
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.agent_institution_fragment, new AgentFragment());
-                fragmentTransaction.add(R.id.agent_institution_fragment, new AgentFragment());
-                fragmentTransaction.add(R.id.agent_institution_fragment, new AgentFragment());
-                fragmentTransaction.add(R.id.agent_institution_fragment, new AgentFragment());
-
-                fragmentTransaction.commit();
-
                 return true;
             }
         });
+
+        instituteButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (agentButton.isPressed()) {
+                    agentButton.setPressed(false);
+                }
+
+                agentRecyclerView.swapAdapter(new AgentAdapter(getBaseContext(), institutesList), true);
+
+                instituteButton.setPressed(true);
+                return true;
+            }
+        });
+
+    }
+
+    private void inflateAgentList() {
+        agentsList.add(new Agents("XY Migration",
+                "@xymigration",
+                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
+                "7 Visa Services Available",
+                "Open: 9am - 5pm today",
+                15.7,
+                11,
+                4.0));
+
+        agentsList.add(new Agents("XY Migration",
+                "@xymigration",
+                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
+                "7 Visa Services Available",
+                "Open: 9am - 5pm today",
+                15.7,
+                11,
+                4.0));
+
+        agentsList.add(new Agents("XY Migration",
+                "@xymigration",
+                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
+                "7 Visa Services Available",
+                "Open: 9am - 5pm today",
+                15.7,
+                11,
+                4.0));
+
+        agentsList.add(new Agents("XY Migration",
+                "@xymigration",
+                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
+                "7 Visa Services Available",
+                "Open: 9am - 5pm today",
+                15.7,
+                11,
+                4.0));
+
+
+        initAgentRecyclerView();
+    }
+
+    private void inflateInstitutesList() {
+        institutesList.add(new Agents("Study University",
+                "Username",
+                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
+                "7 Visa Services Available",
+                "Open: 9am - 5pm today",
+                15.7,
+                11,
+                4.0));
+
+        institutesList.add(new Agents("Study University",
+                "Username",
+                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
+                "7 Visa Services Available",
+                "Open: 9am - 5pm today",
+                15.7,
+                11,
+                4.0));
+
+        institutesList.add(new Agents("Study University",
+                "Username",
+                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
+                "7 Visa Services Available",
+                "Open: 9am - 5pm today",
+                15.7,
+                11,
+                4.0));
+
+        institutesList.add(new Agents("Study University",
+                "Username",
+                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
+                "7 Visa Services Available",
+                "Open: 9am - 5pm today",
+                15.7,
+                11,
+                4.0));
+
+        institutesList.add(new Agents("Study University",
+                "Username",
+                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
+                "7 Visa Services Available",
+                "Open: 9am - 5pm today",
+                15.7,
+                11,
+                4.0));
+
+    }
+
+    private void initAgentRecyclerView() {
+        agentRecyclerView.setAdapter(new AgentAdapter(this, agentsList));
     }
 
     @Override
@@ -230,47 +257,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-
-    @SuppressLint("ClickableViewAccessibility")
-    public void onClick_institution_button(View view) {
-//        instituteButton.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (agentButton.isPressed()) {
-//                    agentButton.setPressed(false);
-//                }
-//
-//                instituteButton.setPressed(true);
-//
-//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.agent_institution_fragment, new InstitutionFragment());
-//                fragmentTransaction.commit();
-//
-//                return true;
-//            }
-//        });
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    public void onClick_agent_button(View view) {
-//        agentButton.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (instituteButton.isPressed()) {
-//                    instituteButton.setPressed(false);
-//                }
-//
-//                agentButton.setPressed(true);
-//
-//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.agent_institution_fragment, new AgentFragment());
-//                fragmentTransaction.commit();
-//
-//                return true;
-//            }
-//        });
     }
 
     public void onClick_profile_button(View view) {

@@ -1,6 +1,6 @@
 package au.com.easyeducation.easyeducation_3.Model;
 
-import android.media.Image;
+//import android.media.Image;
 
 public class Agents {
     private String agent_name;
@@ -8,12 +8,12 @@ public class Agents {
     private String agent_description;
     private String agent_visa;
     private String agent_hours;
-    private int agent_distance;
+    private double agent_distance;
     private int agent_reviews;
-    private int agent_rating;
-    private Image agent_profile;
+    private double agent_rating;
+//    private Image agent_profile;
 
-    public Agents(String agent_name, String agent_username, String agent_description, String agent_visa, String agent_hours, int agent_distance, int agent_reviews, int agent_rating/*, Image agent_profile*/) {
+    public Agents(String agent_name, String agent_username, String agent_description, String agent_visa, String agent_hours, double agent_distance, int agent_reviews, double agent_rating/*, Image agent_profile*/) {
         this.agent_name = agent_name;
         this.agent_username = agent_username;
         this.agent_description = agent_description;
@@ -45,7 +45,7 @@ public class Agents {
         return agent_hours;
     }
 
-    public int getAgent_distance() {
+    public double getAgent_distance() {
         return agent_distance;
     }
 
@@ -53,13 +53,13 @@ public class Agents {
         return agent_reviews;
     }
 
-    public int getAgent_rating() {
+    public double getAgent_rating() {
         return agent_rating;
     }
 
-    public Image getAgent_profile() {
-        return agent_profile;
-    }
+//    public Image getAgent_profile() {
+//        return agent_profile;
+//    }
 
     public void setAgent_name(String agent_name) {
         this.agent_name = agent_name;
@@ -81,7 +81,7 @@ public class Agents {
         this.agent_hours = agent_hours;
     }
 
-    public void setAgent_distance(int agent_distance) {
+    public void setAgent_distance(double agent_distance) {
         this.agent_distance = agent_distance;
     }
 
@@ -89,11 +89,11 @@ public class Agents {
         this.agent_reviews = agent_reviews;
     }
 
-    public void setAgent_rating(int agent_rating) {
+    public void setAgent_rating(double agent_rating) {
         this.agent_rating = agent_rating;
     }
 
-    public void setAgent_profile(Image agent_profile) {
-        this.agent_profile = agent_profile;
-    }
+//    public void setAgent_profile(Image agent_profile) {
+//        this.agent_profile = agent_profile;
+//    }
 }
