@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,14 @@ public class AgentAdapter extends RecyclerView.Adapter<AgentAdapter.AgentViewHol
 
     private Context context;
     private ArrayList<Agents> agentsList = new ArrayList<>();
+
+    // [START declare_auth]
+    private FirebaseAuth mAuth;
+    // [END declare_auth]
+
+    private DatabaseReference mDatabase;
+
+
 
     public AgentAdapter(Context context, ArrayList<Agents> agentsList) {
         this.context = context;

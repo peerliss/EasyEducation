@@ -29,6 +29,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,8 @@ import au.com.easyeducation.easyeducation_3.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FirebaseAuth mAuth;
 
     Button agentButton;
     Button instituteButton;
@@ -68,6 +72,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
 
         agentButton = findViewById(R.id.agent_button);
         instituteButton = findViewById(R.id.institution_button);
@@ -262,6 +268,12 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick_profile_button(View view) {
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClick_signOut(MenuItem item) {
+        mAuth.signOut();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
 }
