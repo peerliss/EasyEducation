@@ -13,6 +13,8 @@ public class Agents {
     private double agent_rating;
 //    private Image agent_profile;
 
+    public Agents(){}
+
     public Agents(String agent_name, String agent_username, String agent_description, String agent_visa, String agent_hours, double agent_distance, int agent_reviews, double agent_rating/*, Image agent_profile*/) {
         this.agent_name = agent_name;
         this.agent_username = agent_username;

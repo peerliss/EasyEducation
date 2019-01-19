@@ -31,8 +31,6 @@ public class AgentAdapter extends RecyclerView.Adapter<AgentAdapter.AgentViewHol
 
     private DatabaseReference mDatabase;
 
-
-
     public AgentAdapter(Context context, ArrayList<Agents> agentsList) {
         this.context = context;
         this.agentsList = agentsList;

@@ -29,10 +29,21 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import au.com.easyeducation.easyeducation_3.Adapter.AgentAdapter;
 import au.com.easyeducation.easyeducation_3.Fragments.AgentFragment;
@@ -45,6 +56,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private DatabaseReference mDatabase;
 
     Button agentButton;
     Button instituteButton;
@@ -74,6 +87,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        db = FirebaseFirestore.getInstance();
 
         agentButton = findViewById(R.id.agent_button);
         instituteButton = findViewById(R.id.institution_button);
@@ -117,7 +132,44 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void inflateAgentList() {
-        agentsList.add(new Agents("XY Migration",
+
+        mDatabase = mDatabase.child("agents").child("Agent1").child("Name");
+        mDatabase.setValue("TESTETEST").addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(), "ADDED", Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                String error = e.getMessage();
+                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+            }
+        });
+
+//        db.collection("agents").document("Agent1").get();
+
+
+        // Read from the database
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+//                Log.d(TAG, "Value is: " + value);
+                Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+//                Log.w(TAG, "Failed to read value.", error.toException());
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        agentsList.add(new Agents(mDatabase.child("agents").child("Agent1").child("Name").toString().trim(),
                 "@xymigration",
                 "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
                 "7 Visa Services Available",
@@ -153,6 +205,19 @@ public class MainActivity extends AppCompatActivity
                 11,
                 4.0));
 
+        Map<String, Object> agent = new HashMap<>();
+        agent.put("Name", "Test");
+        db.collection("agents").add(agent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         initAgentRecyclerView();
     }
