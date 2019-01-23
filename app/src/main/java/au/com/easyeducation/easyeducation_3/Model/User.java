@@ -15,4 +15,28 @@ public class User {
         this.number = number;
         this.dob = dob;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getDob() {
+        return dob;
+    }
 }

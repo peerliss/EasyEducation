@@ -19,10 +19,13 @@ import android.widget.Button;
 import android.widget.SearchView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -30,7 +33,9 @@ import java.util.ArrayList;
 
 import au.com.easyeducation.easyeducation_3.Adapter.AgentAdapter;
 import au.com.easyeducation.easyeducation_3.Adapter.FirestoreAgentAdapter;
+import au.com.easyeducation.easyeducation_3.Adapter.FirestoreInstitutionAdapter;
 import au.com.easyeducation.easyeducation_3.Model.Agent;
+import au.com.easyeducation.easyeducation_3.Model.Institution;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class MainActivity extends AppCompatActivity
@@ -40,8 +45,10 @@ public class MainActivity extends AppCompatActivity
     private FirebaseFirestore db;
     private DatabaseReference mDatabase;
     private CollectionReference agentRef;
+    private CollectionReference institutionRef;
 
     private FirestoreAgentAdapter firestoreAgentAdapter;
+    private FirestoreInstitutionAdapter firestoreInstitutionAdapter;
 
     Button agentButton;
     Button instituteButton;
@@ -74,6 +81,7 @@ public class MainActivity extends AppCompatActivity
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
         agentRef = db.collection("agents");
+        institutionRef = db.collection("institutions");
 
         agentButton = findViewById(R.id.agent_button);
         instituteButton = findViewById(R.id.institution_button);
@@ -82,11 +90,10 @@ public class MainActivity extends AppCompatActivity
 
         agentButton.setPressed(true);
 
-//        inflateAgentList();
-//        inflateInstitutesList();
-//        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         setupAgentFirestoreRecyclerView();
+        setupInstitutionFirestoreRecyclerView();
 
         agentButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -95,9 +102,7 @@ public class MainActivity extends AppCompatActivity
                     instituteButton.setPressed(false);
                 }
 
-//                agentRecyclerView.swapAdapter(new AgentAdapter(getBaseContext(), agentList), true);
-
-                setupAgentFirestoreRecyclerView();
+                agentRecyclerView.setAdapter(firestoreAgentAdapter);
 
                 agentButton.setPressed(true);
                 return true;
@@ -111,7 +116,8 @@ public class MainActivity extends AppCompatActivity
                     agentButton.setPressed(false);
                 }
 
-                agentRecyclerView.swapAdapter(new AgentAdapter(getBaseContext(), institutesList), true);
+                agentRecyclerView.setAdapter(firestoreInstitutionAdapter);
+//                agentRecyclerView.swapAdapter(firestoreInstitutionAdapter, true);
 
                 instituteButton.setPressed(true);
                 return true;
@@ -123,18 +129,27 @@ public class MainActivity extends AppCompatActivity
     private void setupAgentFirestoreRecyclerView() {
         Query query = agentRef;
 
-//        Agent agent1 = new Agent(
-//                agentRef.get("name");
-//        );
-
         FirestoreRecyclerOptions<Agent> options = new FirestoreRecyclerOptions.Builder<Agent>()
                 .setQuery(query, Agent.class)
                 .build();
 
         firestoreAgentAdapter = new FirestoreAgentAdapter(options);
 
-        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         agentRecyclerView.setAdapter(firestoreAgentAdapter);
+    }
+
+    private void setupInstitutionFirestoreRecyclerView() {
+        Query query = institutionRef;
+
+        FirestoreRecyclerOptions<Institution> options = new FirestoreRecyclerOptions.Builder<Institution>()
+                .setQuery(query, Institution.class)
+                .build();
+
+        firestoreInstitutionAdapter = new FirestoreInstitutionAdapter(options);
+
+//        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        agentRecyclerView.setAdapter(firestoreInstitutionAdapter);
     }
 
     @Override
@@ -142,6 +157,7 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
 
         firestoreAgentAdapter.startListening();
+        firestoreInstitutionAdapter.startListening();
     }
 
     @Override
@@ -149,146 +165,25 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
 
         firestoreAgentAdapter.stopListening();
+        firestoreInstitutionAdapter.stopListening();
     }
 
-//    private void inflateAgentList() {
-//
-//        mDatabase = mDatabase.child("agents").child("Agent1").child("Name");
-//        mDatabase.setValue("TESTETEST").addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Toast.makeText(getApplicationContext(), "ADDED", Toast.LENGTH_LONG).show();
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                String error = e.getMessage();
-//                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-////        db.collection("agents").document("Agent1").get();
-//
-//
-//        // Read from the database
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                String value = dataSnapshot.getValue(String.class);
-////                Log.d(TAG, "Value is: " + value);
-//                Toast.makeText(getApplicationContext(), value, Toast.LENGTH_LONG).show();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-////                Log.w(TAG, "Failed to read value.", error.toException());
-//                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        agentList.add(new Agent(mDatabase.child("agents").child("Agent1").child("Name").toString().trim(),
-//                "@xymigration",
-//                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
-//                "7 Visa Services Available",
-//                "Open: 9am - 5pm today",
-//                15.7,
-//                11,
-//                4.0));
-//
-//        agentList.add(new Agent("XY Migration",
-//                "@xymigration",
-//                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
-//                "7 Visa Services Available",
-//                "Open: 9am - 5pm today",
-//                15.7,
-//                11,
-//                4.0));
-//
-//        agentList.add(new Agent("XY Migration",
-//                "@xymigration",
-//                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
-//                "7 Visa Services Available",
-//                "Open: 9am - 5pm today",
-//                15.7,
-//                11,
-//                4.0));
-//
-//        agentList.add(new Agent("XY Migration",
-//                "@xymigration",
-//                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
-//                "7 Visa Services Available",
-//                "Open: 9am - 5pm today",
-//                15.7,
-//                11,
-//                4.0));
-//
-//        Map<String, Object> agent = new HashMap<>();
-//        agent.put("Name", "Test");
-//        db.collection("agents").add(agent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//            @Override
-//            public void onSuccess(DocumentReference documentReference) {
-//                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        initAgentRecyclerView();
-//    }
-
-//    private void inflateInstitutesList() {
-//        institutesList.add(new Agent("Study University",
-//                "Username",
-//                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
-//                "7 Visa Services Available",
-//                "Open: 9am - 5pm today",
-//                15.7,
-//                11,
-//                4.0));
-//
-//        institutesList.add(new Agent("Study University",
-//                "Username",
-//                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
-//                "7 Visa Services Available",
-//                "Open: 9am - 5pm today",
-//                15.7,
-//                11,
-//                4.0));
-//
-//        institutesList.add(new Agent("Study University",
-//                "Username",
-//                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
-//                "7 Visa Services Available",
-//                "Open: 9am - 5pm today",
-//                15.7,
-//                11,
-//                4.0));
-//
-//        institutesList.add(new Agent("Study University",
-//                "Username",
-//                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
-//                "7 Visa Services Available",
-//                "Open: 9am - 5pm today",
-//                15.7,
-//                11,
-//                4.0));
-//
-//        institutesList.add(new Agent("Study University",
-//                "Username",
-//                "Migration for all international students to lodge their visa's on time and enrol  in other institutions. Migration for all international students to lodge their  visa's on time and enrol in other institutions. Migration for all international....",
-//                "7 Visa Services Available",
-//                "Open: 9am - 5pm today",
-//                15.7,
-//                11,
-//                4.0));
-//
-//    }
+    // Clone a document in Firestore
+    private void cloneDocument() {
+        agentRef.document("Agent1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Institution institution = documentSnapshot.toObject(Institution.class);
+                for (int i = 1; i<6; i++) {
+                    String institutionName = "Institution " + i;
+                    institution.setName(institutionName);
+                    if (institution != null) {
+                        institutionRef.document(institutionName).set(institution);
+                    }
+                }
+            }
+        });
+    }
 
     private void initAgentRecyclerView() {
         agentRecyclerView.setAdapter(new AgentAdapter(this, agentList));
