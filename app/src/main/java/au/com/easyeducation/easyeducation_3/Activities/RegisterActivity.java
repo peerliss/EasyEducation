@@ -87,11 +87,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
-        if (!validateForm()) {
-            Toast.makeText(getApplicationContext(), "Please check fields.",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (!validateForm()) {
+//            Toast.makeText(getApplicationContext(), "Please check fields.",
+//                    Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         final User dummyUser = new User(
                 name,
@@ -128,45 +128,45 @@ public class RegisterActivity extends AppCompatActivity {
         // [END create_user_with_email]
     }
 
-    private boolean validateForm() {
-        boolean valid = true;
-
-        name = mName.getText().toString().trim();
-        surname = mSurname.getText().toString().trim();
-        fullname = name + " " + surname;
-        passwordConfirm = mPasswordConfirmField.getText().toString().trim();
-        mEmail = mEmailField.getText().toString().trim();
-        mPassword = mPasswordField.getText().toString().trim();
-        phone = mPhone.getText().toString().trim();
-        dob = mDOB.getText().toString().trim();
-
-        if (TextUtils.isEmpty(mEmail)) {
-            mEmailField.setError("Required.");
-            valid = false;
-        } else {
-            mEmailField.setError(null);
-        }
-
-        if (TextUtils.isEmpty(mPassword)) {
-            mPasswordField.setError("Required.");
-            valid = false;
-        } else {
-            mPasswordField.setError(null);
-        }
-
-        if (TextUtils.isEmpty(name)) {
-            mName.setError("Required.");
-            valid = false;
-        } else {
-            mName.setError(null);
-        }
-
-        if (TextUtils.isEmpty(surname)) {
-            mSurname.setError("Required.");
-            valid = false;
-        } else {
-            mSurname.setError(null);
-        }
+//    private boolean validateForm() {
+//        boolean valid = true;
+//
+//        name = mName.getText().toString().trim();
+//        surname = mSurname.getText().toString().trim();
+//        fullname = name + " " + surname;
+//        passwordConfirm = mPasswordConfirmField.getText().toString().trim();
+//        mEmail = mEmailField.getText().toString().trim();
+//        mPassword = mPasswordField.getText().toString().trim();
+//        phone = mPhone.getText().toString().trim();
+//        dob = mDOB.getText().toString().trim();
+//
+//        if (TextUtils.isEmpty(mEmail)) {
+//            mEmailField.setError("Required.");
+//            valid = false;
+//        } else {
+//            mEmailField.setError(null);
+//        }
+//
+//        if (TextUtils.isEmpty(mPassword)) {
+//            mPasswordField.setError("Required.");
+//            valid = false;
+//        } else {
+//            mPasswordField.setError(null);
+//        }
+//
+//        if (TextUtils.isEmpty(name)) {
+//            mName.setError("Required.");
+//            valid = false;
+//        } else {
+//            mName.setError(null);
+//        }
+//
+//        if (TextUtils.isEmpty(surname)) {
+//            mSurname.setError("Required.");
+//            valid = false;
+//        } else {
+//            mSurname.setError(null);
+//        }
 
 //        if (passwordConfirm.isEmpty() || !mPassword.matches(passwordConfirm)) {
 //            mPasswordConfirmField.setError("Required.");
@@ -174,23 +174,23 @@ public class RegisterActivity extends AppCompatActivity {
 //        } else {
 //            mPasswordConfirmField.setError(null);
 //        }
-
-        if (TextUtils.isEmpty(phone)) {
-            mPhone.setError("Required.");
-            valid = false;
-        } else {
-            mPhone.setError(null);
-        }
-
-        if (dob == null || dob.length() != 8) {
-            mDOB.setError("Required.");
-            valid = false;
-        } else {
-            mDOB.setError(null);
-        }
-
-        return valid;
-    }
+//
+//        if (TextUtils.isEmpty(phone)) {
+//            mPhone.setError("Required.");
+//            valid = false;
+//        } else {
+//            mPhone.setError(null);
+//        }
+//
+//        if (dob == null || dob.length() != 8) {
+//            mDOB.setError("Required.");
+//            valid = false;
+//        } else {
+//            mDOB.setError(null);
+//        }
+//
+//        return valid;
+//    }
 
     public void onClick_registerConfirm(View view) {
         createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());

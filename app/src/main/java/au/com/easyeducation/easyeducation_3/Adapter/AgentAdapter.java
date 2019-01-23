@@ -1,7 +1,6 @@
 package au.com.easyeducation.easyeducation_3.Adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,30 +9,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import au.com.easyeducation.easyeducation_3.Activities.MainActivity;
-import au.com.easyeducation.easyeducation_3.Model.Agents;
+import au.com.easyeducation.easyeducation_3.Model.Agent;
 import au.com.easyeducation.easyeducation_3.*;
 
 public class AgentAdapter extends RecyclerView.Adapter<AgentAdapter.AgentViewHolder> {
 
     private Context context;
-    private ArrayList<Agents> agentsList = new ArrayList<>();
+    private ArrayList<Agent> agentList = new ArrayList<>();
 
-    // [START declare_auth]
     private FirebaseAuth mAuth;
-    // [END declare_auth]
+    private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
+    private FirebaseFirestore db;
 
     private DatabaseReference mDatabase;
 
-    public AgentAdapter(Context context, ArrayList<Agents> agentsList) {
+    public AgentAdapter(Context context, ArrayList<Agent> agentList) {
         this.context = context;
-        this.agentsList = agentsList;
+        this.agentList = agentList;
     }
 
     @NonNull
@@ -46,21 +45,21 @@ public class AgentAdapter extends RecyclerView.Adapter<AgentAdapter.AgentViewHol
 
     @Override
     public void onBindViewHolder(@NonNull AgentViewHolder agentViewHolder, int i) {
-        Agents agents = agentsList.get(i);
+        Agent agent = agentList.get(i);
 
-        agentViewHolder.agent_name.setText(agents.getAgent_name());
-        agentViewHolder.agent_username.setText(agents.getAgent_username());
-        agentViewHolder.agent_description.setText(agents.getAgent_description());
-        agentViewHolder.agent_visa.setText(agents.getAgent_visa());
-        agentViewHolder.agent_hours.setText(agents.getAgent_hours());
-        agentViewHolder.agent_distance.setText(String.valueOf(agents.getAgent_distance()));
-        agentViewHolder.agent_reviews.setText(String.valueOf(agents.getAgent_reviews()));
-        agentViewHolder.agent_rating.setText(String.valueOf(agents.getAgent_rating()));
+        agentViewHolder.agent_name.setText(agent.getName());
+        agentViewHolder.agent_username.setText(agent.getUsername());
+        agentViewHolder.agent_description.setText(agent.getDescription());
+        agentViewHolder.agent_visa.setText(agent.getVisa());
+        agentViewHolder.agent_hours.setText(agent.getHours());
+        agentViewHolder.agent_distance.setText(String.valueOf(agent.getDistance()));
+        agentViewHolder.agent_reviews.setText(String.valueOf(agent.getReviews()));
+        agentViewHolder.agent_rating.setText(String.valueOf(agent.getRating()));
     }
 
     @Override
     public int getItemCount() {
-        return agentsList.size();
+        return agentList.size();
     }
 
     public class AgentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
