@@ -75,7 +75,7 @@
         app:layout_constraintVertical_bias="0.25" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/profileName"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"

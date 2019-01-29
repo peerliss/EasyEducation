@@ -40,7 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mSurname;
     private EditText mEmailField;
     private EditText mPasswordField;
-    private EditText mPasswordConfirmField;
     private EditText mPhone;
     private EditText mDOB;
     private Button registerButton;
@@ -50,7 +49,6 @@ public class RegisterActivity extends AppCompatActivity {
     String fullname;
     String mEmail;
     String mPassword;
-    String passwordConfirm;
     String phone;
     String dob;
 
@@ -73,7 +71,6 @@ public class RegisterActivity extends AppCompatActivity {
         mSurname = findViewById(R.id.registerSurname);
         mEmailField = findViewById(R.id.registerEmail);
         mPasswordField = findViewById(R.id.registerPassword);
-        mPasswordConfirmField = findViewById(R.id.registerConfirmPassword);
         mPhone = findViewById(R.id.registerPhone);
         mDOB = findViewById(R.id.registerDOB);
         registerButton = findViewById(R.id.registerConfirmButton);
@@ -87,110 +84,100 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
-//        if (!validateForm()) {
-//            Toast.makeText(getApplicationContext(), "Please check fields.",
-//                    Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        if (!validateForm()) {
+            Toast.makeText(getApplicationContext(), "Please check fields.",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+            final User dummyUser = new User(
+                    name,
+                    surname,
+                    fullname,
+                    mEmail,
+                    phone,
+                    dob
+            );
 
-        final User dummyUser = new User(
-                name,
-                surname,
-                fullname,
-                mEmail,
-                phone,
-                dob
-        );
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "createUserWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
 
-        // [START create_user_with_email]
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                                mDatabase.child("users").child(user.getUid()).setValue(dummyUser);
+                                db.collection("users").document(user.getUid()).set(dummyUser);
 
-                            mDatabase.child("users").child(user.getUid()).setValue(dummyUser);
-                            db.collection("users").document(user.getUid()).set(dummyUser);
-
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
-        // [END create_user_with_email]
+                    });
+        }
     }
 
-//    private boolean validateForm() {
-//        boolean valid = true;
-//
-//        name = mName.getText().toString().trim();
-//        surname = mSurname.getText().toString().trim();
-//        fullname = name + " " + surname;
-//        passwordConfirm = mPasswordConfirmField.getText().toString().trim();
-//        mEmail = mEmailField.getText().toString().trim();
-//        mPassword = mPasswordField.getText().toString().trim();
-//        phone = mPhone.getText().toString().trim();
-//        dob = mDOB.getText().toString().trim();
-//
-//        if (TextUtils.isEmpty(mEmail)) {
-//            mEmailField.setError("Required.");
-//            valid = false;
-//        } else {
-//            mEmailField.setError(null);
-//        }
-//
-//        if (TextUtils.isEmpty(mPassword)) {
-//            mPasswordField.setError("Required.");
-//            valid = false;
-//        } else {
-//            mPasswordField.setError(null);
-//        }
-//
-//        if (TextUtils.isEmpty(name)) {
-//            mName.setError("Required.");
-//            valid = false;
-//        } else {
-//            mName.setError(null);
-//        }
-//
-//        if (TextUtils.isEmpty(surname)) {
-//            mSurname.setError("Required.");
-//            valid = false;
-//        } else {
-//            mSurname.setError(null);
-//        }
+    private boolean validateForm() {
+        boolean valid = true;
 
-//        if (passwordConfirm.isEmpty() || !mPassword.matches(passwordConfirm)) {
-//            mPasswordConfirmField.setError("Required.");
-//            valid = false;
-//        } else {
-//            mPasswordConfirmField.setError(null);
-//        }
-//
-//        if (TextUtils.isEmpty(phone)) {
-//            mPhone.setError("Required.");
-//            valid = false;
-//        } else {
-//            mPhone.setError(null);
-//        }
-//
-//        if (dob == null || dob.length() != 8) {
-//            mDOB.setError("Required.");
-//            valid = false;
-//        } else {
-//            mDOB.setError(null);
-//        }
-//
-//        return valid;
-//    }
+        name = mName.getText().toString().trim();
+        surname = mSurname.getText().toString().trim();
+        fullname = name + " " + surname;
+        mEmail = mEmailField.getText().toString().trim();
+        mPassword = mPasswordField.getText().toString().trim();
+        phone = mPhone.getText().toString().trim();
+        dob = mDOB.getText().toString().trim();
+
+        if (TextUtils.isEmpty(mEmail)) {
+            mEmailField.setError("Required.");
+            valid = false;
+        } else {
+            mEmailField.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mPassword)) {
+            mPasswordField.setError("Required.");
+            valid = false;
+        } else {
+            mPasswordField.setError(null);
+        }
+
+        if (TextUtils.isEmpty(name)) {
+            mName.setError("Required.");
+            valid = false;
+        } else {
+            mName.setError(null);
+        }
+
+        if (TextUtils.isEmpty(surname)) {
+            mSurname.setError("Required.");
+            valid = false;
+        } else {
+            mSurname.setError(null);
+        }
+
+        if (TextUtils.isEmpty(phone)) {
+            mPhone.setError("Required.");
+            valid = false;
+        } else {
+            mPhone.setError(null);
+        }
+
+        if (dob == null || dob.length() != 8) {
+            mDOB.setError("Required.");
+            valid = false;
+        } else {
+            mDOB.setError(null);
+        }
+
+        return valid;
+    }
 
     public void onClick_registerConfirm(View view) {
         createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());

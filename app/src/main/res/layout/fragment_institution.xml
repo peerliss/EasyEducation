@@ -6,12 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="153dp"
     android:layout_marginBottom="15dp"
-    android:onClick="onClick_profile_button"
     android:orientation="vertical"
     android:theme="@style/AppTheme"
     app:cardBackgroundColor="@color/card_background"
-    tools:context=".Fragments.InstitutionFragment"
-    tools:ignore="OnClick">
+    tools:context=".Fragments.InstitutionFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

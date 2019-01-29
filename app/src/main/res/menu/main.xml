@@ -8,8 +8,15 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_signOut"
+        android:id="@+id/action_agentRegister"
         android:orderInCategory="200"
+        android:title="Create Agent"
+        android:onClick="onClick_createAgent"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_signOut"
+        android:orderInCategory="300"
         android:title="@string/sign_out"
         android:onClick="onClick_signOut"
         app:showAsAction="never" />

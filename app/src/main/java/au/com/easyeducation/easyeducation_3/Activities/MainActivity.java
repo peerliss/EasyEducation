@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,11 +53,8 @@ public class MainActivity extends AppCompatActivity
 
     Button agentButton;
     Button instituteButton;
-    SearchView searchView;
+//    SearchView searchView;
     RecyclerView agentRecyclerView;
-
-    ArrayList<Agent> agentList = new ArrayList<>();
-    ArrayList<Agent> institutesList = new ArrayList<>();
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -78,17 +76,19 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         db = FirebaseFirestore.getInstance();
         agentRef = db.collection("agents");
         institutionRef = db.collection("institutions");
 
         agentButton = findViewById(R.id.agent_button);
         instituteButton = findViewById(R.id.institution_button);
-        searchView = findViewById(R.id.searchView);
+//        searchView = findViewById(R.id.searchView);
         agentRecyclerView = findViewById(R.id.main_recyclerView);
 
-        agentButton.setPressed(true);
+//        searchView.clearFocus();
+//        agentButton.setPressed(true);
+        instituteButton.setPressed(true);
 
         agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -117,13 +117,11 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 agentRecyclerView.setAdapter(firestoreInstitutionAdapter);
-//                agentRecyclerView.swapAdapter(firestoreInstitutionAdapter, true);
 
                 instituteButton.setPressed(true);
                 return true;
             }
         });
-
     }
 
     private void setupAgentFirestoreRecyclerView() {
@@ -135,8 +133,7 @@ public class MainActivity extends AppCompatActivity
 
         firestoreAgentAdapter = new FirestoreAgentAdapter(options);
 
-//        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        agentRecyclerView.setAdapter(firestoreAgentAdapter);
+//        agentRecyclerView.setAdapter(firestoreAgentAdapter);
     }
 
     private void setupInstitutionFirestoreRecyclerView() {
@@ -148,8 +145,17 @@ public class MainActivity extends AppCompatActivity
 
         firestoreInstitutionAdapter = new FirestoreInstitutionAdapter(options);
 
-//        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        agentRecyclerView.setAdapter(firestoreInstitutionAdapter);
+        agentRecyclerView.setAdapter(firestoreInstitutionAdapter);
+
+        firestoreInstitutionAdapter.setOnItemClickListener(new FirestoreInstitutionAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentReference documentReference) {
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                intent.putExtra("businessType", "Institution");
+                intent.putExtra("instituteRef", documentReference.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -183,10 +189,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-    }
-
-    private void initAgentRecyclerView() {
-        agentRecyclerView.setAdapter(new AgentAdapter(this, agentList));
     }
 
     @Override
@@ -253,7 +255,13 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick_signOut(MenuItem item) {
         mAuth.signOut();
+//        agentRecyclerView.setAdapter(firestoreAgentAdapter);
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClick_createAgent(MenuItem item) {
+        Intent intent = new Intent(getApplicationContext(), AgentRegisterActivity.class);
         startActivity(intent);
     }
 }
