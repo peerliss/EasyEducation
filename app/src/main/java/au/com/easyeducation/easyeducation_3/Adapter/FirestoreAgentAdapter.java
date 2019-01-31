@@ -10,11 +10,14 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentReference;
 
 import au.com.easyeducation.easyeducation_3.Model.Agent;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class FirestoreAgentAdapter extends FirestoreRecyclerAdapter<Agent, FirestoreAgentAdapter.AgentHolder> {
+
+    private OnItemClickListener listener;
 
     public FirestoreAgentAdapter(@NonNull FirestoreRecyclerOptions<Agent> options) {
         super(options);
@@ -62,6 +65,24 @@ public class FirestoreAgentAdapter extends FirestoreRecyclerAdapter<Agent, Fires
             agent_reviews = itemView.findViewById(R.id.agent_reviews);
             agent_rating = itemView.findViewById(R.id.agent_rating);
             cardView = itemView.findViewById(R.id.fragment_agent);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(getSnapshots().getSnapshot(position).getReference());
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(DocumentReference documentReference);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

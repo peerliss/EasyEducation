@@ -133,7 +133,15 @@ public class MainActivity extends AppCompatActivity
 
         firestoreAgentAdapter = new FirestoreAgentAdapter(options);
 
-//        agentRecyclerView.setAdapter(firestoreAgentAdapter);
+        firestoreAgentAdapter.setOnItemClickListener(new FirestoreAgentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentReference documentReference) {
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                intent.putExtra("businessType", "Agent");
+                intent.putExtra("businessRef", documentReference.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupInstitutionFirestoreRecyclerView() {
@@ -152,7 +160,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(DocumentReference documentReference) {
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 intent.putExtra("businessType", "Institution");
-                intent.putExtra("instituteRef", documentReference.getId());
+                intent.putExtra("businessRef", documentReference.getId());
                 startActivity(intent);
             }
         });

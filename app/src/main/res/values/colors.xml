@@ -6,7 +6,8 @@
     <!--<color name="colorPrimaryDark">#ffffff</color>-->
     <color name="colorAccent">#D81B60</color>
     <color name="card_background">#d4f1f9ff</color>
-    <color name="menu">#2699fb</color>
+    <!--<color name="menu">#2699fb</color>-->
+    <color name="menu">#19769F</color>
     <color name="white">#ffffff</color>
     <color name="share_color">#bce0fd</color>
 </resources>
