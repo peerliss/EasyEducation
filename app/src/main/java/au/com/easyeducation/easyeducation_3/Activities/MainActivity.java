@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity
 
     public void onClick_signOut(MenuItem item) {
         mAuth.signOut();
-//        agentRecyclerView.setAdapter(firestoreAgentAdapter);
+
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.CollegeCourseInformationActivity"
+    tools:showIn="@layout/activity_college_course_information">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="618dp"
+        android:layout_above="@+id/courseInfoApplyNow_Button"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:isScrollContainer="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:isScrollContainer="true"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:id="@+id/courseInfoName_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-1dp"
+                android:layout_marginBottom="5dp"
+                android:text="Diploma of Nursing"
+                android:textColor="@color/menu"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/courseInfoCode_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="National Course Code: HLT54115"
+                android:textColor="@android:color/black"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/courseInfoIntake_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Next Intake: 20th March 2019"
+                        android:textColor="@android:color/black"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/courseInfoDuration_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/courseInfoIntake_TextView"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:text="2 years full time"
+                        android:textColor="#656565"
+                        android:textSize="17sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/courseInfoFullFee_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/courseInfoCashBack_TextView"
+                        android:paddingBottom="1dp"
+                        android:text="Full Fee: $25,600"
+                        android:textColor="@color/menu"
+                        android:textSize="18.5sp" />
+
+                    <TextView
+                        android:id="@+id/courseInfoCashBack_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:text="Cash Back: $2,560"
+                        android:textColor="@color/menu"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/courseInfoYouPay_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="You Pay: $23,040"
+                android:textAlignment="center"
+                android:textColor="@color/menu"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/courseInfoOverviewTitle_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Overview"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/courseInfoOverview_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="3sp"
+                android:paddingBottom="30dp"
+                android:text="If you find fulfilment in helping others and have a caring disposition, a Diploma of Nursing can start you on the path to a meaningful career in Nursing.  Sydney Health Institute offers up-to-date, expert training to ensure that you will qualify with highly sought after, practical nursing experience.  You will learn in state-of-the-art facilities how to:  - Care for a person with complex needs - Effectively communicate with patients and     colleagues - Implement, monitor and evaluate nursing care     plans - Tend and manage wounds in the clinical     environment - Plus, a host of other duties and tasks  With a Sydney Health Institute Nursing qualification, you can make a real difference to the lives of people in need, through roles such as:  - Acute Nursing - Aged Care Nursing - Rehabilitation Nursing - Mental Health Nursing"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/courseInfoApplyNow_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp"
+        android:text="Apply Now"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+</RelativeLayout>

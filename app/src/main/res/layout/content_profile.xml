@@ -57,7 +57,8 @@
             android:paddingBottom="18dp"
             android:text="Description"
             android:textAllCaps="false"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:onClick="onClick_profileDescriptionButton" />
 
         <Button
             android:id="@+id/profileCoursesButton"
@@ -70,19 +71,45 @@
             android:paddingBottom="18dp"
             android:text="Courses"
             android:textAllCaps="false"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:onClick="onClick_profileCoursesButton" />
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <fragment
-            android:id="@+id/profileFragment"
-            android:name="au.com.easyeducation.easyeducation_3.Activities.ProfileActivityFragment"
+        <LinearLayout
+            android:id="@+id/profileDescription_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout="@layout/fragment_profile_description"/>
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/profileDescriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:ellipsize="none"
+                android:justificationMode="inter_word"
+                android:text="A Health institute delivering courses including Nursing and Community Services. All courses range in duration from 6 months to 2 years full time. State of the art nursing facilities to ensure your training meets the highest standards."
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/profileCourses_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="vertical"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 

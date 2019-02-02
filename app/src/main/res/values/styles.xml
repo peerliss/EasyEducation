@@ -13,6 +13,7 @@
         <item name="colorAccent">@color/menu</item>
         <item name="colorControlNormal">@color/menu</item>
         <!--<item name="android:textColor">@color/menu</item>-->
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -61,5 +62,7 @@
     <!--<style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
 
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 </resources>

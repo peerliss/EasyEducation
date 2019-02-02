@@ -19,4 +19,6 @@
     <string name="register">Register</string>
     <string name="title_activity_agent_register">AgentRegisterActivity</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
+    <string name="title_activity_college_course_information">CollegeCourseInformationActivity
+    </string>
 </resources>
