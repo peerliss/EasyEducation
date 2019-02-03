@@ -3,6 +3,7 @@ package au.com.easyeducation.easyeducation_3.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private DocumentReference instituteRef;
     private CollectionReference coursesListRef;
-    private DocumentReference courseRef;
+    private CollectionReference coursesRef;
 
     private TextView profileName;
     private TextView profileUsername;
@@ -54,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String businessTypeString;
 
     private FirestoreCourseAdapter firestoreCourseAdapter;
+    private String courseRefString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +68,17 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        businessTypeString = intent.getExtras().getString("businessType");
-        instituteRefString = intent.getExtras().getString("businessRef");
-
         db = FirebaseFirestore.getInstance();
+
+        if (intent.getExtras() != null) {
+            businessTypeString = intent.getExtras().getString("businessType");
+            instituteRefString = intent.getExtras().getString("businessRef");
+        }
+        else {
+            businessTypeString = "Institution";
+            instituteRefString = "Institution 1";
+            Toast.makeText(this, "Invalid Institution Selection", Toast.LENGTH_SHORT).show();
+        }
 
         if (businessTypeString.matches("Institution")) {
             instituteRef = db.collection("institutions").document(instituteRefString);
@@ -81,6 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileName = findViewById(R.id.profileName);
         profileUsername = findViewById(R.id.profileUsername);
         profileDescription = findViewById(R.id.profileDescriptionTextView);
+
         profileDescriptionButton = findViewById(R.id.profileDescriptionButton);
         profileCoursesButton = findViewById(R.id.profileCoursesButton);
 
@@ -100,6 +110,8 @@ public class ProfileActivity extends AppCompatActivity {
         coursesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         setupCoursesRecyclerView();
+
+//        cloneDocument();
     }
 
     private void setupCoursesRecyclerView() {
@@ -116,10 +128,13 @@ public class ProfileActivity extends AppCompatActivity {
         firestoreCourseAdapter.setOnItemClickListener(new FirestoreCourseAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentReference documentReference) {
+                courseRefString = documentReference.getId();
+
                 Intent intent = new Intent(getApplicationContext(), CollegeCourseInformationActivity.class);
-                intent.putExtra("businessType", "Agent");
-                intent.putExtra("businessRef", documentReference.getId());
-                startActivity(intent);
+                intent.putExtra("businessType", "institutions");
+                intent.putExtra("businessRef", instituteRefString);
+                intent.putExtra("courseRef", courseRefString);
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -146,11 +161,38 @@ public class ProfileActivity extends AppCompatActivity {
     public void onClick_profileCoursesButton(View view) {
         descriptionLayout.setVisibility(View.INVISIBLE);
         coursesRecyclerView.setVisibility(View.VISIBLE);
-//
-//        Intent intent = new Intent(getApplicationContext(), CollegeCourseInformationActivity.class);
-//        intent.putExtra("businessType", "institutions");
-//        intent.putExtra("businessRef", instituteRefString);
-//        intent.putExtra("courseRef", "HLT54115");
-//        startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                businessTypeString = data.getStringExtra("businessType");
+                instituteRefString = data.getStringExtra("businessRef");
+
+                profileCoursesButton.performClick();
+            }
+        }
+    }
+
+    // Clone a document in Firestore
+    private void cloneDocument() {
+        coursesListRef.document("HLT54115").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Course course = documentSnapshot.toObject(Course.class);
+                for (int i = 1; i < 6; i++) {
+                    String courseName = "Course " + i;
+                    course.setName(courseName);
+                    if (course != null) {
+//                        coursesListRef.document(courseName).set(course);
+//                        coursesListRef.document().set(course);
+                        instituteRef.collection("courses").document().set(course);
+                    }
+                }
+            }
+        });
     }
 }

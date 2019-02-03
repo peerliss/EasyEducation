@@ -67,13 +67,13 @@ public class RegisterActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mName = findViewById(R.id.registerName);
-        mSurname = findViewById(R.id.registerSurname);
-        mEmailField = findViewById(R.id.registerEmail);
-        mPasswordField = findViewById(R.id.registerPassword);
-        mPhone = findViewById(R.id.registerPhone);
-        mDOB = findViewById(R.id.registerDOB);
-        registerButton = findViewById(R.id.registerConfirmButton);
+//        mName = findViewById(R.id.registerName);
+//        mSurname = findViewById(R.id.registerSurname);
+//        mEmailField = findViewById(R.id.registerEmail);
+//        mPasswordField = findViewById(R.id.registerPassword);
+//        mPhone = findViewById(R.id.registerPhone);
+//        mDOB = findViewById(R.id.registerDOB);
+//        registerButton = findViewById(R.id.registerConfirmButton);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -148,33 +148,33 @@ public class RegisterActivity extends AppCompatActivity {
             mPasswordField.setError(null);
         }
 
-        if (TextUtils.isEmpty(name)) {
-            mName.setError("Required.");
-            valid = false;
-        } else {
-            mName.setError(null);
-        }
-
-        if (TextUtils.isEmpty(surname)) {
-            mSurname.setError("Required.");
-            valid = false;
-        } else {
-            mSurname.setError(null);
-        }
-
-        if (TextUtils.isEmpty(phone)) {
-            mPhone.setError("Required.");
-            valid = false;
-        } else {
-            mPhone.setError(null);
-        }
-
-        if (dob == null || dob.length() != 8) {
-            mDOB.setError("Required.");
-            valid = false;
-        } else {
-            mDOB.setError(null);
-        }
+//        if (TextUtils.isEmpty(name)) {
+//            mName.setError("Required.");
+//            valid = false;
+//        } else {
+//            mName.setError(null);
+//        }
+//
+//        if (TextUtils.isEmpty(surname)) {
+//            mSurname.setError("Required.");
+//            valid = false;
+//        } else {
+//            mSurname.setError(null);
+//        }
+//
+//        if (TextUtils.isEmpty(phone)) {
+//            mPhone.setError("Required.");
+//            valid = false;
+//        } else {
+//            mPhone.setError(null);
+//        }
+//
+//        if (dob == null || dob.length() != 8) {
+//            mDOB.setError("Required.");
+//            valid = false;
+//        } else {
+//            mDOB.setError(null);
+//        }
 
         return valid;
     }

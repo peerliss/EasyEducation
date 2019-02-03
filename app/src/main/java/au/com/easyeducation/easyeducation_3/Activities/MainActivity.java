@@ -122,6 +122,8 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
         });
+
+//        cloneDocument();
     }
 
     private void setupAgentFirestoreRecyclerView() {
@@ -192,7 +194,8 @@ public class MainActivity extends AppCompatActivity
                     String institutionName = "Institution " + i;
                     institution.setName(institutionName);
                     if (institution != null) {
-                        institutionRef.document(institutionName).set(institution);
+//                        institutionRef.document(institutionName).set(institution);
+                        institutionRef.document().set(institution);
                     }
                 }
             }

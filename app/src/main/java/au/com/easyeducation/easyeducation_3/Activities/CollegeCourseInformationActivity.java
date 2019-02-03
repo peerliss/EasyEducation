@@ -9,6 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -79,6 +81,8 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
         coursePayable = findViewById(R.id.courseInfoYouPay_TextView);
         courseOverview = findViewById(R.id.courseInfoOverview_TextView);
 
+        profileDescriptionButton = findViewById(R.id.courseInfoApplyNow_Button);
+
         courseRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -105,5 +109,24 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
                 courseOverview.setText(Html.fromHtml(course.getOverview(), 1)); // for 24 api and more
             }
         });
+
+        setResult(RESULT_OK, intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // click on 'up' button in the action bar, handle it here
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void onClick_applyNowButton(View view) {
+
     }
 }
