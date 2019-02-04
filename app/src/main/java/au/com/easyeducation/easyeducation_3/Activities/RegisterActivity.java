@@ -69,11 +69,11 @@ public class RegisterActivity extends AppCompatActivity {
 
 //        mName = findViewById(R.id.registerName);
 //        mSurname = findViewById(R.id.registerSurname);
-//        mEmailField = findViewById(R.id.registerEmail);
-//        mPasswordField = findViewById(R.id.registerPassword);
+        mEmailField = findViewById(R.id.registerEmail);
+        mPasswordField = findViewById(R.id.registerPassword);
 //        mPhone = findViewById(R.id.registerPhone);
 //        mDOB = findViewById(R.id.registerDOB);
-//        registerButton = findViewById(R.id.registerConfirmButton);
+        registerButton = findViewById(R.id.registerConfirmButton);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -87,15 +87,14 @@ public class RegisterActivity extends AppCompatActivity {
         if (!validateForm()) {
             Toast.makeText(getApplicationContext(), "Please check fields.",
                     Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             final User dummyUser = new User(
-                    name,
-                    surname,
-                    fullname,
-                    mEmail,
-                    phone,
-                    dob
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
             );
 
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -107,7 +106,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
 
-                                mDatabase.child("users").child(user.getUid()).setValue(dummyUser);
                                 db.collection("users").document(user.getUid()).set(dummyUser);
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -126,13 +124,13 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean valid = true;
 
-        name = mName.getText().toString().trim();
-        surname = mSurname.getText().toString().trim();
-        fullname = name + " " + surname;
+//        name = mName.getText().toString().trim();
+//        surname = mSurname.getText().toString().trim();
+//        fullname = name + " " + surname;
         mEmail = mEmailField.getText().toString().trim();
         mPassword = mPasswordField.getText().toString().trim();
-        phone = mPhone.getText().toString().trim();
-        dob = mDOB.getText().toString().trim();
+//        phone = mPhone.getText().toString().trim();
+//        dob = mDOB.getText().toString().trim();
 
         if (TextUtils.isEmpty(mEmail)) {
             mEmailField.setError("Required.");

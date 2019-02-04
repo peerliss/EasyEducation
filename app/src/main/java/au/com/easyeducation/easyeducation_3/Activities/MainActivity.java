@@ -275,4 +275,9 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(getApplicationContext(), AgentRegisterActivity.class);
         startActivity(intent);
     }
+
+    public void onClick_enterProfileDetails(MenuItem item) {
+        Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsActivity.class);
+        startActivity(intent);
+    }
 }

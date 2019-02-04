@@ -73,8 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (intent.getExtras() != null) {
             businessTypeString = intent.getExtras().getString("businessType");
             instituteRefString = intent.getExtras().getString("businessRef");
-        }
-        else {
+        } else {
             businessTypeString = "Institution";
             instituteRefString = "Institution 1";
             Toast.makeText(this, "Invalid Institution Selection", Toast.LENGTH_SHORT).show();
@@ -155,11 +154,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void onClick_profileDescriptionButton(View view) {
         descriptionLayout.setVisibility(View.VISIBLE);
-        coursesRecyclerView.setVisibility(View.INVISIBLE);
+        coursesRecyclerView.setVisibility(View.GONE);
     }
 
     public void onClick_profileCoursesButton(View view) {
-        descriptionLayout.setVisibility(View.INVISIBLE);
+        descriptionLayout.setVisibility(View.GONE);
         coursesRecyclerView.setVisibility(View.VISIBLE);
     }
 
@@ -168,7 +167,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 businessTypeString = data.getStringExtra("businessType");
                 instituteRefString = data.getStringExtra("businessRef");
 
@@ -189,7 +188,12 @@ public class ProfileActivity extends AppCompatActivity {
                     if (course != null) {
 //                        coursesListRef.document(courseName).set(course);
 //                        coursesListRef.document().set(course);
-                        instituteRef.collection("courses").document().set(course);
+                        coursesRef = db.collection("institutions");
+
+                        coursesRef.document("S7QXgGTEG96vHexjhJ03")
+                                .collection("courses")
+                                .document("TEST").set(course);
+//                        instituteRef.collection("courses").document().set(course);
                     }
                 }
             }

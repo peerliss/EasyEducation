@@ -13,6 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activities.RegisterProfileDetailsActivity"
+            android:label="RegisterProfileDetailsActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="au.com.easyeducation.easyeducation_3.Activities.MainActivity" />
+        </activity>
         <activity
             android:name=".Activities.CollegeCourseInformationActivity"
             android:label="@string/title_activity_college_course_information"
