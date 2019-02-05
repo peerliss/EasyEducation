@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/registerProfileNameFragment"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,7 +18,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="First Name"
-        android:inputType="textPersonName|textEmailAddress"
+        android:inputType="textPersonName"
         android:textSize="20sp" />
 
     <EditText
@@ -51,6 +51,5 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="20sp" />
-
 
 </LinearLayout>

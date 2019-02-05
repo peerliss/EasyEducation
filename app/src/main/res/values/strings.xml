@@ -22,4 +22,6 @@
     <string name="title_activity_college_course_information">CollegeCourseInformationActivity
     </string>
     <string name="sydneyhealth">\@SydneyHealth</string>
+    <string name="title_activity_register_profile_details">RegisterProfileDetailsActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

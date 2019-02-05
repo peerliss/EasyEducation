@@ -16,23 +16,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
-
-import au.com.easyeducation.easyeducation_3.Adapter.AgentAdapter;
 import au.com.easyeducation.easyeducation_3.Adapter.FirestoreAgentAdapter;
 import au.com.easyeducation.easyeducation_3.Adapter.FirestoreInstitutionAdapter;
 import au.com.easyeducation.easyeducation_3.Model.Agent;
@@ -277,6 +271,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClick_enterProfileDetails(MenuItem item) {
+//        Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsActivityOld.class);
+//        startActivity(intent);
+
         Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsActivity.class);
         startActivity(intent);
     }

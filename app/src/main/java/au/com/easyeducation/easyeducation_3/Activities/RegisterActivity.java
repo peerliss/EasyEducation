@@ -92,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                     null,
                     null,
                     null,
-                    null,
+                    mEmail,
                     null,
                     null
             );
@@ -179,5 +179,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void onClick_registerConfirm(View view) {
         createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+    }
+
+    public void onClick_registerLogin(View view) {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
     }
 }

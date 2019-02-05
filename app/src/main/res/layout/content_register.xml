@@ -116,7 +116,7 @@
         android:text="Already have an account? Log in."
         android:textColor="@color/fui_linkColor"
         android:textSize="18sp"
-        android:onClick="onClick_registerConfirm"
+        android:onClick="onClick_registerLogin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
