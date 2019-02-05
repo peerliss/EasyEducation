@@ -8,7 +8,7 @@
     android:orientation="vertical" >
 
     <EditText
-        android:id="@+id/registerPhone"
+        android:id="@+id/registerNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -21,7 +21,7 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/registerPhoneNextButton"
+        android:id="@+id/registerNumberNextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"

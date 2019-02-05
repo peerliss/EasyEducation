@@ -1,7 +1,5 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -10,26 +8,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.Observer;
-
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileDOBFragment;
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNameFragment;
+import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNumberFragment;
+import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNumberVerifyFragment;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class RegisterProfileDetailsActivity extends AppCompatActivity {
@@ -126,10 +114,10 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
                     rootView = inflater.inflate(R.layout.register_profile_dob_fragment, container, false);
                     break;
                 case 3:
-                    rootView = inflater.inflate(R.layout.register_profile_phone_fragment, container, false);
+                    rootView = inflater.inflate(R.layout.register_profile_number_fragment, container, false);
                     break;
                 case 4:
-                    rootView = inflater.inflate(R.layout.register_phone_verify_fragment, container, false);
+                    rootView = inflater.inflate(R.layout.register_profile_number_verify_fragment, container, false);
                     break;
             }
 
@@ -161,6 +149,10 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
                     return RegisterProfileNameFragment.newInstance();
                 case 1:
                     return RegisterProfileDOBFragment.newInstance();
+                case 2:
+                    return RegisterProfileNumberFragment.newInstance();
+                case 3:
+                    return RegisterProfileNumberVerifyFragment.newInstance();
                 default:
                     return PlaceholderFragment.newInstance(position + 1);
             }
