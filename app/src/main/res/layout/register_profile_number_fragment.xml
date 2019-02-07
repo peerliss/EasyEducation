@@ -5,20 +5,41 @@
     android:id="@+id/registerProfilePhoneFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/registerNumber"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="Your mobile"
-        android:inputType="phone"
-        android:textSize="20sp" />
+        android:orientation="horizontal">
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/registerNumberCountryCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            app:ccp_defaultNameCode="AU"
+            app:ccp_showNameCode="false"
+            app:ccp_textGravity="CENTER"
+            app:ccp_textSize="20dp" />
+
+        <EditText
+            android:id="@+id/registerNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="2"
+            android:ems="10"
+            android:hint="@string/your_mobile"
+            android:inputType="phone"
+            android:textSize="20sp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/registerNumberNextButton"
@@ -31,7 +52,7 @@
         android:background="@color/menu"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="Next"
+        android:text="@string/next"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="20sp" />

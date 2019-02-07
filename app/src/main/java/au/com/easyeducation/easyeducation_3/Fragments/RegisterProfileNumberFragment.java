@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hbb20.CountryCodePicker;
 
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
@@ -39,7 +40,9 @@ public class RegisterProfileNumberFragment extends Fragment {
     }
 
     private EditText mNumber;
+    private CountryCodePicker countryCodePicker;
 
+    String countryCode;
     String number;
 
     private DocumentReference userRef;
@@ -52,6 +55,7 @@ public class RegisterProfileNumberFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.register_profile_number_fragment, container, false);
 
         mNumber = rootView.findViewById(R.id.registerNumber);
+        countryCodePicker = rootView.findViewById(R.id.registerNumberCountryCode);
 
         Button mNameNextButton = rootView.findViewById(R.id.registerNumberNextButton);
 
@@ -65,11 +69,11 @@ public class RegisterProfileNumberFragment extends Fragment {
             public void onClick(View v) {
 
                 if (!validateNumber()) {
-                    Toast.makeText(getContext(), "Please check fields.",
+                    Toast.makeText(getContext(), "Please enter a valid mobile number.",
                             Toast.LENGTH_LONG).show();
                 }
                 else {
-                    userRef.update("number", number);
+                    userRef.update("number", "+" + countryCode + number);
 
                     ((RegisterProfileDetailsActivity) getActivity()).setCurrentItem(3, true);
                 }
@@ -82,13 +86,18 @@ public class RegisterProfileNumberFragment extends Fragment {
     private boolean validateNumber() {
         boolean valid = true;
 
+        countryCode = countryCodePicker.getSelectedCountryCode();
         number = mNumber.getText().toString().trim();
 
-        if (TextUtils.isEmpty(number)) {
+        if (TextUtils.isEmpty(number) && number.length() >= 9) {
             mNumber.setError("Required.");
             valid = false;
         } else {
             mNumber.setError(null);
+        }
+
+        if (number.startsWith("0")) {
+            number = number.substring(1);
         }
 
         return valid;
