@@ -17,8 +17,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -65,6 +67,15 @@ public class RegisterProfileDOBFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         userRef = db.collection("users").document(mAuth.getUid());
+
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("dob") != null) {
+                    mDOB.setText(documentSnapshot.getString("dob"));
+                }
+            }
+        });
 
         mDOB.setOnClickListener(new View.OnClickListener() {
             @Override

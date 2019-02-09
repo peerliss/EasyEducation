@@ -26,4 +26,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="your_mobile">Your mobile</string>
     <string name="next">Next</string>
+    <string name="title_activity_course_application">CourseApplicationActivity</string>
+    <string name="easy_education">Easy Education</string>
 </resources>

@@ -11,8 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
 
@@ -64,6 +66,15 @@ public class RegisterProfileNumberFragment extends Fragment {
 
         userRef = db.collection("users").document(mAuth.getUid());
 
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("number") != null) {
+                    mNumber.setText(documentSnapshot.getString("number").substring(3));
+                }
+            }
+        });
+
         mNameNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +82,7 @@ public class RegisterProfileNumberFragment extends Fragment {
                 if (!validateNumber()) {
                     Toast.makeText(getContext(), "Please enter a valid mobile number.",
                             Toast.LENGTH_LONG).show();
+                    return;
                 }
                 else {
                     userRef.update("number", "+" + countryCode + number);
@@ -79,6 +91,8 @@ public class RegisterProfileNumberFragment extends Fragment {
                 }
             }
         });
+
+//        Toast.makeText(getContext(), "Number Fragment onCreateView", Toast.LENGTH_SHORT).show();
 
         return rootView;
     }

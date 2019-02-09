@@ -271,9 +271,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClick_enterProfileDetails(MenuItem item) {
-//        Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsActivityOld.class);
-//        startActivity(intent);
-
         Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsActivity.class);
         startActivity(intent);
     }

@@ -160,7 +160,6 @@
         android:text="Apply Now"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="24sp"
-        android:onClick="onClick_applyNowButton"/>
+        android:textSize="24sp" />
 
 </RelativeLayout>

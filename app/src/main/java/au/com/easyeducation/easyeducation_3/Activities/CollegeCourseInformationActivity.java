@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +51,7 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
     private TextView coursePayable;
     private TextView courseOverview;
 
-    private Button profileDescriptionButton;
+    private Button courseApplyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,19 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
         coursePayable = findViewById(R.id.courseInfoYouPay_TextView);
         courseOverview = findViewById(R.id.courseInfoOverview_TextView);
 
-        profileDescriptionButton = findViewById(R.id.courseInfoApplyNow_Button);
+        courseApplyButton = findViewById(R.id.courseInfoApplyNow_Button);
+
+        courseApplyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CourseApplicationActivity.class);
+                intent.putExtra("businessType", businessTypeString);
+                intent.putExtra("businessRef", instituteRefString);
+                intent.putExtra("courseRef", courseRefString);
+                startActivityForResult(intent, 1);
+//                startActivity(intent);
+            }
+        });
 
         courseRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -114,6 +127,24 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                if (data.getStringExtra("businessType") != null) {
+                    businessTypeString = data.getStringExtra("businessType");
+                    instituteRefString = data.getStringExtra("businessRef");
+                    courseRefString = data.getStringExtra("courseRef");
+                }
+                else {
+                    Toast.makeText(this, "businessType is null", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -124,9 +155,5 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void onClick_applyNowButton(View view) {
-
     }
 }

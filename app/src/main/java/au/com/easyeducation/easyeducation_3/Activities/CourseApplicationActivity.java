@@ -1,5 +1,6 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -14,13 +15,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply1Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply2Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply3Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply4Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply5Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply6Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply7Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileDOBFragment;
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNameFragment;
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNumberFragment;
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNumberVerifyFragment;
 import au.com.easyeducation.easyeducation_3.R;
 
-public class RegisterProfileDetailsActivity extends AppCompatActivity {
+public class CourseApplicationActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -36,11 +48,16 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private String businessTypeString;
+    private String instituteRefString;
+    private String courseRefString;
+
+    private ProgressBar applyCourseProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_profile_details);
+        setContentView(R.layout.activity_course_application);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,12 +69,24 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        Intent intent = getIntent();
+        setResult(RESULT_OK, intent);
+
+        businessTypeString = intent.getExtras().getString("businessType");
+        instituteRefString = intent.getExtras().getString("businessRef");
+        courseRefString = intent.getExtras().getString("courseRef");
+
+        applyCourseProgressBar = findViewById(R.id.courseApplicationProgressBar);
+
+//        Toast.makeText(this, businessTypeString + instituteRefString + courseRefString, Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_register_profile_details, menu);
+        getMenuInflater().inflate(R.menu.menu_course_application, menu);
         return true;
     }
 
@@ -70,6 +99,12 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "Action settings", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        if (id == R.id.homeAsUp) {
+            finish();
             return true;
         }
 
@@ -104,20 +139,29 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = null;
+            View rootView = inflater.inflate(R.layout.fragment_course_apply_1, container, false);
 
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1:
-                    rootView = inflater.inflate(R.layout.register_profile_name_fragment, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_1, container, false);
                     break;
                 case 2:
-                    rootView = inflater.inflate(R.layout.register_profile_dob_fragment, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_2, container, false);
                     break;
                 case 3:
-                    rootView = inflater.inflate(R.layout.register_profile_number_fragment, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_3, container, false);
                     break;
                 case 4:
-                    rootView = inflater.inflate(R.layout.register_profile_number_verify_fragment, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_4, container, false);
+                    break;
+                case 5:
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_5, container, false);
+                    break;
+                case 6:
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_6, container, false);
+                    break;
+                case 7:
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_7, container, false);
                     break;
             }
 
@@ -127,10 +171,6 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
 
     public void setCurrentItem(int item, boolean smoothScroll) {
         mViewPager.setCurrentItem(item, smoothScroll);
-    }
-
-    public int getCurrentItem() {
-        return mViewPager.getCurrentItem();
     }
 
     /**
@@ -147,26 +187,36 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-//            return PlaceholderFragment.newInstance(position + 1);
             switch (position) {
                 case 0:
-                    return RegisterProfileNameFragment.newInstance();
+//                    applyCourseProgressBar.setProgress(0);
+                    return CourseApply1Fragment.newInstance();
                 case 1:
-                    return RegisterProfileDOBFragment.newInstance();
+                    applyCourseProgressBar.setProgress(2);
+                    return CourseApply2Fragment.newInstance();
                 case 2:
-                    return RegisterProfileNumberFragment.newInstance();
+                    applyCourseProgressBar.setProgress(3);
+                    return CourseApply3Fragment.newInstance();
                 case 3:
-                    return RegisterProfileNumberVerifyFragment.newInstance();
-//                default:
-//                    return PlaceholderFragment.newInstance(position + 1);
+                    applyCourseProgressBar.setProgress(4);
+                    return CourseApply4Fragment.newInstance();
+                case 4:
+                    applyCourseProgressBar.setProgress(5);
+                    return CourseApply5Fragment.newInstance();
+                case 5:
+                    applyCourseProgressBar.setProgress(6);
+                    return CourseApply6Fragment.newInstance();
+                case 6:
+                    applyCourseProgressBar.setProgress(7);
+                    return CourseApply7Fragment.newInstance();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            // Show 4 total pages.
-            return 4;
+            // Show 7 total pages.
+            return 7;
         }
     }
 }

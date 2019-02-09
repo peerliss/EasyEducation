@@ -14,17 +14,17 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".Activities.RegisterProfileDetailsActivity"
-            android:label="@string/title_activity_register_profile_details"
-            android:parentActivityName=".Activities.MainActivity"
+            android:name=".Activities.CourseApplicationActivity"
+            android:label="@string/title_activity_course_application"
+            android:parentActivityName=".Activities.CollegeCourseInformationActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.MainActivity" />
+                android:value="au.com.easyeducation.easyeducation_3.Activities.CollegeCourseInformationActivity" />
         </activity>
         <activity
-            android:name=".Activities.RegisterProfileDetailsActivityOld"
-            android:label="RegisterProfileDetailsActivity"
+            android:name=".Activities.RegisterProfileDetailsActivity"
+            android:label="@string/title_activity_register_profile_details"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data

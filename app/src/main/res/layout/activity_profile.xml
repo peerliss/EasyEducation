@@ -35,7 +35,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginEnd="0dp"
-                android:text="Profile"
+                android:text="@string/easy_education"
                 android:textAlignment="center"
                 android:textColor="@color/menu"
                 android:textSize="23sp" />

@@ -31,7 +31,10 @@
                 android:ems="10"
                 android:hint=""
                 android:inputType="number"
-                android:textSize="20sp" />
+                android:maxLength="1"
+                android:nextFocusForward="@id/registerVerifyCode2"
+                android:textAlignment="center"
+                android:textSize="40sp" />
 
             <EditText
                 android:id="@+id/registerVerifyCode2"
@@ -43,7 +46,9 @@
                 android:ems="10"
                 android:hint=""
                 android:inputType="number"
-                android:textSize="20sp" />
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="40sp" />
 
             <EditText
                 android:id="@+id/registerVerifyCode3"
@@ -55,7 +60,9 @@
                 android:ems="10"
                 android:hint=""
                 android:inputType="number"
-                android:textSize="20sp" />
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="40sp" />
 
             <EditText
                 android:id="@+id/registerVerifyCode4"
@@ -67,7 +74,9 @@
                 android:ems="10"
                 android:hint=""
                 android:inputType="number"
-                android:textSize="20sp" />
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="40sp" />
 
             <EditText
                 android:id="@+id/registerVerifyCode5"
@@ -79,7 +88,9 @@
                 android:ems="10"
                 android:hint=""
                 android:inputType="number"
-                android:textSize="20sp" />
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="40sp" />
 
             <EditText
                 android:id="@+id/registerVerifyCode6"
@@ -91,13 +102,15 @@
                 android:ems="10"
                 android:hint=""
                 android:inputType="number"
-                android:textSize="20sp" />
+                android:maxLength="1"
+                android:textAlignment="center"
+                android:textSize="40sp" />
 
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/registerNumberDisplayedTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -154,6 +167,7 @@
             android:textAlignment="center"
             android:textColor="@color/menu"
             android:textSize="16sp" />
+
     </LinearLayout>
 
 </RelativeLayout>
