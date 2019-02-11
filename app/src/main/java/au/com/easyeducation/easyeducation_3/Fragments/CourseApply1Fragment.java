@@ -1,6 +1,10 @@
 package au.com.easyeducation.easyeducation_3.Fragments;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,27 +25,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
 
+import java.util.Calendar;
+
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CourseApply1Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CourseApply1Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CourseApply1Fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -48,15 +39,6 @@ public class CourseApply1Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CourseApply1Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CourseApply1Fragment newInstance() {
         CourseApply1Fragment fragment = new CourseApply1Fragment();
         return fragment;
@@ -65,10 +47,6 @@ public class CourseApply1Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     private EditText mName;
@@ -78,9 +56,20 @@ public class CourseApply1Fragment extends Fragment {
     String name;
     String surname;
     String fullname;
+    String dob;
 
     private DocumentReference userRef;
 
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+    private boolean isFemaleButtonPressed = false;
+    private boolean isMaleButtonPressed = false;
+
+    int mYear;
+    int mMonth;
+    int mDay;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,7 +83,7 @@ public class CourseApply1Fragment extends Fragment {
         final Button mCourseApplyMaleButton = rootView.findViewById(R.id.courseApplyMaleButton);
         final Button mCourseApplyFemaleButton = rootView.findViewById(R.id.courseApplyFemaleButton);
 
-        CountryCodePicker mCourseApplyCountry = rootView.findViewById(R.id.courseApplyCountry);
+        final CountryCodePicker mCourseApplyCountry = rootView.findViewById(R.id.courseApplyCountry);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -112,60 +101,119 @@ public class CourseApply1Fragment extends Fragment {
                 }
                 if (documentSnapshot.getString("dob") != null) {
                     mDOB.setText(documentSnapshot.getString("dob"));
+                    mYear = Integer.valueOf(documentSnapshot.getString("dobYear"));
+                    mMonth = Integer.valueOf(documentSnapshot.getString("dobMonth"));
+                    mDay = Integer.valueOf(documentSnapshot.getString("dobDay"));
+                }
+                if (documentSnapshot.getString("gender").matches("Male")) {
+                    mCourseApplyMaleButton.performClick();
+                }
+                if (documentSnapshot.getString("gender").matches("Female")) {
+                    mCourseApplyFemaleButton.performClick();
                 }
             }
         });
 
-        mCourseApplyFemaleButton.setOnClickListener(new View.OnClickListener() {
+        mName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                mCourseApplyFemaleButton.setBackgroundColor(getResources().getColor(R.color.menu));
-
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!v.hasFocus() && mName.length() > 0) {
+                    userRef.update("name", mName.getText().toString().trim());
+                }
             }
         });
 
-        mCourseApplyMaleButton.setOnClickListener(new View.OnClickListener() {
+        mSurname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                if (!validateName()) {
-                    Toast.makeText(getContext(), "Please check fields.",
-                            Toast.LENGTH_LONG).show();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!v.hasFocus() && mName.length() > 0) {
+                    userRef.update("surname", mSurname.getText().toString().trim());
+                }
+            }
+        });
+
+        mCourseApplyFemaleButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                isFemaleButtonPressed = true;
+                if (isMaleButtonPressed) {
+                    mCourseApplyMaleButton.setBackgroundColor(getResources().getColor(R.color.white));
+                    isMaleButtonPressed = false;
                 }
                 else {
-                    userRef.update("name", name);
-                    userRef.update("surname", surname);
-                    userRef.update("fullname", fullname);
-
-                    ((CourseApplicationActivity) getActivity()).setCurrentItem(1, true);
+                    mCourseApplyFemaleButton.setBackgroundColor(getResources().getColor(R.color.menu));
+                    userRef.update("gender", "Female");
                 }
+                return false;
+            }
+        });
+
+        mCourseApplyMaleButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                isMaleButtonPressed = true;
+                if (isFemaleButtonPressed) {
+                    isFemaleButtonPressed = false;
+                    mCourseApplyFemaleButton.setBackgroundColor(getResources().getColor(R.color.white));
+                }
+                else {
+                    mCourseApplyMaleButton.setBackgroundColor(getResources().getColor(R.color.menu));
+                    userRef.update("gender", "Male");
+                }
+                return false;
+            }
+        });
+
+        mDOB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mYear == 0) {
+                    Calendar calendar = Calendar.getInstance();
+                    mYear = calendar.get(Calendar.YEAR);
+                    mMonth = calendar.get(Calendar.MONTH);
+                    mDay = calendar.get(Calendar.DAY_OF_MONTH);
+                }
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        getContext(),
+                        android.R.style.Theme_Holo_Dialog_MinWidth,
+                        mDateSetListener,
+                        mYear, mMonth - 1, mDay);
+
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                datePickerDialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1;
+
+                dob = dayOfMonth + "/" + month + "/" + year;
+                mDOB.setText(dob);
+                userRef.update("dob", dob);
+
+                userRef.update("dobYear", Integer.toString(year));
+                userRef.update("dobMonth", Integer.toString(month));
+                userRef.update("dobDay", Integer.toString(dayOfMonth));
+
+                mYear = year;
+                mMonth = month;
+                mDay = dayOfMonth;
+            }
+        };
+
+//        userRef.update("countryBirth", mCourseApplyCountry.getSelectedCountryName());
+
+        mCourseApplyCountry.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected() {
+                userRef.update("countryBirth", mCourseApplyCountry.getSelectedCountryName());
             }
         });
 
         return rootView;
-    }
-
-    private boolean validateName() {
-        boolean valid = true;
-
-        name = mName.getText().toString().trim();
-        surname = mSurname.getText().toString().trim();
-        fullname = name + " " + surname;
-
-        if (TextUtils.isEmpty(name)) {
-            mName.setError("Required.");
-            valid = false;
-        } else {
-            mName.setError(null);
-        }
-
-        if (TextUtils.isEmpty(surname)) {
-            mSurname.setError("Required.");
-            valid = false;
-        } else {
-            mSurname.setError(null);
-        }
-
-        return valid;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -175,33 +223,12 @@ public class CourseApply1Fragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

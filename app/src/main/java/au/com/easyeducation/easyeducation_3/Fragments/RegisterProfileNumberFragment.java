@@ -59,6 +59,8 @@ public class RegisterProfileNumberFragment extends Fragment {
         mNumber = rootView.findViewById(R.id.registerNumber);
         countryCodePicker = rootView.findViewById(R.id.registerNumberCountryCode);
 
+        countryCodePicker.clearFocus();
+
         Button mNameNextButton = rootView.findViewById(R.id.registerNumberNextButton);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

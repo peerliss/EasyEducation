@@ -21,28 +21,28 @@
         android:textSize="24sp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/courseApplyEmploymentFull_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:text="Full Time" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/courseApplyEmploymentPart_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:text="Part Time" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/courseApplyEmploymentCasual_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:text="Casual" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/courseApplyEmploymentUnemployed_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"

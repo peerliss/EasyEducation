@@ -102,6 +102,11 @@ public class RegisterProfileDOBFragment extends Fragment {
                 month = month + 1;
 
                 dob = dayOfMonth + "/" + month + "/" + year;
+
+                userRef.update("dobYear", Integer.toString(year));
+                userRef.update("dobMonth", Integer.toString(month));
+                userRef.update("dobDay", Integer.toString(dayOfMonth));
+
                 mDOB.setText(dob);
             }
         };

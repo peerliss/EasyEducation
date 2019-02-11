@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class RegisterProfileNameFragment extends Fragment {
         mName = rootView.findViewById(R.id.registerName);
         mSurname = rootView.findViewById(R.id.registerSurname);
 
-        Button mNameNextButton = rootView.findViewById(R.id.registerNameNextButton);
+        final Button mNameNextButton = rootView.findViewById(R.id.registerNameNextButton);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -92,6 +93,25 @@ public class RegisterProfileNameFragment extends Fragment {
 
                     ((RegisterProfileDetailsActivity) getActivity()).setCurrentItem(1, true);
                 }
+            }
+        });
+
+        mSurname.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            mNameNextButton.performClick();
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
             }
         });
 

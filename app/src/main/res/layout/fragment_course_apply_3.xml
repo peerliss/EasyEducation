@@ -12,7 +12,6 @@
     tools:context=".Fragments.CourseApply3Fragment">
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
@@ -27,104 +26,143 @@
         android:orientation="horizontal">
 
         <EditText
-            android:layout_width="0dp"
+            android:id="@+id/courseApplyUSI_ET1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="2dp"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="text"
-            android:textSize="24sp" />
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="1"
-            android:ems="10"
+            android:hint=""
             android:inputType="number"
-            android:maxLength="4"
-            android:textSize="24sp" />
-
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text"
+            android:maxLength="1"
+            android:textAlignment="center"
             android:textSize="24sp" />
 
         <EditText
-            android:layout_width="0dp"
+            android:id="@+id/courseApplyUSI_ET2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:layout_weight="1"
             android:ems="10"
+            android:hint=""
             android:inputType="number"
-            android:maxLength="4"
-            android:textSize="24sp" />
-
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text"
+            android:maxLength="1"
+            android:textAlignment="center"
             android:textSize="24sp" />
 
         <EditText
-            android:layout_width="0dp"
+            android:id="@+id/courseApplyUSI_ET3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:layout_weight="1"
             android:ems="10"
+            android:hint=""
             android:inputType="number"
-            android:maxLength="4"
-            android:textSize="24sp" />
-
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text"
+            android:maxLength="1"
+            android:textAlignment="center"
             android:textSize="24sp" />
 
         <EditText
-            android:layout_width="0dp"
+            android:id="@+id/courseApplyUSI_ET4"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:layout_weight="1"
             android:ems="10"
+            android:hint=""
             android:inputType="number"
-            android:maxLength="4"
-            android:textSize="24sp" />
-
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text"
+            android:maxLength="1"
+            android:textAlignment="center"
             android:textSize="24sp" />
 
         <EditText
-            android:layout_width="0dp"
+            android:id="@+id/courseApplyUSI_ET5"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:layout_weight="1"
             android:ems="10"
+            android:hint=""
             android:inputType="number"
-            android:maxLength="4"
+            android:maxLength="1"
+            android:textAlignment="center"
             android:textSize="24sp" />
 
+        <EditText
+            android:id="@+id/courseApplyUSI_ET6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint=""
+            android:inputType="number"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/courseApplyUSI_ET7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint=""
+            android:inputType="number"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/courseApplyUSI_ET8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint=""
+            android:inputType="number"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/courseApplyUSI_ET9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint=""
+            android:inputType="number"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/courseApplyUSI_ET10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint=""
+            android:inputType="number"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+        
     </LinearLayout>
 
     <TextView

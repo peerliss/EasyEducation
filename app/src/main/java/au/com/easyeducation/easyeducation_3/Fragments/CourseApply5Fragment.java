@@ -1,32 +1,37 @@
 package au.com.easyeducation.easyeducation_3.Fragments;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.hbb20.CountryCodePicker;
+
+import java.util.Calendar;
+
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
+import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CourseApply5Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CourseApply5Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CourseApply5Fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,15 +39,6 @@ public class CourseApply5Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CourseApply5Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CourseApply5Fragment newInstance() {
         CourseApply5Fragment fragment = new CourseApply5Fragment();
         return fragment;
@@ -51,17 +47,76 @@ public class CourseApply5Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
+    private DocumentReference userRef;
+
+    private Button ieltsButton;
+    private Button pteButton;
+
+    private boolean isIELTSButtonPressed = false;
+    private boolean isPTEButtonPressed = false;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_course_apply_5, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_course_apply_5, container, false);
+
+        ieltsButton = rootView.findViewById(R.id.courseApplyIELTS_Button);
+        pteButton = rootView.findViewById(R.id.courseApplyPTE_Button);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        userRef = db.collection("users").document(mAuth.getUid());
+
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("englishTest") != null) {
+                    if (documentSnapshot.getString("englishTest").matches("IElTS")) {
+                        ieltsButton.performClick();
+                    }
+                    if (documentSnapshot.getString("englishTest").matches("PTE")) {
+                        pteButton.performClick();
+                    }
+                }
+            }
+        });
+
+        ieltsButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                isIELTSButtonPressed = true;
+                if (isPTEButtonPressed) {
+                    pteButton.setBackgroundColor(getResources().getColor(R.color.white));
+                    isPTEButtonPressed = false;
+                } else {
+                    ieltsButton.setBackgroundColor(getResources().getColor(R.color.menu));
+                    userRef.update("englishTest", "IELTS");
+                }
+                return false;
+            }
+        });
+
+        pteButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                isPTEButtonPressed = true;
+                if (isIELTSButtonPressed) {
+                    ieltsButton.setBackgroundColor(getResources().getColor(R.color.white));
+                    isIELTSButtonPressed = false;
+                } else {
+                    pteButton.setBackgroundColor(getResources().getColor(R.color.menu));
+                    userRef.update("englishTest", "PTE");
+                }
+                return false;
+            }
+        });
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -71,33 +126,12 @@ public class CourseApply5Fragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

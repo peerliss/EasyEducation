@@ -60,6 +60,7 @@
             android:layout_alignParentEnd="true"
             android:ems="10"
             android:inputType="textPersonName"
+            android:focusable="false"
             android:text="01/01/1999"
             android:textSize="24sp" />
 
@@ -110,6 +111,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            app:ccp_countryPreference="IN,NP,CN,PH"
             app:ccp_defaultNameCode="AU"
             app:ccp_showFullName="true"
             app:ccp_showNameCode="false"

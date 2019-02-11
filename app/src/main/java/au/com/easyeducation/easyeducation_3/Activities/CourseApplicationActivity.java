@@ -1,5 +1,6 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,9 +13,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.ViewParent;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +57,12 @@ public class CourseApplicationActivity extends AppCompatActivity {
     private String courseRefString;
 
     private ProgressBar applyCourseProgressBar;
+    private Button nextButton;
+    private int currentViewItem;
+    private boolean nextPressed;
+    private int nextPressedTimes;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +87,19 @@ public class CourseApplicationActivity extends AppCompatActivity {
         courseRefString = intent.getExtras().getString("courseRef");
 
         applyCourseProgressBar = findViewById(R.id.courseApplicationProgressBar);
+        nextButton = findViewById(R.id.courseApplicationNextButton);
+
+        nextPressedTimes = 1;
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextPressedTimes = nextPressedTimes + 1;
+                applyCourseProgressBar.setProgress(nextPressedTimes);
+
+                setCurrentItem(mViewPager.getCurrentItem() + 1, true);
+            }
+        });
 
 //        Toast.makeText(this, businessTypeString + instituteRefString + courseRefString, Toast.LENGTH_SHORT).show();
     }
@@ -119,7 +141,7 @@ public class CourseApplicationActivity extends AppCompatActivity {
          * The fragment argument representing the section number for this
          * fragment.
          */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+        public static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
         }
@@ -189,25 +211,18 @@ public class CourseApplicationActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-//                    applyCourseProgressBar.setProgress(0);
                     return CourseApply1Fragment.newInstance();
                 case 1:
-                    applyCourseProgressBar.setProgress(2);
                     return CourseApply2Fragment.newInstance();
                 case 2:
-                    applyCourseProgressBar.setProgress(3);
                     return CourseApply3Fragment.newInstance();
                 case 3:
-                    applyCourseProgressBar.setProgress(4);
                     return CourseApply4Fragment.newInstance();
                 case 4:
-                    applyCourseProgressBar.setProgress(5);
                     return CourseApply5Fragment.newInstance();
                 case 5:
-                    applyCourseProgressBar.setProgress(6);
                     return CourseApply6Fragment.newInstance();
                 case 6:
-                    applyCourseProgressBar.setProgress(7);
                     return CourseApply7Fragment.newInstance();
             }
             return null;

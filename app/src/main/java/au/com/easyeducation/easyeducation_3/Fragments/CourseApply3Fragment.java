@@ -1,32 +1,30 @@
 package au.com.easyeducation.easyeducation_3.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.hbb20.CountryCodePicker;
 
 import au.com.easyeducation.easyeducation_3.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CourseApply3Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CourseApply3Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CourseApply3Fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,15 +32,6 @@ public class CourseApply3Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CourseApply3Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CourseApply3Fragment newInstance() {
         CourseApply3Fragment fragment = new CourseApply3Fragment();
         return fragment;
@@ -51,17 +40,228 @@ public class CourseApply3Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
+
+    private EditText mUSI_1;
+    private EditText mUSI_2;
+    private EditText mUSI_3;
+    private EditText mUSI_4;
+    private EditText mUSI_5;
+    private EditText mUSI_6;
+    private EditText mUSI_7;
+    private EditText mUSI_8;
+    private EditText mUSI_9;
+    private EditText mUSI_10;
+
+    private String usiCode;
+
+    private DocumentReference userRef;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_course_apply_3, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_course_apply_3, container, false);
+
+        mUSI_1 = rootView.findViewById(R.id.courseApplyUSI_ET1);
+        mUSI_2 = rootView.findViewById(R.id.courseApplyUSI_ET2);
+        mUSI_3 = rootView.findViewById(R.id.courseApplyUSI_ET3);
+        mUSI_4 = rootView.findViewById(R.id.courseApplyUSI_ET4);
+        mUSI_5 = rootView.findViewById(R.id.courseApplyUSI_ET5);
+        mUSI_6 = rootView.findViewById(R.id.courseApplyUSI_ET6);
+        mUSI_7 = rootView.findViewById(R.id.courseApplyUSI_ET7);
+        mUSI_8 = rootView.findViewById(R.id.courseApplyUSI_ET8);
+        mUSI_9 = rootView.findViewById(R.id.courseApplyUSI_ET9);
+        mUSI_10 = rootView.findViewById(R.id.courseApplyUSI_ET10);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        userRef = db.collection("users").document(mAuth.getUid());
+
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("usi") != null) {
+                    String usi = documentSnapshot.getString("usi");
+                    mUSI_1.setText(String.valueOf(usi.charAt(0)));
+                    mUSI_2.setText(String.valueOf(usi.charAt(1)));
+                    mUSI_3.setText(String.valueOf(usi.charAt(2)));
+                    mUSI_4.setText(String.valueOf(usi.charAt(3)));
+                    mUSI_5.setText(String.valueOf(usi.charAt(4)));
+                    mUSI_6.setText(String.valueOf(usi.charAt(5)));
+                    mUSI_7.setText(String.valueOf(usi.charAt(6)));
+                    mUSI_8.setText(String.valueOf(usi.charAt(7)));
+                    mUSI_9.setText(String.valueOf(usi.charAt(8)));
+                    mUSI_10.setText(String.valueOf(usi.charAt(9)));
+                }
+            }
+        });
+
+        initializeEditTexts();
+
+        return rootView;
+    }
+
+    private void initializeEditTexts() {
+        mUSI_1.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_1.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    mUSI_2.requestFocus();
+                }
+                return false;
+            }
+        });
+
+        mUSI_2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_2.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    mUSI_3.requestFocus();
+                }
+                if (mUSI_2.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
+                    mUSI_1.requestFocus();
+                }
+                return false;
+            }
+        });
+
+        mUSI_3.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_3.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    mUSI_4.requestFocus();
+
+                }
+                if (mUSI_3.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
+                    mUSI_2.requestFocus();
+
+                }
+                return false;
+            }
+        });
+
+        mUSI_4.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_4.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    mUSI_5.requestFocus();
+
+                }
+                if (mUSI_4.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
+                    mUSI_3.requestFocus();
+
+                }
+                return false;
+            }
+        });
+
+        mUSI_5.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_5.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    mUSI_6.requestFocus();
+
+                }
+                if (mUSI_5.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
+                    mUSI_4.requestFocus();
+
+                }
+                return false;
+            }
+        });
+
+        mUSI_6.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_6.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    mUSI_7.requestFocus();
+
+                }
+                if (mUSI_6.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
+                    mUSI_5.requestFocus();
+
+                }
+                return false;
+            }
+        });
+
+        mUSI_7.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_7.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    mUSI_8.requestFocus();
+
+                }
+                if (mUSI_7.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
+                    mUSI_6.requestFocus();
+
+                }
+                return false;
+            }
+        });
+
+        mUSI_8.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_8.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    mUSI_9.requestFocus();
+
+                }
+                if (mUSI_8.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
+                    mUSI_7.requestFocus();
+
+                }
+                return false;
+            }
+        });
+
+        mUSI_9.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_9.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    mUSI_10.requestFocus();
+
+                }
+                if (mUSI_9.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
+                    mUSI_8.requestFocus();
+
+                }
+                return false;
+            }
+        });
+
+        mUSI_10.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mUSI_10.getText().length() == 1 && KeyEvent.KEYCODE_DEL != keyCode) {
+                    hideKeyboardFrom(getContext(), v);
+
+                    usiCode = mUSI_1.getText().toString().trim();
+                    usiCode = usiCode + mUSI_2.getText().toString().trim();
+                    usiCode = usiCode + mUSI_3.getText().toString().trim();
+                    usiCode = usiCode + mUSI_4.getText().toString().trim();
+                    usiCode = usiCode + mUSI_5.getText().toString().trim();
+                    usiCode = usiCode + mUSI_6.getText().toString().trim();
+                    usiCode = usiCode + mUSI_7.getText().toString().trim();
+                    usiCode = usiCode + mUSI_8.getText().toString().trim();
+                    usiCode = usiCode + mUSI_9.getText().toString().trim();
+                    usiCode = usiCode + mUSI_10.getText().toString().trim();
+
+                    userRef.update("usi", usiCode);
+                }
+                if (mUSI_10.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
+                    mUSI_9.requestFocus();
+                }
+                return false;
+            }
+        });
+    }
+
+    private static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -71,33 +271,12 @@ public class CourseApply3Fragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

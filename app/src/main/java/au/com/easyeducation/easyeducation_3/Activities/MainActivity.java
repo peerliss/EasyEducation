@@ -2,6 +2,7 @@ package au.com.easyeducation.easyeducation_3.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
     Button agentButton;
     Button instituteButton;
-//    SearchView searchView;
+    //    SearchView searchView;
     RecyclerView agentRecyclerView;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -184,7 +187,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Institution institution = documentSnapshot.toObject(Institution.class);
-                for (int i = 1; i<6; i++) {
+                for (int i = 1; i < 6; i++) {
                     String institutionName = "Institution " + i;
                     institution.setName(institutionName);
                     if (institution != null) {
