@@ -28,7 +28,8 @@
             android:text="Diploma of Nursing"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="22sp" />
+            android:textSize="21sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/courseRecyclerDuration"

@@ -1,6 +1,7 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -62,6 +63,9 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Drawable gradient = getResources().getDrawable(R.drawable.gradient);
+        getSupportActionBar().setBackgroundDrawable(gradient);
+
         Intent intent = getIntent();
 
         businessTypeString = intent.getExtras().getString("businessType");
@@ -83,6 +87,8 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
         courseOverview = findViewById(R.id.courseInfoOverview_TextView);
 
         courseApplyButton = findViewById(R.id.courseInfoApplyNow_Button);
+
+        courseApplyButton.setBackground(gradient);
 
         courseApplyButton.setOnClickListener(new View.OnClickListener() {
             @Override

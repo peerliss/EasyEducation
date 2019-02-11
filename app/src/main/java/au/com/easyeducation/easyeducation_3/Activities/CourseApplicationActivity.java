@@ -2,6 +2,7 @@ package au.com.easyeducation.easyeducation_3.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -71,6 +72,10 @@ public class CourseApplicationActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Drawable gradient = getResources().getDrawable(R.drawable.gradient);
+        getSupportActionBar().setBackgroundDrawable(gradient);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -88,6 +93,8 @@ public class CourseApplicationActivity extends AppCompatActivity {
 
         applyCourseProgressBar = findViewById(R.id.courseApplicationProgressBar);
         nextButton = findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setBackground(gradient);
 
         nextPressedTimes = 1;
 

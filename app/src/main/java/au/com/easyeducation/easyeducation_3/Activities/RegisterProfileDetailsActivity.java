@@ -1,5 +1,6 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -45,6 +46,10 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Drawable gradient = getResources().getDrawable(R.drawable.gradient);
+        getSupportActionBar().setBackgroundDrawable(gradient);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

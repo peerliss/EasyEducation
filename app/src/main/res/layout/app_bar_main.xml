@@ -27,8 +27,7 @@
                 android:gravity="center"
                 android:textAlignment="center"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:titleMarginStart="75dp"
-                app:titleTextColor="@color/menu"/>
+                app:titleMarginStart="75dp" />
 
             <TextView
                 android:id="@+id/textView14"
@@ -41,7 +40,7 @@
                 android:layout_marginEnd="0dp"
                 android:text="Easy Education"
                 android:textAlignment="center"
-                android:textColor="@color/menu"
+                android:textColor="@color/white"
                 android:textSize="23sp" />
 
 

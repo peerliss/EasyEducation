@@ -1,6 +1,7 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -57,6 +58,9 @@ public class ProfileActivity extends AppCompatActivity {
     private FirestoreCourseAdapter firestoreCourseAdapter;
     private String courseRefString;
 
+    private Drawable selectedBG;
+    private Drawable unselectedBG;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +69,9 @@ public class ProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Drawable gradient = getResources().getDrawable(R.drawable.gradient);
+        getSupportActionBar().setBackgroundDrawable(gradient);
 
         Intent intent = getIntent();
 
@@ -109,6 +116,9 @@ public class ProfileActivity extends AppCompatActivity {
         coursesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         setupCoursesRecyclerView();
+
+        selectedBG = getDrawable(R.drawable.profile_buttons_border_selected);
+        unselectedBG = getDrawable(R.drawable.profile_buttons_border_unselected);
 
 //        cloneDocument();
     }
@@ -155,11 +165,23 @@ public class ProfileActivity extends AppCompatActivity {
     public void onClick_profileDescriptionButton(View view) {
         descriptionLayout.setVisibility(View.VISIBLE);
         coursesRecyclerView.setVisibility(View.GONE);
+
+        profileDescriptionButton.setBackground(selectedBG);
+        profileDescriptionButton.setTextColor(getResources().getColor(R.color.white));
+
+        profileCoursesButton.setBackground(unselectedBG);
+        profileCoursesButton.setTextColor(getResources().getColor(android.R.color.black));
     }
 
     public void onClick_profileCoursesButton(View view) {
         descriptionLayout.setVisibility(View.GONE);
         coursesRecyclerView.setVisibility(View.VISIBLE);
+
+        profileCoursesButton.setBackground(selectedBG);
+        profileCoursesButton.setTextColor(getResources().getColor(R.color.white));
+
+        profileDescriptionButton.setBackground(unselectedBG);
+        profileDescriptionButton.setTextColor(getResources().getColor(android.R.color.black));
     }
 
     @Override
