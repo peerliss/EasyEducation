@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class RegisterProfileNumberFragment extends Fragment {
 
         countryCodePicker.clearFocus();
 
-        Button mNameNextButton = rootView.findViewById(R.id.registerNumberNextButton);
+        final Button mNumberNextButton = rootView.findViewById(R.id.registerNumberNextButton);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -77,7 +78,26 @@ public class RegisterProfileNumberFragment extends Fragment {
             }
         });
 
-        mNameNextButton.setOnClickListener(new View.OnClickListener() {
+        mNumber.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            mNumberNextButton.performClick();
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        mNumberNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

@@ -14,12 +14,12 @@
         <!--android:onClick="onClick_createAgent"-->
         <!--app:showAsAction="never" />-->
 
-    <!--<item-->
-        <!--android:id="@+id/action_enterProfileDetails"-->
-        <!--android:orderInCategory="200"-->
-        <!--android:title="Enter Profile Details"-->
-        <!--android:onClick="onClick_enterProfileDetails"-->
-        <!--app:showAsAction="never" />-->
+    <item
+        android:id="@+id/action_enterProfileDetails"
+        android:orderInCategory="200"
+        android:title="Enter Profile Details"
+        android:onClick="onClick_enterProfileDetails"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_signOut"

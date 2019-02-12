@@ -69,19 +69,19 @@
 
         <TextView
             android:id="@+id/institution_visa"
-            android:layout_width="wrap_content"
-            android:layout_height="21dp"
+            android:layout_width="169dp"
+            android:layout_height="20dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="119dp"
-            android:layout_marginTop="139dp"
-            android:layout_marginEnd="164dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginStart="118dp"
+            android:layout_marginTop="136dp"
+            android:layout_marginEnd="124dp"
+            android:layout_marginBottom="4dp"
             android:text="6 Courses Available"
             android:textColor="@color/menu"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/institution_hours"
@@ -97,7 +97,8 @@
             android:layout_marginBottom="3dp"
             android:text="Open: 9am - 5pm today"
             android:textColor="@color/menu"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/institution_reviews"
@@ -113,7 +114,8 @@
             android:layout_marginBottom="11dp"
             android:text="11"
             android:textColor="@color/menu"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/institution_reviewsLabel"
@@ -129,7 +131,8 @@
             android:layout_marginBottom="11dp"
             android:text="Reviews"
             android:textColor="@color/menu"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/institution_rating"
@@ -145,7 +148,8 @@
             android:layout_marginBottom="26dp"
             android:text="4.0"
             android:textColor="@color/menu"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/institution_distance"
@@ -183,16 +187,16 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="79dp"
+            android:layout_width="102dp"
+            android:layout_height="101dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="314dp"
-            android:layout_marginBottom="59dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="302dp"
+            android:layout_marginBottom="27dp"
             android:src="@drawable/profile_image" />
 
         <ImageView
@@ -207,7 +211,8 @@
             android:layout_marginTop="98dp"
             android:layout_marginEnd="302dp"
             android:layout_marginBottom="22dp"
-            android:src="@drawable/stars_4" />
+            android:src="@drawable/stars_4"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

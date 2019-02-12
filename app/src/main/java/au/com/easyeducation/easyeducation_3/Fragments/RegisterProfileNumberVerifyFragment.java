@@ -167,10 +167,11 @@ public class RegisterProfileNumberVerifyFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(getContext(), MainActivity.class);
+//                            Intent intent = new Intent(getContext(), MainActivity.class);
 //                          Closes all activities
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            startActivity(intent);
+                            ((RegisterProfileDetailsActivity) getActivity()).setCurrentItem(5, true);
                         } else
                             Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -179,13 +180,17 @@ public class RegisterProfileNumberVerifyFragment extends Fragment {
 
     //    private void sendVerificationCode(String number) {
     public void sendVerificationCode(String number) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                number,
-                60,
-                TimeUnit.SECONDS,
-                TaskExecutors.MAIN_THREAD,
-                mCallBack
-        );
+        if (number.length() > 4) {
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                    number,
+                    60,
+                    TimeUnit.SECONDS,
+                    TaskExecutors.MAIN_THREAD,
+                    mCallBack
+            );
+        }
+        else
+            Toast.makeText(getContext(), "Invalid Mobile Number", Toast.LENGTH_SHORT).show();
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks

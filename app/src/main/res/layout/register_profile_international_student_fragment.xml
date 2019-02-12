@@ -27,22 +27,6 @@
         android:layout_height="50dp" />
 
     <Button
-        android:id="@+id/registerProfileInternationalNo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/profile_buttons_border_unselected"
-        android:paddingTop="13dp"
-        android:paddingBottom="13dp"
-        android:text="No"
-        android:textAllCaps="false"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
-
-    <Button
         android:id="@+id/registerProfileInternationalYes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,6 +42,22 @@
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
+
+    <Button
+        android:id="@+id/registerProfileInternationalNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/profile_buttons_border_unselected"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="No"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
     <Space
         android:layout_width="match_parent"

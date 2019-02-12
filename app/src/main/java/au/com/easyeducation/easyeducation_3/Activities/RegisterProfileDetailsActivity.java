@@ -15,7 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileCountryBirthFragment;
+import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileCountryCitizenshipFragment;
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileDOBFragment;
+import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileInternationalFragment;
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNameFragment;
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNumberFragment;
 import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNumberVerifyFragment;
@@ -124,6 +127,15 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
                 case 4:
                     rootView = inflater.inflate(R.layout.register_profile_number_verify_fragment, container, false);
                     break;
+                case 5:
+                    rootView = inflater.inflate(R.layout.register_profile_international_student_fragment, container, false);
+                    break;
+                case 6:
+                    rootView = inflater.inflate(R.layout.register_profile_country_birth_fragment, container, false);
+                    break;
+                case 7:
+                    rootView = inflater.inflate(R.layout.register_profile_country_citizenship_fragment, container, false);
+                    break;
             }
 
             return rootView;
@@ -162,8 +174,12 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
                     return RegisterProfileNumberFragment.newInstance();
                 case 3:
                     return RegisterProfileNumberVerifyFragment.newInstance();
-//                default:
-//                    return PlaceholderFragment.newInstance(position + 1);
+                case 4:
+                    return RegisterProfileInternationalFragment.newInstance();
+                case 5:
+                    return RegisterProfileCountryBirthFragment.newInstance();
+                case 6:
+                    return RegisterProfileCountryCitizenshipFragment.newInstance();
             }
             return null;
         }
@@ -171,7 +187,7 @@ public class RegisterProfileDetailsActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 4 total pages.
-            return 4;
+            return 7;
         }
     }
 }
