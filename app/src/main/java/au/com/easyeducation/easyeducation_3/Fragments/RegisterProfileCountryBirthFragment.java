@@ -65,6 +65,9 @@ public class RegisterProfileCountryBirthFragment extends Fragment {
                 if (documentSnapshot.getString("countryBirthCode") != null) {
                     countryBirth.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryBirthCode"));
                 }
+                else {
+                    countryBirth.setDefaultCountryUsingNameCode("AU");
+                }
             }
         });
 
@@ -72,7 +75,7 @@ public class RegisterProfileCountryBirthFragment extends Fragment {
             @Override
             public void onCountrySelected() {
                 userRef.update("countryBirth", countryBirth.getSelectedCountryName());
-                userRef.update("countryBirthCode", countryBirth.getSelectedCountryCode());
+                userRef.update("countryBirthCode", countryBirth.getSelectedCountryNameCode());
             }
         });
 

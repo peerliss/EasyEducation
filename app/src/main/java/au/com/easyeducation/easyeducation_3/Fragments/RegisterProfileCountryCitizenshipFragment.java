@@ -62,20 +62,11 @@ public class RegisterProfileCountryCitizenshipFragment extends Fragment {
 
         userRef = db.collection("users").document(mAuth.getUid());
 
-        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.getString("countryCitizenshipCode") != null) {
-                    countryCitizenship.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryCitizenshipCode"));
-                }
-            }
-        });
-
         countryCitizenship.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
                 userRef.update("countryCitizenship", countryCitizenship.getSelectedCountryName());
-                userRef.update("countryCitizenshipCode", countryCitizenship.getSelectedCountryCode());
+                userRef.update("countryCitizenshipCode", countryCitizenship.getSelectedCountryNameCode());
             }
         });
 
@@ -83,7 +74,7 @@ public class RegisterProfileCountryCitizenshipFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 userRef.update("countryCitizenship", countryCitizenship.getSelectedCountryName());
-                userRef.update("countryCitizenshipCode", countryCitizenship.getSelectedCountryCode());
+                userRef.update("countryCitizenshipCode", countryCitizenship.getSelectedCountryNameCode());
 
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -92,6 +83,41 @@ public class RegisterProfileCountryCitizenshipFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean visible) {
+        super.setUserVisibleHint(visible);
+        if (visible && isResumed()) {
+            //Only manually call onResume if fragment is already visible
+            //Otherwise allow natural fragment lifecycle to call onResume
+            onResume();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!getUserVisibleHint()) {
+            return;
+        }
+
+        checkCitizenshipCountry();
+    }
+
+    private void checkCitizenshipCountry() {
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("countryCitizenshipCode") != null) {
+                    countryCitizenship.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryCitizenshipCode"));
+                    countryCitizenship.resetToDefaultCountry();
+                }
+                else {
+                    countryCitizenship.setDefaultCountryUsingNameCode("AU");
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

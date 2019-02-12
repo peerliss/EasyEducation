@@ -42,7 +42,7 @@
         android:textColor="@android:color/black"
         android:textSize="20sp"
         app:ccp_countryPreference="IN,NP,CN,PH"
-        app:ccp_defaultNameCode="AU"
+        app:ccp_rememberLastSelection="false"
         app:ccp_showFullName="true"
         app:ccp_showNameCode="false"
         app:ccp_showPhoneCode="false"

@@ -105,11 +105,13 @@ public class CourseApply1Fragment extends Fragment {
                     mMonth = Integer.valueOf(documentSnapshot.getString("dobMonth"));
                     mDay = Integer.valueOf(documentSnapshot.getString("dobDay"));
                 }
-                if (documentSnapshot.getString("gender").matches("Male")) {
-                    mCourseApplyMaleButton.performClick();
-                }
-                if (documentSnapshot.getString("gender").matches("Female")) {
-                    mCourseApplyFemaleButton.performClick();
+                if (documentSnapshot.getString("gender") != null) {
+                    if (documentSnapshot.getString("gender").matches("Male")) {
+                        mCourseApplyMaleButton.performClick();
+                    }
+                    if (documentSnapshot.getString("gender").matches("Female")) {
+                        mCourseApplyFemaleButton.performClick();
+                    }
                 }
             }
         });

@@ -180,7 +180,7 @@ public class RegisterProfileNumberVerifyFragment extends Fragment {
 
     //    private void sendVerificationCode(String number) {
     public void sendVerificationCode(String number) {
-        if (number.length() > 4) {
+        if (number != null && number.length() > 4) {
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
                     number,
                     60,
