@@ -67,7 +67,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="au.com.easyeducation.easyeducation_3.Activities.LoginActivity" />
         </activity>
-        <activity android:name=".Activities.LoginActivity">
+        <activity
+            android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

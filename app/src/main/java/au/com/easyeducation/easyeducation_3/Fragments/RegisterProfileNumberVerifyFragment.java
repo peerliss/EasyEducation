@@ -329,6 +329,7 @@ public class RegisterProfileNumberVerifyFragment extends Fragment {
         mResendVerificationTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getContext(), "Verification code resent.", Toast.LENGTH_SHORT).show();
                 sendVerificationCode(phoneNumber);
             }
         });

@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:title=" "
             app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
 
         <TextView
@@ -36,7 +37,7 @@
             android:layout_marginEnd="0dp"
             android:text="@string/register"
             android:textAlignment="center"
-            android:textColor="@color/menu"
+            android:textColor="@color/white"
             android:textSize="23sp" />
 
         </RelativeLayout>
