@@ -283,4 +283,9 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsActivity.class);
         startActivity(intent);
     }
+
+    public void onClick_courseApplyForm(MenuItem item) {
+        Intent intent = new Intent(getApplicationContext(), CourseApplicationActivity.class);
+        startActivity(intent);
+    }
 }

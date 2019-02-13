@@ -22,6 +22,13 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_applicationForm"
+        android:orderInCategory="200"
+        android:title="Course Apply Form"
+        android:onClick="onClick_courseApplyForm"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_signOut"
         android:orderInCategory="300"
         android:title="@string/sign_out"

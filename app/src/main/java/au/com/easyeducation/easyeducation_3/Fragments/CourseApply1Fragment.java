@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,6 +35,8 @@ import au.com.easyeducation.easyeducation_3.R;
 public class CourseApply1Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Drawable selectedBackground;
+    private Drawable unSelectedBackground;
 
     public CourseApply1Fragment() {
         // Required empty public constructor
@@ -75,6 +78,9 @@ public class CourseApply1Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_course_apply_1, container, false);
+
+        selectedBackground = getResources().getDrawable(R.drawable.profile_buttons_border_selected);
+        unSelectedBackground = getResources().getDrawable(R.drawable.profile_buttons_border_unselected);
 
         mName = rootView.findViewById(R.id.courseApplyNameET);
         mSurname = rootView.findViewById(R.id.courseApplySurnameET);
@@ -134,37 +140,63 @@ public class CourseApply1Fragment extends Fragment {
             }
         });
 
-        mCourseApplyFemaleButton.setOnTouchListener(new View.OnTouchListener() {
+        mCourseApplyMaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isFemaleButtonPressed = true;
-                if (isMaleButtonPressed) {
-                    mCourseApplyMaleButton.setBackgroundColor(getResources().getColor(R.color.white));
-                    isMaleButtonPressed = false;
-                }
-                else {
-                    mCourseApplyFemaleButton.setBackgroundColor(getResources().getColor(R.color.menu));
-                    userRef.update("gender", "Female");
-                }
-                return false;
+            public void onClick(View v) {
+                userRef.update("gender", "Male");
+
+                mCourseApplyMaleButton.setBackground(selectedBackground);
+                mCourseApplyFemaleButton.setBackground(unSelectedBackground);
+
+                mCourseApplyMaleButton.setTextColor(getResources().getColor(R.color.white));
+                mCourseApplyFemaleButton.setTextColor(getResources().getColor(android.R.color.black));
             }
         });
 
-        mCourseApplyMaleButton.setOnTouchListener(new View.OnTouchListener() {
+        mCourseApplyFemaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isMaleButtonPressed = true;
-                if (isFemaleButtonPressed) {
-                    isFemaleButtonPressed = false;
-                    mCourseApplyFemaleButton.setBackgroundColor(getResources().getColor(R.color.white));
-                }
-                else {
-                    mCourseApplyMaleButton.setBackgroundColor(getResources().getColor(R.color.menu));
-                    userRef.update("gender", "Male");
-                }
-                return false;
+            public void onClick(View v) {
+                userRef.update("gender", "Female");
+
+                mCourseApplyMaleButton.setBackground(unSelectedBackground);
+                mCourseApplyFemaleButton.setBackground(selectedBackground);
+
+                mCourseApplyMaleButton.setTextColor(getResources().getColor(android.R.color.black));
+                mCourseApplyFemaleButton.setTextColor(getResources().getColor(R.color.white));
             }
         });
+
+//        mCourseApplyFemaleButton.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                isFemaleButtonPressed = true;
+//                if (isMaleButtonPressed) {
+//                    mCourseApplyMaleButton.setBackgroundColor(getResources().getColor(R.color.white));
+//                    isMaleButtonPressed = false;
+//                }
+//                else {
+//                    mCourseApplyFemaleButton.setBackgroundColor(getResources().getColor(R.color.menu));
+//                    userRef.update("gender", "Female");
+//                }
+//                return false;
+//            }
+//        });
+//
+//        mCourseApplyMaleButton.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                isMaleButtonPressed = true;
+//                if (isFemaleButtonPressed) {
+//                    isFemaleButtonPressed = false;
+//                    mCourseApplyFemaleButton.setBackgroundColor(getResources().getColor(R.color.white));
+//                }
+//                else {
+//                    mCourseApplyMaleButton.setBackgroundColor(getResources().getColor(R.color.menu));
+//                    userRef.update("gender", "Male");
+//                }
+//                return false;
+//            }
+//        });
 
         mDOB.setOnClickListener(new View.OnClickListener() {
             @Override

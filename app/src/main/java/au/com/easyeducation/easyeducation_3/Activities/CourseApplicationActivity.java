@@ -84,12 +84,12 @@ public class CourseApplicationActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        Intent intent = getIntent();
-        setResult(RESULT_OK, intent);
+//        Intent intent = getIntent();
+//        setResult(RESULT_OK, intent);
 
-        businessTypeString = intent.getExtras().getString("businessType");
-        instituteRefString = intent.getExtras().getString("businessRef");
-        courseRefString = intent.getExtras().getString("courseRef");
+//        businessTypeString = intent.getExtras().getString("businessType");
+//        instituteRefString = intent.getExtras().getString("businessRef");
+//        courseRefString = intent.getExtras().getString("courseRef");
 
         applyCourseProgressBar = findViewById(R.id.courseApplicationProgressBar);
         nextButton = findViewById(R.id.courseApplicationNextButton);
