@@ -28,4 +28,6 @@
     <string name="next">Next</string>
     <string name="title_activity_course_application">CourseApplicationActivity</string>
     <string name="easy_education">Easy Education</string>
+    <string name="title_activity_course_application_checklist">CourseApplicationChecklistActivity
+    </string>
 </resources>

@@ -2,11 +2,9 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".Activities.CourseApplicationActivity">
+    tools:context=".Activities.CourseApplicationChecklistActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -46,49 +44,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-        <ProgressBar
-            android:id="@+id/courseApplicationProgressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="15dp"
-            android:max="7"
-            android:padding="20dp"
-            android:progress="1" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/container"
-            android:layout_below="@id/courseApplicationProgressBar"
-            android:layout_above="@id/courseApplicationNextButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-        </android.support.v4.view.ViewPager>
-
-
-        <Button
-            android:id="@+id/courseApplicationNextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:keepScreenOn="false"
-            android:paddingTop="10dp"
-            android:paddingBottom="15dp"
-            android:text="@string/fui_next_default"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="24sp" />
-
-    </RelativeLayout>
-
-
+    <include layout="@layout/content_course_application_checklist" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -43,6 +43,8 @@ public class CourseApply2Fragment extends Fragment {
     private EditText mSuburb;
     private EditText mState;
     private EditText mPostCode;
+    private EditText mEmail;
+    private EditText mNumber;
 
     private DocumentReference userRef;
 
@@ -56,6 +58,9 @@ public class CourseApply2Fragment extends Fragment {
         mSuburb = rootView.findViewById(R.id.courseApplySuburb_ET);
         mState = rootView.findViewById(R.id.courseApplyState_ET);
         mPostCode = rootView.findViewById(R.id.courseApplyPostCode_ET);
+
+        mEmail = rootView.findViewById(R.id.courseApplyEmail_ET);
+        mNumber = rootView.findViewById(R.id.courseApplyNumber_ET);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -76,6 +81,12 @@ public class CourseApply2Fragment extends Fragment {
                 }
                 if (documentSnapshot.getString("postCode") != null) {
                     mPostCode.setText(documentSnapshot.getString("postCode"));
+                }
+                if (documentSnapshot.getString("email") != null) {
+                    mEmail.setText(documentSnapshot.getString("email"));
+                }
+                if (documentSnapshot.getString("number") != null) {
+                    mNumber.setText(documentSnapshot.getString("number"));
                 }
             }
         });
@@ -112,6 +123,24 @@ public class CourseApply2Fragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!v.hasFocus() && mPostCode.length() > 0) {
                     userRef.update("postCode", mPostCode.getText().toString().trim());
+                }
+            }
+        });
+
+        mEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!v.hasFocus() && mEmail.length() > 0) {
+                    userRef.update("email", mEmail.getText().toString().trim());
+                }
+            }
+        });
+
+        mNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!v.hasFocus() && mNumber.length() > 0) {
+                    userRef.update("number", mNumber.getText().toString().trim());
                 }
             }
         });
