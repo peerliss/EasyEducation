@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply10Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply1Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply2Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply3Fragment;
@@ -192,12 +193,15 @@ public class CourseApplicationActivity extends AppCompatActivity {
                     rootView = inflater.inflate(R.layout.fragment_course_apply_9, container, false);
                     break;
                 case 7:
-                    rootView = inflater.inflate(R.layout.fragment_course_apply_5, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_10, container, false);
                     break;
                 case 8:
-                    rootView = inflater.inflate(R.layout.fragment_course_apply_6, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_5, container, false);
                     break;
                 case 9:
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_6, container, false);
+                    break;
+                case 10:
                     rootView = inflater.inflate(R.layout.fragment_course_apply_7, container, false);
                     break;
             }
@@ -238,10 +242,12 @@ public class CourseApplicationActivity extends AppCompatActivity {
                 case 5:
                     return CourseApply9Fragment.newInstance();
                 case 6:
-                    return CourseApply5Fragment.newInstance();
+                    return CourseApply10Fragment.newInstance();
                 case 7:
-                    return CourseApply6Fragment.newInstance();
+                    return CourseApply5Fragment.newInstance();
                 case 8:
+                    return CourseApply6Fragment.newInstance();
+                case 9:
                     return CourseApply7Fragment.newInstance();
             }
             return null;
@@ -250,7 +256,7 @@ public class CourseApplicationActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 9 total pages.
-            return 9;
+            return 10;
         }
     }
 }

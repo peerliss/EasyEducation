@@ -8,61 +8,86 @@
     android:paddingStart="25dp"
     android:paddingEnd="25dp"
     android:paddingBottom="30dp"
-    tools:context=".Fragments.CourseApply6Fragment">
+    tools:context=".Fragments.CourseApply10Fragment">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Employment Details"
+        android:text="How do you rate your level of English?"
         android:textColor="@android:color/black"
         android:textSize="24sp" />
 
     <Button
-        android:id="@+id/courseApplyEmploymentFull_Button"
+        android:id="@+id/courseApplyEnglish_Beginner_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:background="@drawable/profile_buttons_border_unselected"
         android:paddingTop="13dp"
         android:paddingBottom="13dp"
-        android:text="Full Time"
+        android:text="Beginner"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/courseApplyEmploymentPart_Button"
+        android:id="@+id/courseApplyEnglish_Elementary_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:background="@drawable/profile_buttons_border_unselected"
         android:paddingTop="13dp"
         android:paddingBottom="13dp"
-        android:text="Part Time"
+        android:text="Elementary"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/courseApplyEmploymentCasual_Button"
+        android:id="@+id/courseApplyEnglish_PreIntermediate_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:background="@drawable/profile_buttons_border_unselected"
         android:paddingTop="13dp"
         android:paddingBottom="13dp"
-        android:text="Casual"
+        android:text="Pre-Intermediate"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/courseApplyEmploymentUnemployed_Button"
+        android:id="@+id/courseApplyEnglish_Intermediate_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/profile_buttons_border_unselected"
         android:paddingTop="13dp"
         android:paddingBottom="13dp"
-        android:text="Unemployed"
+        android:text="Intermediate"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/courseApplyEnglish_UpperIntermediate_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/profile_buttons_border_unselected"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="Upper-Intermediate"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/courseApplyEnglish_Advanced_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/profile_buttons_border_unselected"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="Advanced"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
