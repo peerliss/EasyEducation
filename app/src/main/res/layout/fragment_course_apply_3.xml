@@ -6,18 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="30dp"
-    android:paddingEnd="30dp"
+    android:paddingStart="25dp"
+    android:paddingEnd="25dp"
     android:paddingBottom="30dp"
     tools:context=".Fragments.CourseApply3Fragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="20dp"
         android:text="Your Unique Student Identifier (USI)"
         android:textColor="@android:color/black"
-        android:textSize="28sp" />
+        android:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -162,15 +162,43 @@
             android:maxLength="1"
             android:textAlignment="center"
             android:textSize="24sp" />
-        
+
     </LinearLayout>
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="All domestic and international students will need to obtain a Unique Student Identifier (USI). This can be obtained from www.usi.gov.au  The application process should take no longer than 5 minutes. "
+        android:layout_marginBottom="5dp"
+        android:text="All domestic and international students will need to obtain a Unique Student Identifier (USI)."
+        android:textAlignment="center"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This can be obtained from:"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="www.usi.gov.au"
+        android:textAlignment="center"
+        android:textColor="@color/menu"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="The application process should take no longer than 5 minutes."
+        android:textAlignment="center" />
 
 </LinearLayout>

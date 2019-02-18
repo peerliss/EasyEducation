@@ -11,21 +11,21 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:isScrollContainer="true" >
+        android:isScrollContainer="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="30dp"
-            android:paddingEnd="30dp"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
             android:paddingBottom="30dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:text="Your passport and visa details"
+                android:layout_marginBottom="20dp"
+                android:text="Your passport details"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
@@ -33,26 +33,31 @@
                 android:id="@+id/courseApplyPassportNumber_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/et_background"
                 android:ems="10"
                 android:hint="Passport Number"
-                android:textSize="24sp" />
+                android:padding="13dp"
+                android:textSize="18sp" />
+
 
             <EditText
                 android:id="@+id/courseApplyPassportExpiry_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/et_background"
                 android:ems="10"
                 android:focusable="false"
                 android:hint="Expiry Date"
                 android:inputType="textPersonName"
-                android:textSize="24sp" />
+                android:padding="13dp"
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="15dp"
                 android:text="Country of Citizenship"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
@@ -65,65 +70,103 @@
                     android:id="@+id/courseApplyCountryCitizenship"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/profile_buttons_border_unselected"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="No"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
                     app:ccp_countryPreference="IN,NP,CN,PH"
-                    android:paddingBottom="10dp"
                     app:ccp_defaultNameCode="AU"
+                    app:ccp_rememberLastSelection="false"
                     app:ccp_showFullName="true"
                     app:ccp_showNameCode="false"
                     app:ccp_showPhoneCode="false"
-                    app:ccp_textGravity="CENTER"
-                    app:ccp_textSize="25dp">
+                    app:ccp_textSize="20dp" />
 
-                </com.hbb20.CountryCodePicker>
             </RelativeLayout>
 
 
-            <EditText
-                android:id="@+id/courseApplyVisaType_ET"
+            <TextView
+                android:id="@+id/textView21"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:ems="10"
-                android:hint="Visa type"
-                android:inputType="textPersonName"
-                android:textSize="24sp" />
+                android:text="Country of citizenship is the same as your"
+                android:textAlignment="center" />
 
-            <EditText
-                android:id="@+id/courseApplyVisaSubclass_ET"
+            <TextView
+                android:id="@+id/textView22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:ems="10"
-                android:hint="Visa subclass"
-                android:inputType="textPersonName"
-                android:textSize="24sp" />
+                android:layout_marginBottom="10dp"
+                android:text="Nationality as shown on your passport"
+                android:textAlignment="center" />
+
+            <!--<EditText-->
+                <!--android:id="@+id/courseApplyVisaType_ET"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:background="@drawable/et_background"-->
+                <!--android:ems="10"-->
+                <!--android:hint="Visa type"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:padding="13dp"-->
+                <!--android:textSize="18sp"-->
+                <!--android:visibility="gone" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/courseApplyVisaSubclass_ET"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:background="@drawable/et_background"-->
+                <!--android:ems="10"-->
+                <!--android:hint="Visa subclass"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:padding="13dp"-->
+                <!--android:textSize="18sp"-->
+                <!--android:visibility="gone" />-->
 
             <LinearLayout
+                android:id="@+id/courseApplyTakePassportPhoto_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/imageButton"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
-                    android:src="@mipmap/app_icon_hat_round" />
+                    android:src="@drawable/camera_icon_transparent" />
 
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_gravity="fill_vertical"
-                    android:layout_marginBottom="15dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Take photo of passport"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:text="Please ensure you take a photo of the front page which contains your image and the back page which may contain your address and other details"
+                android:textAlignment="center" />
 
         </LinearLayout>
     </ScrollView>

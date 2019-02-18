@@ -119,6 +119,10 @@ public class CourseApply1Fragment extends Fragment {
                         mCourseApplyFemaleButton.performClick();
                     }
                 }
+                if (documentSnapshot.get("countryBirthCode") != null) {
+                    mCourseApplyCountry.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryBirthCode"));
+                    mCourseApplyCountry.resetToDefaultCountry();
+                }
             }
         });
 
@@ -244,6 +248,7 @@ public class CourseApply1Fragment extends Fragment {
             @Override
             public void onCountrySelected() {
                 userRef.update("countryBirth", mCourseApplyCountry.getSelectedCountryName());
+                userRef.update("countryBirthCode", mCourseApplyCountry.getSelectedCountryNameCode());
             }
         });
 

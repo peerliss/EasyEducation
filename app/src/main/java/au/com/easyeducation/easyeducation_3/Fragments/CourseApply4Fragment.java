@@ -51,8 +51,8 @@ public class CourseApply4Fragment extends Fragment {
 
     private EditText mPassportNumber;
     private EditText mPassportExpiry;
-    private EditText mVisaType;
-    private EditText mVisaSubclass;
+//    private EditText mVisaType;
+//    private EditText mVisaSubclass;
 
     String name;
     String surname;
@@ -76,8 +76,8 @@ public class CourseApply4Fragment extends Fragment {
 
         mPassportNumber = rootView.findViewById(R.id.courseApplyPassportNumber_ET);
         mPassportExpiry = rootView.findViewById(R.id.courseApplyPassportExpiry_ET);
-        mVisaType = rootView.findViewById(R.id.courseApplyVisaType_ET);
-        mVisaSubclass = rootView.findViewById(R.id.courseApplyVisaSubclass_ET);
+//        mVisaType = rootView.findViewById(R.id.courseApplyVisaType_ET);
+//        mVisaSubclass = rootView.findViewById(R.id.courseApplyVisaSubclass_ET);
 
         final CountryCodePicker mCourseApplyCountryCitizenship = rootView.findViewById(R.id.courseApplyCountryCitizenship);
 
@@ -98,11 +98,15 @@ public class CourseApply4Fragment extends Fragment {
                     mMonth = Integer.valueOf(documentSnapshot.getString("passportExpiryMonth"));
                     mDay = Integer.valueOf(documentSnapshot.getString("passportExpiryDay"));
                 }
-                if (documentSnapshot.getString("visaType") != null) {
-                    mVisaType.setText(documentSnapshot.getString("visaType"));
-                }
-                if (documentSnapshot.getString("visaSubclass") != null) {
-                    mVisaSubclass.setText(documentSnapshot.getString("visaSubclass"));
+//                if (documentSnapshot.getString("visaType") != null) {
+//                    mVisaType.setText(documentSnapshot.getString("visaType"));
+//                }
+//                if (documentSnapshot.getString("visaSubclass") != null) {
+//                    mVisaSubclass.setText(documentSnapshot.getString("visaSubclass"));
+//                }
+                if (documentSnapshot.get("countryCitizenshipCode") != null) {
+                    mCourseApplyCountryCitizenship.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryCitizenshipCode"));
+                    mCourseApplyCountryCitizenship.resetToDefaultCountry();
                 }
             }
         });
@@ -125,23 +129,23 @@ public class CourseApply4Fragment extends Fragment {
             }
         });
 
-        mVisaType.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!v.hasFocus() && mVisaType.length() > 0) {
-                    userRef.update("visaType", mVisaType.getText().toString().trim());
-                }
-            }
-        });
-
-        mVisaSubclass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!v.hasFocus() && mVisaSubclass.length() > 0) {
-                    userRef.update("visaSubclass", mVisaSubclass.getText().toString().trim());
-                }
-            }
-        });
+//        mVisaType.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (!v.hasFocus() && mVisaType.length() > 0) {
+//                    userRef.update("visaType", mVisaType.getText().toString().trim());
+//                }
+//            }
+//        });
+//
+//        mVisaSubclass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (!v.hasFocus() && mVisaSubclass.length() > 0) {
+//                    userRef.update("visaSubclass", mVisaSubclass.getText().toString().trim());
+//                }
+//            }
+//        });
 
         mPassportExpiry.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -198,6 +202,7 @@ public class CourseApply4Fragment extends Fragment {
             @Override
             public void onCountrySelected() {
                 userRef.update("countryCitizenship", mCourseApplyCountryCitizenship.getSelectedCountryName());
+                userRef.update("countryCitizenshipCode", mCourseApplyCountryCitizenship.getSelectedCountryNameCode());
             }
         });
 
