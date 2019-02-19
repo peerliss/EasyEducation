@@ -61,7 +61,7 @@
                 android:ems="10"
                 android:focusable="false"
                 android:hint="Expiry Date"
-                android:inputType="textPersonName"
+                android:inputType="date"
                 android:padding="13dp"
                 android:textSize="18sp" />
 

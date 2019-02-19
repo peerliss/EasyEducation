@@ -110,6 +110,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             DocumentReference userRef = db.collection("users").document(mAuth.getUid());
 
+                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+
                             userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {

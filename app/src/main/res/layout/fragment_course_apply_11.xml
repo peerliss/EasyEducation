@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.CourseApply10Fragment">
+    tools:context=".Fragments.CourseApply11Fragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,87 +18,106 @@
             android:orientation="vertical"
             android:paddingStart="25dp"
             android:paddingEnd="25dp"
-            android:paddingBottom="30dp" >
+            android:paddingBottom="30dp">
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="How do you rate your level of English?"
+                android:text="Proposed further studies"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
             <Button
-                android:id="@+id/courseApplyEnglish_Beginner_Button"
+                android:id="@+id/courseApplyFurtherStudies_Vocational_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Beginner"
+                android:text="Vocational"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/courseApplyEnglish_Elementary_Button"
+                android:id="@+id/courseApplyFurtherStudies_TAFE_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Elementary"
-                android:textAllCaps="false"
-                android:textSize="18sp"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/courseApplyEnglish_PreIntermediate_Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/profile_buttons_border_unselected"
-                android:paddingTop="13dp"
-                android:paddingBottom="13dp"
-                android:text="Pre-Intermediate"
+                android:text="TAFE"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/courseApplyEnglish_Intermediate_Button"
+                android:id="@+id/courseApplyFurtherStudies_Undergraduate_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Intermediate"
+                android:text="Undergraduate"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/courseApplyEnglish_UpperIntermediate_Button"
+                android:id="@+id/courseApplyFurtherStudies_Postgraduate_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Upper-Intermediate"
+                android:text="Postgraduate"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/courseApplyEnglish_Advanced_Button"
+            <EditText
+                android:id="@+id/courseApplyFurtherStudies_CourseName_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/profile_buttons_border_unselected"
-                android:paddingTop="13dp"
-                android:paddingBottom="13dp"
-                android:text="Advanced"
-                android:textAllCaps="false"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/et_background"
+                android:ems="10"
+                android:hint="Course Name"
+                android:padding="13dp"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/courseApplyFurtherStudies_InstitutionName_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/et_background"
+                android:ems="10"
+                android:hint="Name of Institution"
+                android:padding="13dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:text="Course commencement date"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/courseApplyFurtherStudies_CommencementDate_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_background"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Course commencement date"
+                android:inputType="date"
+                android:padding="13dp"
                 android:textSize="18sp" />
 
         </LinearLayout>

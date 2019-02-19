@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.CourseApply10Fragment">
+    tools:context=".Fragments.CourseApply15Fragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:isScrollContainer="true">
+        android:isScrollContainer="true" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,81 +25,106 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="How do you rate your level of English?"
+                android:text="What are these issues?"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Select all that apply (skip if none)"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
             <Button
-                android:id="@+id/courseApplyEnglish_Beginner_Button"
+                android:id="@+id/courseApplyIssues_Medical_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Beginner"
+                android:text="Medical (including pregnancy)"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/courseApplyEnglish_Elementary_Button"
+                android:id="@+id/courseApplyIssues_Legal_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Elementary"
+                android:text="Legal"
                 android:textAllCaps="false"
-                android:textSize="18sp"
-                android:visibility="gone" />
+                android:textSize="18sp" />
 
             <Button
-                android:id="@+id/courseApplyEnglish_PreIntermediate_Button"
+                android:id="@+id/courseApplyIssues_Visa_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Pre-Intermediate"
+                android:text="Visa"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/courseApplyEnglish_Intermediate_Button"
+                android:id="@+id/courseApplyIssues_AAT_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Intermediate"
+                android:text="Administrative Appeals Tribunal (AAT)"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/courseApplyEnglish_UpperIntermediate_Button"
+                android:id="@+id/courseApplyIssues_Other_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Upper-Intermediate"
+                android:text="Others"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/courseApplyEnglish_Advanced_Button"
+                android:id="@+id/courseApplyIssues_None_Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Advanced"
+                android:text="None"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Full details including medical or other assistance needed and supporting documents need to be provided for all selected issues."
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Please note that the institution has limited resources to provide study assistance in some instances."
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
         </LinearLayout>
 

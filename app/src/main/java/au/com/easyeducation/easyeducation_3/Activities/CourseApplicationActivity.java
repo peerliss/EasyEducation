@@ -25,6 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply10Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply11Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply12Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply13Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply14Fragment;
+import au.com.easyeducation.easyeducation_3.Fragments.CourseApply15Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply1Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply2Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply3Fragment;
@@ -199,9 +204,24 @@ public class CourseApplicationActivity extends AppCompatActivity {
                     rootView = inflater.inflate(R.layout.fragment_course_apply_5, container, false);
                     break;
                 case 9:
-                    rootView = inflater.inflate(R.layout.fragment_course_apply_6, container, false);
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_11, container, false);
                     break;
                 case 10:
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_12, container, false);
+                    break;
+                case 11:
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_13, container, false);
+                    break;
+                case 12:
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_14, container, false);
+                    break;
+                case 13:
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_15, container, false);
+                    break;
+                case 14:
+                    rootView = inflater.inflate(R.layout.fragment_course_apply_6, container, false);
+                    break;
+                case 15:
                     rootView = inflater.inflate(R.layout.fragment_course_apply_7, container, false);
                     break;
             }
@@ -246,8 +266,18 @@ public class CourseApplicationActivity extends AppCompatActivity {
                 case 7:
                     return CourseApply5Fragment.newInstance();
                 case 8:
-                    return CourseApply6Fragment.newInstance();
+                    return CourseApply11Fragment.newInstance();
                 case 9:
+                    return CourseApply12Fragment.newInstance();
+                case 10:
+                    return CourseApply13Fragment.newInstance();
+                case 11:
+                    return CourseApply14Fragment.newInstance();
+                case 12:
+                    return CourseApply15Fragment.newInstance();
+                case 13:
+                    return CourseApply6Fragment.newInstance();
+                case 14:
                     return CourseApply7Fragment.newInstance();
             }
             return null;
@@ -256,7 +286,7 @@ public class CourseApplicationActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 9 total pages.
-            return 10;
+            return 15;
         }
     }
 }
