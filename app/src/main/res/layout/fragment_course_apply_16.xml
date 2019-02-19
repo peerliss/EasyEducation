@@ -47,14 +47,17 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/courseApplyMedicalIssues_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/et_background"
                 android:ems="10"
+                android:gravity="top|left"
                 android:inputType="textMultiLine"
-                android:lines="5" />
+                android:lines="4"
+                android:padding="13dp"
+                android:scrollbars="vertical" />
 
             <LinearLayout
                 android:id="@+id/courseApplyTakeMedicalIssuesPhoto_Layout"
@@ -96,14 +99,17 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/courseApplyLegalIssues_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/et_background"
                 android:ems="10"
+                android:gravity="top|left"
                 android:inputType="textMultiLine"
-                android:lines="5" />
+                android:lines="4"
+                android:padding="13dp"
+                android:scrollbars="vertical" />
 
             <LinearLayout
                 android:id="@+id/courseApplyTakeLegalIssuesPhoto_Layout"

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,10 +57,8 @@ public class CourseApply6Fragment extends Fragment {
     private Button casualButton;
     private Button unemployedButton;
 
-    private boolean isFullTimeButtonPressed = false;
-    private boolean isPartTimeButtonPressed = false;
-    private boolean isCasualButtonPressed = false;
-    private boolean isUnemployedButtonPressed = false;
+    private Drawable selectedBG;
+    private Drawable unSelectedBG;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -72,6 +71,9 @@ public class CourseApply6Fragment extends Fragment {
         partTimeButton = rootView.findViewById(R.id.courseApplyEmploymentPart_Button);
         casualButton = rootView.findViewById(R.id.courseApplyEmploymentCasual_Button);
         unemployedButton = rootView.findViewById(R.id.courseApplyEmploymentUnemployed_Button);
+
+        selectedBG = getActivity().getDrawable(R.drawable.profile_buttons_border_selected);
+        unSelectedBG = getActivity().getDrawable(R.drawable.profile_buttons_border_unselected);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -101,25 +103,28 @@ public class CourseApply6Fragment extends Fragment {
         fullTimeButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                partTimeButton.setBackgroundColor(getResources().getColor(R.color.white));
-                casualButton.setBackgroundColor(getResources().getColor(R.color.white));
-                unemployedButton.setBackgroundColor(getResources().getColor(R.color.white));
+                unSelectAllButtons();
+                fullTimeButton.setBackground(selectedBG);
 
-                fullTimeButton.setBackgroundColor(getResources().getColor(R.color.menu));
                 userRef.update("employmentStatus", "Full Time");
 
                 return false;
             }
         });
 
+        fullTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unSelectAllButtons();
+                fullTimeButton.setBackground(selectedBG);
+            }
+        });
+
         partTimeButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                fullTimeButton.setBackgroundColor(getResources().getColor(R.color.white));
-                casualButton.setBackgroundColor(getResources().getColor(R.color.white));
-                unemployedButton.setBackgroundColor(getResources().getColor(R.color.white));
-
-                partTimeButton.setBackgroundColor(getResources().getColor(R.color.menu));
+                unSelectAllButtons();
+                partTimeButton.setBackground(selectedBG);
 
                 userRef.update("employmentStatus", "Part Time");
 
@@ -127,14 +132,19 @@ public class CourseApply6Fragment extends Fragment {
             }
         });
 
+        partTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unSelectAllButtons();
+                partTimeButton.setBackground(selectedBG);
+            }
+        });
+
         casualButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                partTimeButton.setBackgroundColor(getResources().getColor(R.color.white));
-                fullTimeButton.setBackgroundColor(getResources().getColor(R.color.white));
-                unemployedButton.setBackgroundColor(getResources().getColor(R.color.white));
-
-                casualButton.setBackgroundColor(getResources().getColor(R.color.menu));
+                unSelectAllButtons();
+                casualButton.setBackground(selectedBG);
 
                 userRef.update("employmentStatus", "Casual");
 
@@ -142,14 +152,19 @@ public class CourseApply6Fragment extends Fragment {
             }
         });
 
+        casualButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unSelectAllButtons();
+                casualButton.setBackground(selectedBG);
+            }
+        });
+
         unemployedButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                partTimeButton.setBackgroundColor(getResources().getColor(R.color.white));
-                casualButton.setBackgroundColor(getResources().getColor(R.color.white));
-                fullTimeButton.setBackgroundColor(getResources().getColor(R.color.white));
-
-                unemployedButton.setBackgroundColor(getResources().getColor(R.color.menu));
+                unSelectAllButtons();
+                unemployedButton.setBackground(selectedBG);
 
                 userRef.update("employmentStatus", "Unemployed");
 
@@ -157,7 +172,22 @@ public class CourseApply6Fragment extends Fragment {
             }
         });
 
+        unemployedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unSelectAllButtons();
+                unemployedButton.setBackground(selectedBG);
+            }
+        });
+
         return rootView;
+    }
+
+    private void unSelectAllButtons() {
+        fullTimeButton.setBackground(unSelectedBG);
+        partTimeButton.setBackground(unSelectedBG);
+        casualButton.setBackground(unSelectedBG);
+        unemployedButton.setBackground(unSelectedBG);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
