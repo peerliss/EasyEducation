@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +45,12 @@ public class CourseApply15Fragment extends Fragment {
     private Button visaButton;
     private Button aatButton;
     private Button otherButton;
-    private Button noneButton;
+
+    private Boolean medicalButtonPressed = false;
+    private Boolean legalButtonPressed = false;
+    private Boolean visaButtonPressed = false;
+    private Boolean aatButtonPressed = false;
+    private Boolean otherButtonPressed = false;
 
     private Drawable selectedBG;
     private Drawable unSelectedBG;
@@ -61,7 +67,6 @@ public class CourseApply15Fragment extends Fragment {
         visaButton = rootView.findViewById(R.id.courseApplyIssues_Visa_Button);
         aatButton = rootView.findViewById(R.id.courseApplyIssues_AAT_Button);
         otherButton = rootView.findViewById(R.id.courseApplyIssues_Other_Button);
-        noneButton = rootView.findViewById(R.id.courseApplyIssues_None_Button);
 
         selectedBG = getActivity().getDrawable(R.drawable.profile_buttons_border_selected);
         unSelectedBG = getActivity().getDrawable(R.drawable.profile_buttons_border_unselected);
@@ -74,28 +79,35 @@ public class CourseApply15Fragment extends Fragment {
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.getString("issuesDetails") != null) {
-                    if (documentSnapshot.getString("issuesDetails").matches("Medical")) {
-                        medicalButton.performClick();
-                    }
-                    if (documentSnapshot.getString("issuesDetails").matches("Legal")) {
-                        legalButton.performClick();
-                    }
-                    if (documentSnapshot.getString("issuesDetails").matches("Visa")) {
-                        visaButton.performClick();
-                    }
-                    if (documentSnapshot.getString("issuesDetails").matches("AAT")) {
-                        aatButton.performClick();
-                    }
-                    if (documentSnapshot.getString("issuesDetails").matches("Other")) {
-                        otherButton.performClick();
-                    }
-                    if (documentSnapshot.getString("issuesDetails").matches("None")) {
-                        noneButton.performClick();
+                if (documentSnapshot.getString("issuesMedical") != null) {
+                    if (documentSnapshot.getString("issuesMedical").matches("Yes")) {
+                        medicalButton.setBackground(selectedBG);
+                        medicalButtonPressed = true;
                     }
                 }
-                else if (documentSnapshot.getString("issuesDetails") == null) {
-                    noneButton.performClick();
+                if (documentSnapshot.getString("issuesLegal") != null) {
+                    if (documentSnapshot.getString("issuesLegal").matches("Yes")) {
+                        legalButton.setBackground(selectedBG);
+                        legalButtonPressed = true;
+                    }
+                }
+                if (documentSnapshot.getString("issuesVisa") != null) {
+                    if (documentSnapshot.getString("issuesVisa").matches("Yes")) {
+                        visaButton.setBackground(selectedBG);
+                        visaButtonPressed = true;
+                    }
+                }
+                if (documentSnapshot.getString("issuesAAT") != null) {
+                    if (documentSnapshot.getString("issuesAAT").matches("Yes")) {
+                        aatButton.setBackground(selectedBG);
+                        aatButtonPressed = true;
+                    }
+                }
+                if (documentSnapshot.getString("issuesOther") != null) {
+                    if (documentSnapshot.getString("issuesOther").matches("Yes")) {
+                        otherButton.setBackground(selectedBG);
+                        otherButtonPressed = true;
+                    }
                 }
             }
         });
@@ -103,10 +115,13 @@ public class CourseApply15Fragment extends Fragment {
         medicalButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                unSelectAllButtons();
-                medicalButton.setBackground(selectedBG);
-
-                userRef.update("issuesDetails", "Medical");
+                if (!medicalButtonPressed) {
+                    medicalButton.setBackground(selectedBG);
+                    userRef.update("issuesMedical", "Yes");
+                } else {
+                    medicalButton.setBackground(unSelectedBG);
+                    userRef.update("issuesMedical", "No");
+                }
 
                 return false;
             }
@@ -115,18 +130,27 @@ public class CourseApply15Fragment extends Fragment {
         medicalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unSelectAllButtons();
-                medicalButton.setBackground(selectedBG);
+                if (!medicalButtonPressed) {
+                    medicalButton.setBackground(selectedBG);
+                    medicalButtonPressed = true;
+                } else {
+                    medicalButton.setBackground(unSelectedBG);
+                    medicalButtonPressed = false;
+                }
             }
         });
 
         legalButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                unSelectAllButtons();
-                legalButton.setBackground(selectedBG);
-
-                userRef.update("issuesDetails", "Legal");
+                if (!medicalButtonPressed) {
+                    legalButton.setBackground(selectedBG);
+                    userRef.update("issuesLegal", "Yes");
+                }
+                else {
+                    legalButton.setBackground(unSelectedBG);
+                    userRef.update("issuesLegal", "No");
+                }
 
                 return false;
             }
@@ -135,18 +159,27 @@ public class CourseApply15Fragment extends Fragment {
         legalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unSelectAllButtons();
-                legalButton.setBackground(selectedBG);
+                if (!legalButtonPressed) {
+                    legalButton.setBackground(selectedBG);
+                    legalButtonPressed = true;
+                } else {
+                    legalButton.setBackground(unSelectedBG);
+                    legalButtonPressed = false;
+                }
             }
         });
 
         visaButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                unSelectAllButtons();
-                visaButton.setBackground(selectedBG);
-
-                userRef.update("issuesDetails", "Visa");
+                if (!visaButtonPressed) {
+                    visaButton.setBackground(selectedBG);
+                    userRef.update("issuesVisa", "Yes");
+                }
+                else {
+                    visaButton.setBackground(unSelectedBG);
+                    userRef.update("issuesVisa", "No");
+                }
 
                 return false;
             }
@@ -155,18 +188,27 @@ public class CourseApply15Fragment extends Fragment {
         visaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unSelectAllButtons();
-                visaButton.setBackground(selectedBG);
+                if (!visaButtonPressed) {
+                    visaButton.setBackground(selectedBG);
+                    visaButtonPressed = true;
+                } else {
+                    visaButton.setBackground(unSelectedBG);
+                    visaButtonPressed = false;
+                }
             }
         });
 
         aatButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                unSelectAllButtons();
-                aatButton.setBackground(selectedBG);
-
-                userRef.update("issuesDetails", "AAT");
+                if (!aatButtonPressed) {
+                    aatButton.setBackground(selectedBG);
+                    userRef.update("issuesAAT", "Yes");
+                }
+                else {
+                    aatButton.setBackground(unSelectedBG);
+                    userRef.update("issuesAAT", "No");
+                }
 
                 return false;
             }
@@ -175,18 +217,27 @@ public class CourseApply15Fragment extends Fragment {
         aatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unSelectAllButtons();
-                aatButton.setBackground(selectedBG);
+                if (!aatButtonPressed) {
+                    aatButton.setBackground(selectedBG);
+                    aatButtonPressed = true;
+                } else {
+                    aatButton.setBackground(unSelectedBG);
+                    aatButtonPressed = false;
+                }
             }
         });
 
         otherButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                unSelectAllButtons();
-                otherButton.setBackground(selectedBG);
-
-                userRef.update("issuesDetails", "Other");
+                if (!otherButtonPressed) {
+                    otherButton.setBackground(selectedBG);
+                    userRef.update("issuesOther", "Yes");
+                }
+                else {
+                    otherButton.setBackground(unSelectedBG);
+                    userRef.update("issuesOther", "No");
+                }
 
                 return false;
             }
@@ -195,41 +246,17 @@ public class CourseApply15Fragment extends Fragment {
         otherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unSelectAllButtons();
-                otherButton.setBackground(selectedBG);
-            }
-        });
-
-        noneButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                unSelectAllButtons();
-                noneButton.setBackground(selectedBG);
-
-                userRef.update("issuesDetails", "None");
-
-                return false;
-            }
-        });
-
-        noneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unSelectAllButtons();
-                noneButton.setBackground(selectedBG);
+                if (!otherButtonPressed) {
+                    otherButton.setBackground(selectedBG);
+                    otherButtonPressed = true;
+                } else {
+                    otherButton.setBackground(unSelectedBG);
+                    otherButtonPressed = false;
+                }
             }
         });
 
         return rootView;
-    }
-
-    private void unSelectAllButtons() {
-        medicalButton.setBackground(unSelectedBG);
-        legalButton.setBackground(unSelectedBG);
-        visaButton.setBackground(unSelectedBG);
-        aatButton.setBackground(unSelectedBG);
-        otherButton.setBackground(unSelectedBG);
-        noneButton.setBackground(unSelectedBG);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
