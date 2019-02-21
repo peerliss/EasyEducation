@@ -152,8 +152,9 @@ public class RegisterProfileNumberVerifyFragment extends Fragment {
 //        Toast.makeText(getContext(), phoneNumber, Toast.LENGTH_SHORT).show();
 
         grabDatabaseData();
-        sendVerificationCode(phoneNumber);
+//        sendVerificationCode(phoneNumber);
         initializeButtons();
+        mVerifyButton.performClick();
     }
 
     private void verifyCode(String code) {
@@ -183,7 +184,7 @@ public class RegisterProfileNumberVerifyFragment extends Fragment {
         if (number != null && number.length() > 4) {
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
                     number,
-                    60,
+                    30,
                     TimeUnit.SECONDS,
                     TaskExecutors.MAIN_THREAD,
                     mCallBack

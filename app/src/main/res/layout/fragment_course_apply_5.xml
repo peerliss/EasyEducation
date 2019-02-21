@@ -105,7 +105,6 @@
                 android:background="@drawable/et_background"
                 android:ems="10"
                 android:hint="Overall test results"
-                android:inputType="number"
                 android:padding="13dp"
                 android:textSize="18sp" />
 

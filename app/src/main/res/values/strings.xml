@@ -30,4 +30,5 @@
     <string name="easy_education">Easy Education</string>
     <string name="title_activity_course_application_checklist">CourseApplicationChecklistActivity
     </string>
+    <string name="signature">Signature</string>
 </resources>

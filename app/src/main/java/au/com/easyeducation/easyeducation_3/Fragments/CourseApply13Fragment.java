@@ -80,7 +80,7 @@ public class CourseApply13Fragment extends Fragment {
                     mQualificationCountry.resetToDefaultCountry();
                 }
                 else if (documentSnapshot.get("highestQualificationCountry") == null){
-                    mQualificationCountry.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryBirth"));
+                    mQualificationCountry.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryBirthCode"));
                     mQualificationCountry.resetToDefaultCountry();
                 }
             }

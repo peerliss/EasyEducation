@@ -119,9 +119,6 @@ public class CourseApply5Fragment extends Fragment {
                         mTestResults.setText(documentSnapshot.getString("englishTestResults"));
                     }
                 }
-                else {
-                    ieltsButton.performClick();
-                }
                 if (documentSnapshot.getString("englishTestMainLanguageSpoken") != null) {
                     mMainLanguage.setText(documentSnapshot.getString("englishTestMainLanguageSpoken"));
                 }

@@ -1,32 +1,48 @@
 package au.com.easyeducation.easyeducation_3.Fragments;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.github.gcacace.signaturepad.views.SignaturePad;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import com.hbb20.CountryCodePicker;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
+
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
+import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CourseApply7Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CourseApply7Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CourseApply7Fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,15 +50,6 @@ public class CourseApply7Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CourseApply7Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CourseApply7Fragment newInstance() {
         CourseApply7Fragment fragment = new CourseApply7Fragment();
         return fragment;
@@ -51,17 +58,154 @@ public class CourseApply7Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
+    private DocumentReference userRef;
+    private StorageReference signatureRef;
+
+    private SignaturePad mSignaturePad;
+    private Button mClearButton;
+    private Button mSaveButton;
+
+    private ProgressBar mProgressBar;
+
+    private int amountOfTimesSigned = 0;
+    private int amountOfTimesSaved = 0;
+
+    private Drawable selectedBG;
+    private Drawable unSelectedBG;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_course_apply_7, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_course_apply_7, container, false);
+
+        selectedBG = getActivity().getDrawable(R.drawable.profile_buttons_border_selected);
+        unSelectedBG = getActivity().getDrawable(R.drawable.profile_buttons_border_unselected);
+
+        mSignaturePad = rootView.findViewById(R.id.courseApplySignature_Pad);
+        mClearButton = rootView.findViewById(R.id.courseApply_Signature_Clear_Button);
+        mSaveButton = rootView.findViewById(R.id.courseApply_Signature_Save_Button);
+
+        mProgressBar = rootView.findViewById(R.id.courseApply_Signature_ProgressBar);
+
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        userRef = db.collection("users").document(mAuth.getUid());
+
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        signatureRef = firebaseStorage.getReference("users/" + mAuth.getUid() + "/signature.png");
+//        signatureRef = firebaseStorage.getReferenceFromUrl("gs://easy-education-92fce.appspot.com/users"
+//                + mAuth.getUid() + "signature.png");
+
+//        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                if (documentSnapshot.getString("employmentStatus") != null) {
+//                    if (documentSnapshot.getString("employmentStatus").matches("Full Time")) {
+//                        fullTimeButton.performClick();
+//                    }
+//                    if (documentSnapshot.getString("employmentStatus").matches("Part Time")) {
+//                        partTimeButton.performClick();
+//                    }
+//                    if (documentSnapshot.getString("employmentStatus").matches("Casual")) {
+//                        casualButton.performClick();
+//                    }
+//                    if (documentSnapshot.getString("employmentStatus").matches("Unemployed")) {
+//                        unemployedButton.performClick();
+//                    }
+//                }
+//            }
+//        });
+
+        mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
+            @Override
+            public void onStartSigning() {
+
+            }
+
+            @Override
+            public void onSigned() {
+                mClearButton.setEnabled(true);
+                mSaveButton.setEnabled(true);
+
+                amountOfTimesSigned++;
+            }
+
+            @Override
+            public void onClear() {
+                mClearButton.setEnabled(false);
+                mSaveButton.setEnabled(false);
+            }
+        });
+
+        mClearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSignaturePad.clear();
+            }
+        });
+
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSignaturePad.setEnabled(false);
+                mProgressBar.setVisibility(View.VISIBLE);
+
+                Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                signatureBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                UploadTask uploadTask = signatureRef.putBytes(data);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        mProgressBar.setVisibility(View.GONE);
+                        mSignaturePad.setEnabled(true);
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        userRef.update("signedApplicationForm", "Failed - " + e.getMessage());
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        mProgressBar.setVisibility(View.GONE);
+                        mSignaturePad.setEnabled(true);
+//                        Toast.makeText(getContext(), "Signature successfully saved", Toast.LENGTH_LONG).show();
+
+                        userRef.update("signedApplicationForm", "Yes");
+
+                        amountOfTimesSaved++; // add if (amountOfTimesSigned != amountOfTimesSaved) then save when applying
+                    }
+                });
+            }
+        });
+
+//        fullTimeButton.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                unSelectAllButtons();
+//                fullTimeButton.setBackground(selectedBG);
+//
+//                userRef.update("employmentStatus", "Full Time");
+//
+//                return false;
+//            }
+//        });
+//
+//        fullTimeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                unSelectAllButtons();
+//                fullTimeButton.setBackground(selectedBG);
+//            }
+//        });
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -71,33 +215,12 @@ public class CourseApply7Fragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

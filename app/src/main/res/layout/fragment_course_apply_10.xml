@@ -51,8 +51,7 @@
                 android:paddingBottom="13dp"
                 android:text="Elementary"
                 android:textAllCaps="false"
-                android:textSize="18sp"
-                android:visibility="gone" />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/courseApplyEnglish_PreIntermediate_Button"
