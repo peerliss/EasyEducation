@@ -50,6 +50,7 @@ public class CourseApply11Fragment extends Fragment {
     private Button tafeButton;
     private Button undergraduateButton;
     private Button postgraduateButton;
+    private Button doctorateButton;
 
     private EditText mCourseName;
     private EditText mInstitutionName;
@@ -77,6 +78,7 @@ public class CourseApply11Fragment extends Fragment {
         tafeButton = rootView.findViewById(R.id.courseApplyFurtherStudies_TAFE_Button);
         undergraduateButton = rootView.findViewById(R.id.courseApplyFurtherStudies_Undergraduate_Button);
         postgraduateButton = rootView.findViewById(R.id.courseApplyFurtherStudies_Postgraduate_Button);
+        doctorateButton = rootView.findViewById(R.id.courseApplyFurtherStudies_Doctorate_Button);
 
         mCourseName = rootView.findViewById(R.id.courseApplyFurtherStudies_CourseName_ET);
         mInstitutionName = rootView.findViewById(R.id.courseApplyFurtherStudies_InstitutionName_ET);
@@ -105,6 +107,9 @@ public class CourseApply11Fragment extends Fragment {
                     }
                     if (documentSnapshot.getString("furtherStudies").matches("Postgraduate")) {
                         postgraduateButton.performClick();
+                    }
+                    if (documentSnapshot.getString("furtherStudies").matches("Doctorate")) {
+                        doctorateButton.performClick();
                     }
                     if (documentSnapshot.getString("furtherStudiesCourse") != null) {
                         mCourseName.setText(documentSnapshot.getString("furtherStudiesCourse"));
@@ -202,6 +207,26 @@ public class CourseApply11Fragment extends Fragment {
             }
         });
 
+        doctorateButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                unSelectAllButtons();
+                doctorateButton.setBackground(selectedBG);
+
+                userRef.update("furtherStudies", "Doctorate");
+
+                return false;
+            }
+        });
+
+        doctorateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unSelectAllButtons();
+                doctorateButton.setBackground(selectedBG);
+            }
+        });
+
         mCourseName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -268,6 +293,7 @@ public class CourseApply11Fragment extends Fragment {
         tafeButton.setBackground(unSelectedBG);
         undergraduateButton.setBackground(unSelectedBG);
         postgraduateButton.setBackground(unSelectedBG);
+        doctorateButton.setBackground(unSelectedBG);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

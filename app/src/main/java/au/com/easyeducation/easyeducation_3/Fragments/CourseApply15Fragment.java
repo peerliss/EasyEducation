@@ -143,7 +143,7 @@ public class CourseApply15Fragment extends Fragment {
         legalButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!medicalButtonPressed) {
+                if (!legalButtonPressed) {
                     legalButton.setBackground(selectedBG);
                     userRef.update("issuesLegal", "Yes");
                 }

@@ -37,7 +37,7 @@
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Vocational"
+                android:text="Vocational (Cert III/IV or Diploma)"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
@@ -49,7 +49,7 @@
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="TAFE"
+                android:text="TAFE (Cert III/IV or Diploma)"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
@@ -61,7 +61,7 @@
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Undergraduate"
+                android:text="Undergraduate (Bachelor’s)"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 
@@ -73,7 +73,19 @@
                 android:background="@drawable/profile_buttons_border_unselected"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
-                android:text="Postgraduate"
+                android:text="Postgraduate (Master’s / Grad Diploma)"
+                android:textAllCaps="false"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/courseApplyFurtherStudies_Doctorate_Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/profile_buttons_border_unselected"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:text="Doctorate (PhD)"
                 android:textAllCaps="false"
                 android:textSize="18sp" />
 

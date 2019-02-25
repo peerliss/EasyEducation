@@ -44,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView profileName;
     private TextView profileUsername;
     private TextView profileDescription;
+    private TextView profileCricos;
     private Button profileDescriptionButton;
     private Button profileCoursesButton;
 
@@ -96,6 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileName = findViewById(R.id.profileName);
         profileUsername = findViewById(R.id.profileUsername);
         profileDescription = findViewById(R.id.profileDescriptionTextView);
+        profileCricos = findViewById(R.id.profileCricos);
 
         profileDescriptionButton = findViewById(R.id.profileDescriptionButton);
         profileCoursesButton = findViewById(R.id.profileCoursesButton);
@@ -110,6 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
                 profileName.setText(institution.getName());
                 profileUsername.setText(institution.getUsername());
                 profileDescription.setText(institution.getDescription());
+                profileCricos.setText("CRICOS NO: " + institution.getCricos());
             }
         });
 
@@ -117,8 +120,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         setupCoursesRecyclerView();
 
-        selectedBG = getDrawable(R.drawable.profile_buttons_border_selected);
-        unselectedBG = getDrawable(R.drawable.profile_buttons_border_unselected);
+        selectedBG = getDrawable(R.drawable.profile_buttons_square_border_selected);
+        unselectedBG = getDrawable(R.drawable.profile_buttons_square_border_unselected);
 
 //        cloneDocument();
     }

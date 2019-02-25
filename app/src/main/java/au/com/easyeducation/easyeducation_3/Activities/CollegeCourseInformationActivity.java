@@ -50,7 +50,10 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
     private TextView courseFullFee;
     private TextView courseCashBack;
     private TextView coursePayable;
+    private TextView courseClassHours;
+    private TextView courseClassAvailability;
     private TextView courseOverview;
+    private TextView courseSemesterCosts;
 
     private Button courseApplyButton;
 
@@ -85,6 +88,9 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
         courseCashBack = findViewById(R.id.courseInfoCashBack_TextView);
         coursePayable = findViewById(R.id.courseInfoYouPay_TextView);
         courseOverview = findViewById(R.id.courseInfoOverview_TextView);
+        courseClassHours = findViewById(R.id.courseInfoClassHours_TextView);
+        courseClassAvailability = findViewById(R.id.courseInfoClassAvailability_TextView);
+        courseSemesterCosts = findViewById(R.id.courseInfoSemesterCosts_TextView);
 
         courseApplyButton = findViewById(R.id.courseInfoApplyNow_Button);
 
@@ -110,22 +116,37 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
                 course = documentSnapshot.toObject(Course.class);
 
                 Double fullFee = Double.valueOf(course.getFullFee());
+                Double fullSemesterFee = (double) (course.getFullFee() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
+//                Double fullSemesterFee = 20000.0;
+
                 String fullFeeString = formatter.format(fullFee);
+                String fullSemesterFeeString = formatter.format(fullSemesterFee);
 
                 Double cashback = Double.valueOf(course.getCashback());
+                Double cashbackSemester = (double) (course.getCashback() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
+
                 String cashbackString = formatter.format(cashback);
+                String cashbackSemesterString = formatter.format(cashbackSemester);
 
                 Double payable = Double.valueOf(course.getPayable());
+                Double payableSemester = (double) (course.getPayable() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
+
                 String payableString = formatter.format(payable);
+                String payableSemesterString = formatter.format(payableSemester);
 
                 courseName.setText(course.getName());
                 courseCode.setText("National Course Code: " + course.getCourseCode());
                 courseIntake.setText("Next Intake: " + course.getIntake());
-                courseDuration.setText(course.getDuration());
+                courseDuration.setText("Duration: " + course.getDuration());
+                courseClassHours.setText("Class hours: " + course.getHours());
+                courseClassAvailability.setText("Class Availability: " + course.getAvailability());
                 courseFullFee.setText("Full Fee: $" + fullFeeString);
                 courseCashBack.setText("Cash Back: $" + cashbackString);
                 coursePayable.setText("You Pay: $" + payableString);
                 courseOverview.setText(Html.fromHtml(course.getOverview(), 1)); // for 24 api and more
+
+                courseSemesterCosts.setText("Full fee $" + fullSemesterFeeString + " per semester. Cash back $"
+                + cashbackSemesterString + " per semester. You pay total $" + payableSemesterString + " per semester.");
             }
         });
 

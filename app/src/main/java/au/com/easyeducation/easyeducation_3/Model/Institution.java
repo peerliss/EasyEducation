@@ -8,6 +8,7 @@ public class Institution {
     private String description;
     private String visa;
     private String hours;
+    private String cricos;
     private double distance;
     private int reviews;
     private double rating;
@@ -15,12 +16,13 @@ public class Institution {
 
     public Institution(){}
 
-    public Institution(String name, String username, String description, String visa, String hours, double distance, int reviews, double rating/*, Image agent_profile*/) {
+    public Institution(String name, String username, String description, String visa, String hours, String cricos, double distance, int reviews, double rating/*, Image agent_profile*/) {
         this.name = name;
         this.username = username;
         this.description = description;
         this.visa = visa;
         this.hours = hours;
+        this.cricos = cricos;
         this.distance = distance;
         this.reviews = reviews;
         this.rating = rating;
@@ -45,6 +47,10 @@ public class Institution {
 
     public String getHours() {
         return hours;
+    }
+
+    public String getCricos() {
+        return cricos;
     }
 
     public double getDistance() {
@@ -77,6 +83,10 @@ public class Institution {
 
     public void setHours(String hours) {
         this.hours = hours;
+    }
+
+    public void setCricos(String cricos) {
+        this.cricos = cricos;
     }
 
     public void setDistance(double distance) {

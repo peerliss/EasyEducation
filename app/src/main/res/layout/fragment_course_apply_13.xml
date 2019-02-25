@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,8 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingStart="25dp"
-            android:paddingEnd="25dp"
-            android:paddingBottom="30dp">
+            android:paddingEnd="25dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -29,129 +27,342 @@
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/courseApplyHighestQualification_Name_ET"
+            <LinearLayout
+                android:id="@+id/courseApplyHighestQualification1_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/et_background"
-                android:ems="10"
-                android:hint="Qualification Name"
-                android:padding="13dp"
-                android:textSize="18sp" />
+                android:orientation="vertical">
 
-
-            <EditText
-                android:id="@+id/courseApplyHighestQualification_Institute_ET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/et_background"
-                android:ems="10"
-                android:hint="Obtained from which institution?"
-                android:padding="13dp"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:text="Country of Qualification"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/courseApplyHighestQualification_Country"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/profile_buttons_border_unselected"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:text="No"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    app:ccp_countryPreference="IN,NP,CN,PH"
-                    app:ccp_defaultNameCode="AU"
-                    app:ccp_rememberLastSelection="false"
-                    app:ccp_showFullName="true"
-                    app:ccp_showNameCode="false"
-                    app:ccp_showPhoneCode="false"
-                    app:ccp_textSize="20dp" />
-
-            </RelativeLayout>
-
-
-            <!--<EditText-->
-                <!--android:id="@+id/courseApplyVisaType_ET"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="20dp"-->
-                <!--android:background="@drawable/et_background"-->
-                <!--android:ems="10"-->
-                <!--android:hint="Visa type"-->
-                <!--android:inputType="textPersonName"-->
-                <!--android:padding="13dp"-->
-                <!--android:textSize="18sp"-->
-                <!--android:visibility="gone" />-->
-
-            <!--<EditText-->
-                <!--android:id="@+id/courseApplyVisaSubclass_ET"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="20dp"-->
-                <!--android:background="@drawable/et_background"-->
-                <!--android:ems="10"-->
-                <!--android:hint="Visa subclass"-->
-                <!--android:inputType="textPersonName"-->
-                <!--android:padding="13dp"-->
-                <!--android:textSize="18sp"-->
-                <!--android:visibility="gone" />-->
-
-            <LinearLayout
-                android:id="@+id/courseApplyTakePassportPhoto_Layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical"
-                android:paddingStart="25dp"
-                android:paddingEnd="25dp">
-
-                <ImageView
-                    android:id="@+id/imageButton"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/camera_icon_transparent" />
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_gravity="fill_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Take photo of Qualification"
-                    android:textAlignment="center"
+                    android:text="Qualification 1"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/courseApplyHighestQualification_Name_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/et_background"
+                    android:ems="10"
+                    android:hint="Qualification Name"
+                    android:padding="13dp"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/courseApplyHighestQualification_Institute_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/et_background"
+                    android:ems="10"
+                    android:hint="Obtained from which institution?"
+                    android:padding="13dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="Country of Qualification"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/courseApplyHighestQualification_Country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/profile_buttons_border_unselected"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="No"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        app:ccp_countryPreference="IN,NP,CN,PH"
+                        app:ccp_defaultNameCode="AU"
+                        app:ccp_rememberLastSelection="false"
+                        app:ccp_showFullName="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_showPhoneCode="false"
+                        app:ccp_textSize="20dp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/courseApplyTakeQualification1Photo_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="25dp"
+                    android:paddingEnd="25dp">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/camera_icon_transparent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="fill_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Take photo of Qualification"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Copy of the qualification must be certified  by your issuing institution or by a Justice of Peace (JP)."
+                    android:textAlignment="center" />
+
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView23"
+            <LinearLayout
+                android:id="@+id/courseApplyHighestQualification2_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:layout_weight="1"
-                android:text="Copy of the qualification must be certified  by your issuing institution or by a Justice of Peace (JP)."
-                android:textAlignment="center" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="Qualification 2"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/courseApplyHighestQualification2_Name_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/et_background"
+                    android:ems="10"
+                    android:hint="Qualification Name"
+                    android:padding="13dp"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/courseApplyHighestQualification2_Institute_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/et_background"
+                    android:ems="10"
+                    android:hint="Obtained from which institution?"
+                    android:padding="13dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="Country of Qualification"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/courseApplyHighestQualification2_Country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/profile_buttons_border_unselected"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="No"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        app:ccp_countryPreference="IN,NP,CN,PH"
+                        app:ccp_defaultNameCode="AU"
+                        app:ccp_rememberLastSelection="false"
+                        app:ccp_showFullName="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_showPhoneCode="false"
+                        app:ccp_textSize="20dp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/courseApplyTakeQualification2Photo_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="25dp"
+                    android:paddingEnd="25dp">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/camera_icon_transparent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="fill_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Take photo of Qualification"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Copy of the qualification must be certified  by your issuing institution or by a Justice of Peace (JP)."
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/courseApplyHighestQualification3_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="Qualification 3"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/courseApplyHighestQualification3_Name_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/et_background"
+                    android:ems="10"
+                    android:hint="Qualification Name"
+                    android:padding="13dp"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/courseApplyHighestQualification3_Institute_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/et_background"
+                    android:ems="10"
+                    android:hint="Obtained from which institution?"
+                    android:padding="13dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="Country of Qualification"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/courseApplyHighestQualification3_Country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/profile_buttons_border_unselected"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="No"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        app:ccp_countryPreference="IN,NP,CN,PH"
+                        app:ccp_defaultNameCode="AU"
+                        app:ccp_rememberLastSelection="false"
+                        app:ccp_showFullName="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_showPhoneCode="false"
+                        app:ccp_textSize="20dp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/courseApplyTakeQualification3Photo_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="25dp"
+                    android:paddingEnd="25dp">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/camera_icon_transparent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_gravity="fill_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Take photo of Qualification"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Copy of the qualification must be certified  by your issuing institution or by a Justice of Peace (JP)."
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/courseApplyAddQualification_Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_gradient_round_edges"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:text="Add more qualifications"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
         </LinearLayout>
+
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

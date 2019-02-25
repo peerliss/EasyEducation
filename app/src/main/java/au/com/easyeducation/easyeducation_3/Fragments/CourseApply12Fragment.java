@@ -50,6 +50,7 @@ public class CourseApply12Fragment extends Fragment {
     private Button vocationalButton;
     private Button undergraduateButton;
     private Button postgraduateButton;
+    private Button doctorateButton;
 
     private Drawable selectedBG;
     private Drawable unSelectedBG;
@@ -65,6 +66,7 @@ public class CourseApply12Fragment extends Fragment {
         vocationalButton = rootView.findViewById(R.id.courseApplyHighestQualification_Vocational_Button);
         undergraduateButton = rootView.findViewById(R.id.courseApplyHighestQualification_Undergraduate_Button);
         postgraduateButton = rootView.findViewById(R.id.courseApplyHighestQualification_Postgraduate_Button);
+        doctorateButton = rootView.findViewById(R.id.courseApplyHighestQualification_Doctorate_Button);
 
         selectedBG = getActivity().getDrawable(R.drawable.profile_buttons_border_selected);
         unSelectedBG = getActivity().getDrawable(R.drawable.profile_buttons_border_unselected);
@@ -89,6 +91,9 @@ public class CourseApply12Fragment extends Fragment {
                     }
                     if (documentSnapshot.getString("highestQualification").matches("Postgraduate")) {
                         postgraduateButton.performClick();
+                    }
+                    if (documentSnapshot.getString("highestQualification").matches("Doctorate")) {
+                        doctorateButton.performClick();
                     }
                 }
             }
@@ -174,6 +179,26 @@ public class CourseApply12Fragment extends Fragment {
             }
         });
 
+        doctorateButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                unSelectAllButtons();
+                doctorateButton.setBackground(selectedBG);
+
+                userRef.update("highestQualification", "Doctorate");
+
+                return false;
+            }
+        });
+
+        doctorateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unSelectAllButtons();
+                doctorateButton.setBackground(selectedBG);
+            }
+        });
+
         return rootView;
     }
 
@@ -182,6 +207,7 @@ public class CourseApply12Fragment extends Fragment {
         vocationalButton.setBackground(unSelectedBG);
         undergraduateButton.setBackground(unSelectedBG);
         postgraduateButton.setBackground(unSelectedBG);
+        doctorateButton.setBackground(unSelectedBG);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
