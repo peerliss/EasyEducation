@@ -2,146 +2,174 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="25dp"
-    android:paddingEnd="25dp"
-    android:paddingBottom="30dp"
     tools:context=".Activities.CourseApplicationActivity$PlaceholderFragment">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="Your Details"
-        android:textColor="@android:color/black"
-        android:textSize="24sp" />
-
-    <EditText
-        android:id="@+id/courseApplyNameET"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/et_background"
-        android:ems="10"
-        android:hint="First Name"
-        android:imeOptions="actionGo"
-        android:inputType="textPersonName"
-        android:padding="13dp"
-        android:textSize="18sp" />
-
-    <EditText
-        android:id="@+id/courseApplySurnameET"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/et_background"
-        android:ems="10"
-        android:hint="Last Name"
-        android:imeOptions="actionGo"
-        android:inputType="textPersonName"
-        android:padding="13dp"
-        android:textSize="18sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp">
-
-        <TextView
-            android:id="@+id/dobTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
-            android:text="DOB:"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/courseApplyDOB_ET"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:background="@drawable/et_background"
-            android:ems="10"
-            android:focusable="false"
-            android:inputType="date"
-            android:padding="13dp"
-            android:text="01/01/1999"
-            android:textSize="18sp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/courseApplyMaleButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/profile_buttons_border_unselected"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
-            android:text="Male"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/courseApplyFemaleButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/profile_buttons_border_unselected"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
-            android:text="Female"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:text="Country of birth"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.hbb20.CountryCodePicker
-            android:id="@+id/courseApplyCountry"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/courseApplication1NextButton"
+            android:orientation="vertical"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:paddingBottom="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Your Details"
+                android:textColor="@android:color/black"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/courseApplyNameET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/et_background"
+                android:ems="10"
+                android:hint="First Name"
+                android:imeOptions="actionGo"
+                android:inputType="textPersonName"
+                android:padding="13dp"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/courseApplySurnameET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/et_background"
+                android:ems="10"
+                android:hint="Last Name"
+                android:imeOptions="actionGo"
+                android:inputType="textPersonName"
+                android:padding="13dp"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/dobTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="13dp"
+                    android:text="DOB:"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/courseApplyDOB_ET"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:background="@drawable/et_background"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="date"
+                    android:padding="13dp"
+                    android:text="01/01/1999"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/courseApplyMaleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/profile_buttons_border_unselected"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="13dp"
+                    android:text="Male"
+                    android:textAllCaps="false"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/courseApplyFemaleButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/profile_buttons_border_unselected"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="13dp"
+                    android:text="Female"
+                    android:textAllCaps="false"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="Country of birth"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/courseApplyCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/profile_buttons_border_unselected"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="No"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    app:ccp_countryPreference="IN,NP,CN,PH"
+                    app:ccp_rememberLastSelection="false"
+                    app:ccp_showFullName="true"
+                    app:ccp_showNameCode="false"
+                    app:ccp_showPhoneCode="false"
+                    app:ccp_textSize="20dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/courseApplication1NextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/profile_buttons_border_unselected"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:text="No"
+            android:layout_alignParentBottom="true"
+            android:keepScreenOn="false"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:text="@string/fui_next_default"
             android:textAllCaps="false"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            app:ccp_countryPreference="IN,NP,CN,PH"
-            app:ccp_rememberLastSelection="false"
-            app:ccp_showFullName="true"
-            app:ccp_showNameCode="false"
-            app:ccp_showPhoneCode="false"
-            app:ccp_textSize="20dp" />
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 

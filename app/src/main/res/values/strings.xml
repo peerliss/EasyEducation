@@ -31,4 +31,5 @@
     <string name="title_activity_course_application_checklist">CourseApplicationChecklistActivity
     </string>
     <string name="signature">Signature</string>
+    <string name="form_checklist">Form checklist</string>
 </resources>

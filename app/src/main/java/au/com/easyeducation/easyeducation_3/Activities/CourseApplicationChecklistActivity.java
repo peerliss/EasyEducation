@@ -33,7 +33,8 @@ public class CourseApplicationChecklistActivity extends AppCompatActivity {
         beginApplicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CourseApplicationActivity.class);
+//                Intent intent = new Intent(getApplicationContext(), CourseApplicationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CourseApplicationNewActivity.class);
                 startActivity(intent);
             }
         });

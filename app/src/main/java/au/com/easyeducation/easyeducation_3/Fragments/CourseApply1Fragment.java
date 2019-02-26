@@ -29,6 +29,7 @@ import com.hbb20.CountryCodePicker;
 import java.util.Calendar;
 
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
@@ -55,6 +56,8 @@ public class CourseApply1Fragment extends Fragment {
     private EditText mName;
     private EditText mSurname;
     private EditText mDOB;
+
+    private Button nextButton;
 
     String name;
     String surname;
@@ -85,6 +88,11 @@ public class CourseApply1Fragment extends Fragment {
         mName = rootView.findViewById(R.id.courseApplyNameET);
         mSurname = rootView.findViewById(R.id.courseApplySurnameET);
         mDOB = rootView.findViewById(R.id.courseApplyDOB_ET);
+
+        Drawable gradient = getResources().getDrawable(R.drawable.gradient);
+
+        nextButton = rootView.findViewById(R.id.courseApplication1NextButton);
+        nextButton.setBackground(gradient);
 
         final Button mCourseApplyMaleButton = rootView.findViewById(R.id.courseApplyMaleButton);
         final Button mCourseApplyFemaleButton = rootView.findViewById(R.id.courseApplyFemaleButton);
@@ -170,38 +178,6 @@ public class CourseApply1Fragment extends Fragment {
             }
         });
 
-//        mCourseApplyFemaleButton.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                isFemaleButtonPressed = true;
-//                if (isMaleButtonPressed) {
-//                    mCourseApplyMaleButton.setBackgroundColor(getResources().getColor(R.color.white));
-//                    isMaleButtonPressed = false;
-//                }
-//                else {
-//                    mCourseApplyFemaleButton.setBackgroundColor(getResources().getColor(R.color.menu));
-//                    userRef.update("gender", "Female");
-//                }
-//                return false;
-//            }
-//        });
-//
-//        mCourseApplyMaleButton.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                isMaleButtonPressed = true;
-//                if (isFemaleButtonPressed) {
-//                    isFemaleButtonPressed = false;
-//                    mCourseApplyFemaleButton.setBackgroundColor(getResources().getColor(R.color.white));
-//                }
-//                else {
-//                    mCourseApplyMaleButton.setBackgroundColor(getResources().getColor(R.color.menu));
-//                    userRef.update("gender", "Male");
-//                }
-//                return false;
-//            }
-//        });
-
         mDOB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,8 +218,6 @@ public class CourseApply1Fragment extends Fragment {
             }
         };
 
-//        userRef.update("countryBirth", mCourseApplyCountry.getSelectedCountryName());
-
         mCourseApplyCountry.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
@@ -252,15 +226,35 @@ public class CourseApply1Fragment extends Fragment {
             }
         });
 
+        nextButton.setVisibility(View.GONE);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextButton.setVisibility(View.GONE);
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
+//    }
+
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        getActivity().getSupportFragmentManager();
+//    }
 
     @Override
     public void onDetach() {
@@ -268,8 +262,17 @@ public class CourseApply1Fragment extends Fragment {
         mListener = null;
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void sendBack() {
+        if (mListener != null) {
+            Toast.makeText(getContext(), "sendBack", Toast.LENGTH_SHORT).show();
+            mListener.onFragmentInteraction();
+        }
+        Toast.makeText(getContext(), "sendBack - mListener is null", Toast.LENGTH_SHORT).show();
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction();
     }
 }
