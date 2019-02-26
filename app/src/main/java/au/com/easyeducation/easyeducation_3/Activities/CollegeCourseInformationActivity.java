@@ -99,12 +99,17 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
         courseApplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CourseApplicationActivity.class);
+//                Intent intent = new Intent(getApplicationContext(), CourseApplicationActivity.class);
+//                intent.putExtra("businessType", businessTypeString);
+//                intent.putExtra("businessRef", instituteRefString);
+//                intent.putExtra("courseRef", courseRefString);
+//                startActivityForResult(intent, 1);
+//
+                Intent intent = new Intent(getApplicationContext(), CourseApplicationChecklistActivity.class);
                 intent.putExtra("businessType", businessTypeString);
                 intent.putExtra("businessRef", instituteRefString);
                 intent.putExtra("courseRef", courseRefString);
                 startActivityForResult(intent, 1);
-//                startActivity(intent);
             }
         });
 

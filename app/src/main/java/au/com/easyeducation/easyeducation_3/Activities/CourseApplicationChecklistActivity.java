@@ -15,6 +15,9 @@ import au.com.easyeducation.easyeducation_3.R;
 public class CourseApplicationChecklistActivity extends AppCompatActivity {
 
     Button beginApplicationButton;
+    private String businessTypeString;
+    private String instituteRefString;
+    private String courseRefString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,12 @@ public class CourseApplicationChecklistActivity extends AppCompatActivity {
         Drawable gradient = getResources().getDrawable(R.drawable.gradient);
         getSupportActionBar().setBackgroundDrawable(gradient);
 
+        Intent intent = getIntent();
+
+        businessTypeString = intent.getExtras().getString("businessType");
+        instituteRefString = intent.getExtras().getString("businessRef");
+        courseRefString = intent.getExtras().getString("courseRef");
+
         beginApplicationButton = findViewById(R.id.courseApplicationChecklistBeginButton);
 
         beginApplicationButton.setOnClickListener(new View.OnClickListener() {
@@ -38,5 +47,7 @@ public class CourseApplicationChecklistActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        setResult(RESULT_OK, intent);
     }
 }
