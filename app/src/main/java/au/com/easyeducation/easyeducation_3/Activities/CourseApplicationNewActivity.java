@@ -70,12 +70,12 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
 
         nextButton.setBackground(gradient);
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addFragment();
-            }
-        });
+//        nextButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addFragment();
+//            }
+//        });
 
         fragmentManager = getSupportFragmentManager();
 

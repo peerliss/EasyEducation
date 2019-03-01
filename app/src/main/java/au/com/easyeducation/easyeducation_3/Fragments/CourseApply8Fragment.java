@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply8Fragment extends Fragment {
@@ -43,6 +45,7 @@ public class CourseApply8Fragment extends Fragment {
     private EditText mSuburb;
     private EditText mState;
     private EditText mPostCode;
+    private Button nextButton;
 
     private CountryCodePicker homeCountry;
 
@@ -58,6 +61,8 @@ public class CourseApply8Fragment extends Fragment {
         mSuburb = rootView.findViewById(R.id.courseApplyHomeCountrySuburb_ET);
         mState = rootView.findViewById(R.id.courseApplyHomeCountryState_ET);
         mPostCode = rootView.findViewById(R.id.courseApplyHomeCountryPostCode_ET);
+
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
 
         homeCountry = rootView.findViewById(R.id.courseApplyHomeCountry);
 
@@ -150,7 +155,51 @@ public class CourseApply8Fragment extends Fragment {
             }
         });
 
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(mStreet.getText()) || mStreet.length() == 0) {
+            mStreet.setError("Required.");
+            valid = false;
+        } else {
+            mStreet.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mSuburb.getText()) || mSuburb.length() == 0) {
+            mSuburb.setError("Required.");
+            valid = false;
+        } else {
+            mSuburb.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mState.getText()) || mState.length() == 0) {
+            mState.setError("Required.");
+            valid = false;
+        } else {
+            mState.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mPostCode.getText()) || mPostCode.length() == 0) {
+            mPostCode.setError("Required.");
+            valid = false;
+        } else {
+            mPostCode.setError(null);
+        }
+
+        return valid;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -26,6 +26,7 @@ import android.widget.Button;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -175,6 +176,9 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        updateUI(currentUser);
+
         firestoreAgentAdapter.startListening();
         firestoreInstitutionAdapter.startListening();
     }
@@ -261,6 +265,13 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+//    private void updateUI(FirebaseUser user) {
+//        if (user != null) {
+//            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//            startActivity(intent);
+//        }
+//    }
 
     public void onClick_profile_button(View view) {
         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);

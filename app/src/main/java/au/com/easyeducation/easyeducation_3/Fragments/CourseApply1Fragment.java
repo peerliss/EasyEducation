@@ -38,6 +38,8 @@ public class CourseApply1Fragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Drawable selectedBackground;
     private Drawable unSelectedBackground;
+    private Drawable gradient;
+    private Drawable disabledGradient;
 
     public CourseApply1Fragment() {
         // Required empty public constructor
@@ -81,6 +83,7 @@ public class CourseApply1Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_course_apply_1, container, false);
+        View activityView = inflater.inflate(R.layout.activity_course_application, container, false);
 
         selectedBackground = getResources().getDrawable(R.drawable.profile_buttons_border_selected);
         unSelectedBackground = getResources().getDrawable(R.drawable.profile_buttons_border_unselected);
@@ -89,10 +92,10 @@ public class CourseApply1Fragment extends Fragment {
         mSurname = rootView.findViewById(R.id.courseApplySurnameET);
         mDOB = rootView.findViewById(R.id.courseApplyDOB_ET);
 
-        Drawable gradient = getResources().getDrawable(R.drawable.gradient);
+        gradient = getResources().getDrawable(R.drawable.gradient);
+        disabledGradient = getResources().getDrawable(R.drawable.disabled_gradient);
 
-        nextButton = rootView.findViewById(R.id.courseApplication1NextButton);
-        nextButton.setBackground(gradient);
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
 
         final Button mCourseApplyMaleButton = rootView.findViewById(R.id.courseApplyMaleButton);
         final Button mCourseApplyFemaleButton = rootView.findViewById(R.id.courseApplyFemaleButton);
@@ -140,21 +143,25 @@ public class CourseApply1Fragment extends Fragment {
                 if (!v.hasFocus() && mName.length() > 0) {
                     userRef.update("name", mName.getText().toString().trim());
                 }
+//                validateFields();
             }
         });
 
         mSurname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!v.hasFocus() && mName.length() > 0) {
+                if (!v.hasFocus() && mSurname.length() > 0) {
                     userRef.update("surname", mSurname.getText().toString().trim());
                 }
+//                validateFields();
             }
         });
 
         mCourseApplyMaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isMaleButtonPressed = true;
+
                 userRef.update("gender", "Male");
 
                 mCourseApplyMaleButton.setBackground(selectedBackground);
@@ -162,12 +169,15 @@ public class CourseApply1Fragment extends Fragment {
 
                 mCourseApplyMaleButton.setTextColor(getResources().getColor(R.color.white));
                 mCourseApplyFemaleButton.setTextColor(getResources().getColor(android.R.color.black));
+//                validateFields();
             }
         });
 
         mCourseApplyFemaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isFemaleButtonPressed = true;
+
                 userRef.update("gender", "Female");
 
                 mCourseApplyMaleButton.setBackground(unSelectedBackground);
@@ -175,6 +185,7 @@ public class CourseApply1Fragment extends Fragment {
 
                 mCourseApplyMaleButton.setTextColor(getResources().getColor(android.R.color.black));
                 mCourseApplyFemaleButton.setTextColor(getResources().getColor(R.color.white));
+//                validateFields();
             }
         });
 
@@ -215,6 +226,7 @@ public class CourseApply1Fragment extends Fragment {
                 mYear = year;
                 mMonth = month;
                 mDay = dayOfMonth;
+//                validateFields();
             }
         };
 
@@ -226,17 +238,61 @@ public class CourseApply1Fragment extends Fragment {
             }
         });
 
-        nextButton.setVisibility(View.GONE);
+//        nextButton.setEnabled(false);
+//        nextButton.setBackground(disabledGradient);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextButton.setVisibility(View.GONE);
+                if (!validateFields()) {
+                    return;
+                }
                 ((CourseApplicationNewActivity) getActivity()).addFragment();
             }
         });
 
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(mName.getText()) || mName.length() == 0) {
+            mName.setError("Required.");
+            valid = false;
+        } else {
+            mName.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mSurname.getText()) || mSurname.length() == 0) {
+            mSurname.setError("Required.");
+            valid = false;
+        } else {
+            mSurname.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mDOB.getText())) {
+            mDOB.setError("Required.");
+            valid = false;
+        } else {
+            mDOB.setError(null);
+        }
+
+//        if (!isMaleButtonPressed || !isFemaleButtonPressed) {
+//            Toast.makeText(getContext(), "Please select gender", Toast.LENGTH_SHORT).show();
+//        }
+
+        // Add dob requirements to be atleast 18 years old
+
+//        if (valid) {
+//            nextButton.setBackground(gradient);
+//            nextButton.setEnabled(true);
+//        }
+//        else {
+//            nextButton.setBackground(disabledGradient);
+//        }
+
+        return valid;
     }
 
 //    @Override

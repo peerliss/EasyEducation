@@ -11,4 +11,5 @@
     <color name="white">#ffffff</color>
     <color name="share_color">#bce0fd</color>
     <color name="profile_button_selected">#35D8A6</color>
+    <color name="black_transparent">#66000000</color>
 </resources>
