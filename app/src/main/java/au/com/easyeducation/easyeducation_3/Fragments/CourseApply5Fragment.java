@@ -31,12 +31,15 @@ import com.hbb20.CountryCodePicker;
 import java.util.Calendar;
 
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply5Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private boolean buttonSelected = false;
+    private Button nextButton;
 
     public CourseApply5Fragment() {
         // Required empty public constructor
@@ -110,7 +113,7 @@ public class CourseApply5Fragment extends Fragment {
                         toeflButton.performClick();
                     }
                     if (documentSnapshot.getString("englishTestDate") != null) {
-                        mTestResults.setText(documentSnapshot.getString("englishTestDate"));
+                        mTestDate.setText(documentSnapshot.getString("englishTestDate"));
                         mYear = Integer.valueOf(documentSnapshot.getString("englishTestYear"));
                         mMonth = Integer.valueOf(documentSnapshot.getString("englishTestMonth"));
                         mDay = Integer.valueOf(documentSnapshot.getString("englishTestDay"));
@@ -243,10 +246,55 @@ public class CourseApply5Fragment extends Fragment {
             }
         };
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
     }
 
+    private boolean validateFields() {
+        if (!buttonSelected) {
+            Toast.makeText(getContext(), "Please select your english test taken", Toast.LENGTH_SHORT).show();
+        }
+
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(mTestDate.getText()) || mTestDate.length() == 0) {
+            mTestDate.setError("Required.");
+            valid = false;
+        } else {
+            mTestDate.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mTestResults.getText()) || mTestResults.length() == 0) {
+            mTestResults.setError("Required.");
+            valid = false;
+        } else {
+            mTestResults.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mMainLanguage.getText()) || mMainLanguage.length() == 0) {
+            mMainLanguage.setError("Required.");
+            valid = false;
+        } else {
+            mMainLanguage.setError(null);
+        }
+
+        return valid;
+    }
+
     private void unSelectAllButtons() {
+        buttonSelected =  true;
+
         ieltsButton.setBackground(unselectedBG);
         pteButton.setBackground(unselectedBG);
         toeflButton.setBackground(unselectedBG);

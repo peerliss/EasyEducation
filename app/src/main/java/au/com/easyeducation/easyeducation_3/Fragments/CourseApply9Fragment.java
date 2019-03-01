@@ -28,12 +28,14 @@ import com.hbb20.CountryCodePicker;
 import java.util.Calendar;
 
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply9Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
 
     public CourseApply9Fragment() {
         // Required empty public constructor
@@ -187,7 +189,53 @@ public class CourseApply9Fragment extends Fragment {
             }
         };
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(mVisaType.getText()) || mVisaType.length() == 0) {
+            mVisaType.setError("Required.");
+            valid = false;
+        } else {
+            mVisaType.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mVisaSubclass.getText()) || mVisaSubclass.length() == 0) {
+            mVisaSubclass.setError("Required.");
+            valid = false;
+        } else {
+            mVisaSubclass.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mVisaExpiry.getText()) || mVisaExpiry.length() == 0) {
+            mVisaExpiry.setError("Required.");
+            valid = false;
+        } else {
+            mVisaExpiry.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mVisaNumber.getText()) || mVisaNumber.length() == 0) {
+            mVisaNumber.setError("Required.");
+            valid = false;
+        } else {
+            mVisaNumber.setError(null);
+        }
+
+        return valid;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

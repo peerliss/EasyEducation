@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,11 +26,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply12Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private boolean buttonSelected = false;
+    private Button nextButton;
 
     public CourseApply12Fragment() {
         // Required empty public constructor
@@ -199,10 +204,35 @@ public class CourseApply12Fragment extends Fragment {
             }
         });
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
     }
 
+    private boolean validateFields() {
+        boolean valid =  true;
+
+        if (!buttonSelected) {
+            Toast.makeText(getContext(), "Please select your current highest qualification", Toast.LENGTH_SHORT).show();
+            valid =  false;
+        }
+
+        return valid;
+    }
+
     private void unSelectAllButtons() {
+        buttonSelected = true;
+
         highSchoolButton.setBackground(unSelectedBG);
         vocationalButton.setBackground(unSelectedBG);
         undergraduateButton.setBackground(unSelectedBG);

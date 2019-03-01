@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,11 +19,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply10Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
+    private boolean buttonSelected = false;
 
     public CourseApply10Fragment() {
         // Required empty public constructor
@@ -218,10 +222,35 @@ public class CourseApply10Fragment extends Fragment {
             }
         });
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
     }
 
+    private boolean validateFields() {
+        if (buttonSelected) {
+            return true;
+        }
+        else {
+            Toast.makeText(getContext(), "Please select your english level", Toast.LENGTH_SHORT).show();
+        }
+        
+        return false;
+    }
+
     private void unSelectAllButtons() {
+        buttonSelected = true;
+        
         beginnerButton.setBackground(unSelectedBG);
         elementaryButton.setBackground(unSelectedBG);
         preIntermediateButton.setBackground(unSelectedBG);

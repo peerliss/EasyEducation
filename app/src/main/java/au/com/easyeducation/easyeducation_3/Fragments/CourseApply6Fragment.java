@@ -29,12 +29,15 @@ import com.hbb20.CountryCodePicker;
 import java.util.Calendar;
 
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply6Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
+    private boolean buttonSelected = false;
 
     public CourseApply6Fragment() {
         // Required empty public constructor
@@ -184,6 +187,8 @@ public class CourseApply6Fragment extends Fragment {
     }
 
     private void unSelectAllButtons() {
+        buttonSelected = true;
+
         fullTimeButton.setBackground(unSelectedBG);
         partTimeButton.setBackground(unSelectedBG);
         casualButton.setBackground(unSelectedBG);

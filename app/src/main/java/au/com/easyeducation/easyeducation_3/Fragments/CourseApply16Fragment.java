@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,11 +20,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply16Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
 
     public CourseApply16Fragment() {
         // Required empty public constructor
@@ -62,7 +65,7 @@ public class CourseApply16Fragment extends Fragment {
 
         mMedicalLayout = rootView.findViewById(R.id.courseApplyMedicalIssues_Layout);
         mLegalLayout = rootView.findViewById(R.id.courseApplyLegalIssues_Layout);
-        mVisaLayout = rootView.findViewById(R.id.courseApplyTakeVisaPhoto_Layout);
+        mVisaLayout = rootView.findViewById(R.id.courseApplyVisaIssues_Layout);
         mAATLayout = rootView.findViewById(R.id.courseApplyAATIssues_Layout);
         mOtherLayout = rootView.findViewById(R.id.courseApplyOtherIssues_Layout);
 
@@ -164,7 +167,70 @@ public class CourseApply16Fragment extends Fragment {
             }
         });
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid = true;
+
+        if (mMedicalLayout.getVisibility() == View.VISIBLE) {
+            if (TextUtils.isEmpty(mMedicalIssues.getText()) || mMedicalIssues.length() == 0) {
+                mMedicalIssues.setError("Required.");
+                valid = false;
+            } else {
+                mMedicalIssues.setError(null);
+            }
+        }
+
+        if (mLegalLayout.getVisibility() == View.VISIBLE) {
+            if (TextUtils.isEmpty(mLegalIssues.getText()) || mLegalIssues.length() == 0) {
+                mLegalIssues.setError("Required.");
+                valid = false;
+            } else {
+                mLegalIssues.setError(null);
+            }
+        }
+
+        if (mVisaIssues.getVisibility() == View.VISIBLE) {
+            if (TextUtils.isEmpty(mVisaIssues.getText()) || mVisaIssues.length() == 0) {
+                mVisaIssues.setError("Required.");
+                valid = false;
+            } else {
+                mVisaIssues.setError(null);
+            }
+        }
+
+        if (mAATLayout.getVisibility() == View.VISIBLE) {
+            if (TextUtils.isEmpty(mAATIssues.getText()) || mAATIssues.length() == 0) {
+                mAATIssues.setError("Required.");
+                valid = false;
+            } else {
+                mAATIssues.setError(null);
+            }
+        }
+
+        if (mOtherLayout.getVisibility() == View.VISIBLE) {
+            if (TextUtils.isEmpty(mOtherIssues.getText()) || mOtherIssues.length() == 0) {
+                mOtherIssues.setError("Required.");
+                valid = false;
+            } else {
+                mOtherIssues.setError(null);
+            }
+        }
+
+        return valid;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

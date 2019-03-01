@@ -29,12 +29,14 @@ import com.hbb20.CountryCodePicker;
 import java.util.Calendar;
 
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply4Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
 
     public CourseApply4Fragment() {
         // Required empty public constructor
@@ -194,7 +196,39 @@ public class CourseApply4Fragment extends Fragment {
             }
         });
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(mPassportNumber.getText()) || mPassportNumber.length() == 0) {
+            mPassportNumber.setError("Required.");
+            valid = false;
+        } else {
+            mPassportNumber.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mPassportExpiry.getText()) || mPassportExpiry.length() == 0) {
+            mPassportExpiry.setError("Required.");
+            valid = false;
+        } else {
+            mPassportExpiry.setError(null);
+        }
+
+        return valid;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,11 +26,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply11Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
+    private boolean buttonSelected = false;
 
     public CourseApply11Fragment() {
         // Required empty public constructor
@@ -285,10 +290,56 @@ public class CourseApply11Fragment extends Fragment {
             }
         };
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
     }
 
+    private boolean validateFields() {
+        boolean valid =  true;
+
+        if (!buttonSelected) {
+            Toast.makeText(getContext(), "Please select your english level", Toast.LENGTH_SHORT).show();
+            valid =  false;
+        }
+
+        if (TextUtils.isEmpty(mCourseName.getText()) || mCourseName.length() == 0) {
+            mCourseName.setError("Required.");
+            valid = false;
+        } else {
+            mCourseName.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mInstitutionName.getText()) || mInstitutionName.length() == 0) {
+            mInstitutionName.setError("Required.");
+            valid = false;
+        } else {
+            mInstitutionName.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mCommencementDate.getText()) || mCommencementDate.length() == 0) {
+            mCommencementDate.setError("Required.");
+            valid = false;
+        } else {
+            mCommencementDate.setError(null);
+        }
+
+        return valid;
+    }
+
     private void unSelectAllButtons() {
+        buttonSelected = true;
+
         vocationalButton.setBackground(unSelectedBG);
         tafeButton.setBackground(unSelectedBG);
         undergraduateButton.setBackground(unSelectedBG);

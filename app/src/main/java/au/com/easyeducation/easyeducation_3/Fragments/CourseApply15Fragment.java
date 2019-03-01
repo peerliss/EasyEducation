@@ -18,11 +18,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply15Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
+    private boolean buttonSelected = false;
 
     public CourseApply15Fragment() {
         // Required empty public constructor
@@ -256,7 +259,34 @@ public class CourseApply15Fragment extends Fragment {
             }
         });
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid =  true;
+
+        if (medicalButtonPressed || legalButtonPressed || visaButtonPressed || aatButtonPressed || otherButtonPressed) {
+            buttonSelected = true;
+        }
+
+        if (!buttonSelected) {
+            Toast.makeText(getContext(), "Please select an option.", Toast.LENGTH_SHORT).show();
+            valid =  false;
+        }
+
+        return valid;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,14 @@ import com.hbb20.CountryCodePicker;
 
 import java.util.Calendar;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply13Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private boolean buttonSelected = false;
+    private Button nextButton;
 
     public CourseApply13Fragment() {
         // Required empty public constructor
@@ -53,17 +57,17 @@ public class CourseApply13Fragment extends Fragment {
     private EditText mHighestQualificationName;
     private EditText mHighestQualificationInstitution;
     private CountryCodePicker mQualificationCountry;
-    
+
     private EditText mHighestQualification2Name;
     private EditText mHighestQualification2Institution;
     private CountryCodePicker mQualification2Country;
-    
+
     private EditText mHighestQualification3Name;
     private EditText mHighestQualification3Institution;
     private CountryCodePicker mQualification3Country;
-    
+
     private Button mAddQualificationButton;
-    
+
     private DocumentReference userRef;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -84,11 +88,11 @@ public class CourseApply13Fragment extends Fragment {
         mHighestQualificationName = rootView.findViewById(R.id.courseApplyHighestQualification_Name_ET);
         mHighestQualificationInstitution = rootView.findViewById(R.id.courseApplyHighestQualification_Institute_ET);
         mQualificationCountry = rootView.findViewById(R.id.courseApplyHighestQualification_Country);
-        
+
         mHighestQualification2Name = rootView.findViewById(R.id.courseApplyHighestQualification2_Name_ET);
         mHighestQualification2Institution = rootView.findViewById(R.id.courseApplyHighestQualification2_Institute_ET);
         mQualification2Country = rootView.findViewById(R.id.courseApplyHighestQualification2_Country);
-        
+
         mHighestQualification3Name = rootView.findViewById(R.id.courseApplyHighestQualification3_Name_ET);
         mHighestQualification3Institution = rootView.findViewById(R.id.courseApplyHighestQualification3_Institute_ET);
         mQualification3Country = rootView.findViewById(R.id.courseApplyHighestQualification3_Country);
@@ -110,12 +114,11 @@ public class CourseApply13Fragment extends Fragment {
                 if (documentSnapshot.get("highestQualificationCountry") != null) {
                     mQualificationCountry.setDefaultCountryUsingNameCode(documentSnapshot.getString("highestQualificationCountry"));
                     mQualificationCountry.resetToDefaultCountry();
-                }
-                else if (documentSnapshot.get("highestQualificationCountry") == null){
+                } else if (documentSnapshot.get("highestQualificationCountry") == null) {
                     mQualificationCountry.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryBirthCode"));
                     mQualificationCountry.resetToDefaultCountry();
                 }
-                
+
                 if (documentSnapshot.getString("highestQualification2Name") != null) {
                     mHighestQualification2Name.setText(documentSnapshot.getString("highestQualification2Name"));
                     mQualification2Layout.setVisibility(View.VISIBLE);
@@ -147,32 +150,42 @@ public class CourseApply13Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mQualification2Layout.getVisibility() == View.GONE)
-                if (i == 0) {
-                    mQualification2Layout.setVisibility(View.VISIBLE);
-                    i++;
-                    userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.get("highestQualification2Country") != null) {
-                                mQualification2Country.setDefaultCountryUsingNameCode(documentSnapshot.getString("highestQualification2Country"));
-                                mQualification2Country.resetToDefaultCountry();
-                            } else if (documentSnapshot.get("highestQualification2Country") == null) {
-                                mQualification2Country.setDefaultCountryUsingNameCode(documentSnapshot.getString("highestQualificationCountry"));
-                                mQualification2Country.resetToDefaultCountry();
+                    if (i == 0 && !TextUtils.isEmpty(mHighestQualificationName.getText()) || mHighestQualificationName.length() != 0
+                            && !TextUtils.isEmpty(mHighestQualificationInstitution.getText()) || mHighestQualificationInstitution.length() != 0) {
+                        mQualification2Layout.setVisibility(View.VISIBLE);
+//                        mHighestQualificationName.setError(null);
+//                        mHighestQualificationInstitution.setError(null);
+                        i++;
+                        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.get("highestQualification2Country") != null) {
+                                    mQualification2Country.setDefaultCountryUsingNameCode(documentSnapshot.getString("highestQualification2Country"));
+                                    mQualification2Country.resetToDefaultCountry();
+                                } else if (documentSnapshot.get("highestQualification2Country") == null) {
+                                    mQualification2Country.setDefaultCountryUsingNameCode(documentSnapshot.getString("highestQualificationCountry"));
+                                    mQualification2Country.resetToDefaultCountry();
+                                }
                             }
-                        }
-                    });
-                    return;
-                }
-                if (i == 1) {
+                        });
+                        return;
+                    }
+//                    else {
+//                        mHighestQualificationName.setError("Required.");
+//                        mHighestQualificationInstitution.setError("Required.");
+//                        return;
+//                    }
+                if (i == 1 && !TextUtils.isEmpty(mHighestQualification2Name.getText()) || mHighestQualification2Name.length() != 0
+                        && !TextUtils.isEmpty(mHighestQualificationInstitution.getText()) || mHighestQualificationInstitution.length() != 0) {
+//                    mHighestQualification2Name.setError(null);
+//                    mHighestQualification2Institution.setError(null);
                     userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (mHighestQualification2Name != null && mHighestQualification2Institution != null) {
                                 mQualification3Layout.setVisibility(View.VISIBLE);
                                 mAddQualificationButton.setVisibility(View.GONE);
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(getContext(), "Please enter details for qualification 2 first.", Toast.LENGTH_SHORT).show();
                             }
                             if (documentSnapshot.get("highestQualification3Country") != null) {
@@ -185,9 +198,12 @@ public class CourseApply13Fragment extends Fragment {
                         }
                     });
                 }
+//                else {
+//                    mHighestQualification2Name.setError("Required.");
+//                    mHighestQualification2Institution.setError("Required.");
+//                }
             }
         });
-
 
         mHighestQualificationName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -269,7 +285,39 @@ public class CourseApply13Fragment extends Fragment {
             }
         });
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(mHighestQualificationName.getText()) || mHighestQualificationName.length() == 0) {
+            mHighestQualificationName.setError("Required.");
+            valid = false;
+        } else {
+            mHighestQualificationName.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mHighestQualificationInstitution.getText()) || mHighestQualificationInstitution.length() == 0) {
+            mHighestQualificationInstitution.setError("Required.");
+            valid = false;
+        } else {
+            mHighestQualificationInstitution.setError(null);
+        }
+
+        return valid;
     }
 
     @Override

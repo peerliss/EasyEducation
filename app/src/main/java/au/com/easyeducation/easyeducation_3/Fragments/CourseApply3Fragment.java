@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,11 +23,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply3Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
 
     public CourseApply3Fragment() {
         // Required empty public constructor
@@ -94,13 +97,38 @@ public class CourseApply3Fragment extends Fragment {
                     mUSI_8.setText(String.valueOf(usi.charAt(7)));
                     mUSI_9.setText(String.valueOf(usi.charAt(8)));
                     mUSI_10.setText(String.valueOf(usi.charAt(9)));
+                    usiCode = usi;
                 }
             }
         });
 
         initializeEditTexts();
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid = true;
+        if (usiCode == null) {
+            mUSI_10.setError("Required");
+            valid = false;
+        } else {
+            mUSI_10.setError(null);
+        }
+
+        return valid;
     }
 
     private void initializeEditTexts() {
@@ -249,7 +277,12 @@ public class CourseApply3Fragment extends Fragment {
                     usiCode = usiCode + mUSI_9.getText().toString().trim();
                     usiCode = usiCode + mUSI_10.getText().toString().trim();
 
-                    userRef.update("usi", usiCode);
+                    if (usiCode.length() == 10) {
+                        userRef.update("usi", usiCode);
+                    }
+                    else {
+                        mUSI_10.setError("Required");
+                    }
                 }
                 if (mUSI_10.getText().length() == 0 && KeyEvent.KEYCODE_DEL == keyCode) {
                     mUSI_9.requestFocus();
@@ -258,6 +291,7 @@ public class CourseApply3Fragment extends Fragment {
             }
         });
     }
+
 
     private static void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
