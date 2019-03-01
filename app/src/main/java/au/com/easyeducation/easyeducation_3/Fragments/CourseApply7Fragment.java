@@ -39,12 +39,15 @@ import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply7Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private boolean buttonSelected = false;
+    private Button nextButton;
 
     public CourseApply7Fragment() {
         // Required empty public constructor
@@ -155,6 +158,8 @@ public class CourseApply7Fragment extends Fragment {
                 mSignaturePad.setEnabled(false);
                 mProgressBar.setVisibility(View.VISIBLE);
 
+                buttonSelected = true;
+
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 signatureBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -185,30 +190,33 @@ public class CourseApply7Fragment extends Fragment {
             }
         });
 
-//        fullTimeButton.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                unSelectAllButtons();
-//                fullTimeButton.setBackground(selectedBG);
-//
-//                userRef.update("employmentStatus", "Full Time");
-//
-//                return false;
-//            }
-//        });
-//
-//        fullTimeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                unSelectAllButtons();
-//                fullTimeButton.setBackground(selectedBG);
-//            }
-//        });
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+//                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                Toast.makeText(getContext(), "Course Application Sent", Toast.LENGTH_LONG).show();
+            }
+        });
 
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    private boolean validateFields() {
+        boolean valid =  true;
+
+        if (!buttonSelected) {
+            Toast.makeText(getContext(), "Please sign and press save.", Toast.LENGTH_SHORT).show();
+            valid =  false;
+        }
+
+        return valid;
+    }
+
+        // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

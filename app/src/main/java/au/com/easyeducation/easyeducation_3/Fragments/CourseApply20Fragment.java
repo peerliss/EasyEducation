@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -16,11 +18,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply20Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
 
     public CourseApply20Fragment() {
         // Required empty public constructor
@@ -86,7 +90,38 @@ public class CourseApply20Fragment extends Fragment {
             }
         });
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(mCurrentQualificationName.getText()) || mCurrentQualificationName.length() == 0) {
+            mCurrentQualificationName.setError("Required.");
+            valid = false;
+        } else {
+            mCurrentQualificationName.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mCurrentQualificationInstitution.getText()) || mCurrentQualificationInstitution.length() == 0) {
+            mCurrentQualificationInstitution.setError("Required.");
+            valid = false;
+        } else {
+            mCurrentQualificationInstitution.setError(null);
+        }
+
+        return valid;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

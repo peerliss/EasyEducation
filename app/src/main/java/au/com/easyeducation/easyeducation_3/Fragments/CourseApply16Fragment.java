@@ -111,13 +111,13 @@ public class CourseApply16Fragment extends Fragment {
                     mLegalIssues.setText(documentSnapshot.getString("issuesLegalDetails"));
                 }
                 if (documentSnapshot.getString("issuesVisaDetails") != null) {
-                    mLegalIssues.setText(documentSnapshot.getString("issuesVisaDetails"));
+                    mVisaIssues.setText(documentSnapshot.getString("issuesVisaDetails"));
                 }
                 if (documentSnapshot.getString("issuesAATDetails") != null) {
-                    mLegalIssues.setText(documentSnapshot.getString("issuesAATDetails"));
+                    mAATIssues.setText(documentSnapshot.getString("issuesAATDetails"));
                 }
                 if (documentSnapshot.getString("issuesOtherDetails") != null) {
-                    mLegalIssues.setText(documentSnapshot.getString("issuesOtherDetails"));
+                    mOtherIssues.setText(documentSnapshot.getString("issuesOtherDetails"));
                 }
             }
         });

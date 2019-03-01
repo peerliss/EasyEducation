@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,11 +18,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply19Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private boolean buttonSelected = false;
+    private Button nextButton;
 
     public CourseApply19Fragment() {
         // Required empty public constructor
@@ -74,9 +78,6 @@ public class CourseApply19Fragment extends Fragment {
                         mCurrentlyStudyingYes.performClick();
                     }
                 }
-                else if (documentSnapshot.getString("currentlyStudying") == null) {
-                    mCurrentlyStudyingYes.performClick();
-                }
             }
         });
 
@@ -121,10 +122,35 @@ public class CourseApply19Fragment extends Fragment {
         });
 
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
     }
 
+    private boolean validateFields() {
+        boolean valid =  true;
+
+        if (!buttonSelected) {
+            Toast.makeText(getContext(), "Please select Yes or No.", Toast.LENGTH_SHORT).show();
+            valid =  false;
+        }
+
+        return valid;
+    }
+
     private void unSelectAllButtons() {
+        buttonSelected = true;
+
         mCurrentlyStudyingNo.setBackground(unSelectedBG);
         mCurrentlyStudyingYes.setBackground(unSelectedBG);
     }

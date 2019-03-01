@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,11 +25,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
+import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply18Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private Button nextButton;
 
     public CourseApply18Fragment() {
         // Required empty public constructor
@@ -150,8 +153,48 @@ public class CourseApply18Fragment extends Fragment {
             }
         };
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
     }
+
+    private boolean validateFields() {
+        boolean valid = true;
+
+        if (TextUtils.isEmpty(mHealthInsuranceProviderName.getText()) || mHealthInsuranceProviderName.length() == 0) {
+            mHealthInsuranceProviderName.setError("Required.");
+            valid = false;
+        } else {
+            mHealthInsuranceProviderName.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mHealthInsuranceMembershipNumber.getText()) || mHealthInsuranceMembershipNumber.length() == 0) {
+            mHealthInsuranceMembershipNumber.setError("Required.");
+            valid = false;
+        } else {
+            mHealthInsuranceMembershipNumber.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mHealthInsuranceExpiryDate.getText()) || mHealthInsuranceExpiryDate.length() == 0) {
+            mHealthInsuranceExpiryDate.setError("Required.");
+            valid = false;
+        } else {
+            mHealthInsuranceExpiryDate.setError(null);
+        }
+
+        return valid;
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

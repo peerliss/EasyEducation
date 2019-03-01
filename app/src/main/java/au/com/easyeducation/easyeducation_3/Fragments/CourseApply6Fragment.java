@@ -183,7 +183,29 @@ public class CourseApply6Fragment extends Fragment {
             }
         });
 
+        nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFields()) {
+                    return;
+                }
+                ((CourseApplicationNewActivity) getActivity()).addFragment();
+            }
+        });
+
         return rootView;
+    }
+
+    private boolean validateFields() {
+        boolean valid =  true;
+
+        if (!buttonSelected) {
+            Toast.makeText(getContext(), "Please select an option.", Toast.LENGTH_SHORT).show();
+            valid =  false;
+        }
+
+        return valid;
     }
 
     private void unSelectAllButtons() {
