@@ -70,16 +70,13 @@ public class CourseApply21Fragment extends Fragment {
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.getString("applyinForRPL") != null) {
-                    if (documentSnapshot.getString("applyinForRPL").matches("No")) {
+                if (documentSnapshot.getString("applyingForRPL") != null) {
+                    if (documentSnapshot.getString("applyingForRPL").matches("No")) {
                         mRPLNo.performClick();
                     }
-                    if (documentSnapshot.getString("applyinForRPL").matches("Yes")) {
+                    if (documentSnapshot.getString("applyingForRPL").matches("Yes")) {
                         mRPLYes.performClick();
                     }
-                }
-                else if (documentSnapshot.getString("applyinForRPL") == null) {
-                    mRPLYes.performClick();
                 }
             }
         });
@@ -90,7 +87,7 @@ public class CourseApply21Fragment extends Fragment {
                 unSelectAllButtons();
                 mRPLNo.setBackground(selectedBG);
 
-                userRef.update("applyinForRPL", "No");
+                userRef.update("applyingForRPL", "No");
 
                 return false;
             }
@@ -110,7 +107,7 @@ public class CourseApply21Fragment extends Fragment {
                 unSelectAllButtons();
                 mRPLYes.setBackground(selectedBG);
 
-                userRef.update("applyinForRPL", "Yes");
+                userRef.update("applyingForRPL", "Yes");
 
                 return false;
             }

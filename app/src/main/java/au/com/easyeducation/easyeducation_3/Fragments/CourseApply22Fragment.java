@@ -78,9 +78,9 @@ public class CourseApply22Fragment extends Fragment {
                         mNameChangedYes.performClick();
                     }
                 }
-                else if (documentSnapshot.getString("nameChanged") == null) {
-                    mNameChangedNo.performClick();
-                }
+//                else if (documentSnapshot.getString("nameChanged") == null) {
+//                    mNameChangedNo.performClick();
+//                }
             }
         });
 

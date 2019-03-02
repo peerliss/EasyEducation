@@ -16,6 +16,14 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply10Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply11Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply12Fragment;
@@ -39,6 +47,8 @@ import au.com.easyeducation.easyeducation_3.Fragments.CourseApply6Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply7Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply8Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply9Fragment;
+import au.com.easyeducation.easyeducation_3.Model.CourseApplication;
+import au.com.easyeducation.easyeducation_3.Model.Institution;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApplicationNewActivity extends AppCompatActivity {
@@ -54,6 +64,13 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
     private String instituteRefString;
     private String courseRefString;
 
+    private DocumentReference userRef;
+    private StorageReference signatureRef;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private FirebaseStorage firebaseStorage;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +82,15 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
 
         Drawable gradient = getResources().getDrawable(R.drawable.gradient);
         getSupportActionBar().setBackgroundDrawable(gradient);
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+        db = FirebaseFirestore.getInstance();
+        userRef = db.collection("users").document(mAuth.getUid());
+
+        firebaseStorage = FirebaseStorage.getInstance();
+        signatureRef = firebaseStorage.getReference("users/" + mAuth.getUid() + "/signature.png");
 
         Intent intent = getIntent();
 
@@ -218,6 +244,36 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.courseApply_fragment_container, fragment, "CourseApplyFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void completeApplication() {
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                DocumentReference instituteRef = db.collection("institutions").document(instituteRefString);
+                DocumentReference courseRef = instituteRef.collection("courses").document(courseRefString);
+
+                instituteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        userRef.update("institutionName", documentSnapshot.getString("name"));
+                        userRef.update("institutionCricos", documentSnapshot.getString("cricos"));
+                    }
+                });
+
+                courseRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        userRef.update("courseName", documentSnapshot.getString("name"));
+                        userRef.update("courseCode", documentSnapshot.getString("courseCode"));
+                    }
+                });
+
+                CourseApplication courseApplication = documentSnapshot.toObject(CourseApplication.class);
+                userRef.collection("Applications").document().set(courseApplication);
+                instituteRef.collection("Applications").document().set(courseApplication);
+            }
+        });
     }
 
     @Override

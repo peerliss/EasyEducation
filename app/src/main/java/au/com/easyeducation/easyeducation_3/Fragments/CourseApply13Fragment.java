@@ -226,7 +226,7 @@ public class CourseApply13Fragment extends Fragment {
         mQualificationCountry.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
-//                userRef.update("highestQualificationCountry", mQualificationCountry.getSelectedCountryName());
+                userRef.update("highestQualificationCountryName", mQualificationCountry.getSelectedCountryName());
                 userRef.update("highestQualificationCountry", mQualificationCountry.getSelectedCountryNameCode());
             }
         });
@@ -253,7 +253,7 @@ public class CourseApply13Fragment extends Fragment {
         mQualification2Country.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
-//                userRef.update("highestQualification2Country", mQualification2Country.getSelectedCountryName());
+                userRef.update("highestQualification2CountryName", mQualification2Country.getSelectedCountryName());
                 userRef.update("highestQualification2Country", mQualification2Country.getSelectedCountryNameCode());
             }
         });
@@ -280,7 +280,7 @@ public class CourseApply13Fragment extends Fragment {
         mQualification3Country.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
-//                userRef.update("highestQualification3Country", mQualification3Country.getSelectedCountryName());
+                userRef.update("highestQualification3CountryName", mQualification3Country.getSelectedCountryName());
                 userRef.update("highestQualification3Country", mQualification3Country.getSelectedCountryNameCode());
             }
         });

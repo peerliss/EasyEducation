@@ -161,6 +161,10 @@ public class CourseApply8Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
+                userRef.update("homeCountry", homeCountry.getSelectedCountryName());
+                userRef.update("homeCountryCode", homeCountry.getSelectedCountryNameCode());
+                userRef.update("homeCountryAddress", mStreet.getText() + ", " + mSuburb.getText()
+                        + ", " + mState.getText() + ", " + mPostCode.getText() + ", " + homeCountry.getSelectedCountryName());
                 ((CourseApplicationNewActivity) getActivity()).addFragment();
             }
         });

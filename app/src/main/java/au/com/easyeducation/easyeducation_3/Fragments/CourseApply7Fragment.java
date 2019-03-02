@@ -101,28 +101,6 @@ public class CourseApply7Fragment extends Fragment {
 
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         signatureRef = firebaseStorage.getReference("users/" + mAuth.getUid() + "/signature.png");
-//        signatureRef = firebaseStorage.getReferenceFromUrl("gs://easy-education-92fce.appspot.com/users"
-//                + mAuth.getUid() + "signature.png");
-
-//        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                if (documentSnapshot.getString("employmentStatus") != null) {
-//                    if (documentSnapshot.getString("employmentStatus").matches("Full Time")) {
-//                        fullTimeButton.performClick();
-//                    }
-//                    if (documentSnapshot.getString("employmentStatus").matches("Part Time")) {
-//                        partTimeButton.performClick();
-//                    }
-//                    if (documentSnapshot.getString("employmentStatus").matches("Casual")) {
-//                        casualButton.performClick();
-//                    }
-//                    if (documentSnapshot.getString("employmentStatus").matches("Unemployed")) {
-//                        unemployedButton.performClick();
-//                    }
-//                }
-//            }
-//        });
 
         mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
@@ -197,7 +175,8 @@ public class CourseApply7Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-//                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).completeApplication();
+
                 Toast.makeText(getContext(), "Course Application Sent", Toast.LENGTH_LONG).show();
             }
         });
@@ -206,17 +185,17 @@ public class CourseApply7Fragment extends Fragment {
     }
 
     private boolean validateFields() {
-        boolean valid =  true;
+        boolean valid = true;
 
         if (!buttonSelected) {
             Toast.makeText(getContext(), "Please sign and press save.", Toast.LENGTH_SHORT).show();
-            valid =  false;
+            valid = false;
         }
 
         return valid;
     }
 
-        // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
