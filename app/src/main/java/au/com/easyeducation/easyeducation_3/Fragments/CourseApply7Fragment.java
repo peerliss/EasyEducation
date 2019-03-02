@@ -136,8 +136,6 @@ public class CourseApply7Fragment extends Fragment {
                 mSignaturePad.setEnabled(false);
                 mProgressBar.setVisibility(View.VISIBLE);
 
-                buttonSelected = true;
-
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 signatureBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -158,10 +156,11 @@ public class CourseApply7Fragment extends Fragment {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         mProgressBar.setVisibility(View.GONE);
                         mSignaturePad.setEnabled(true);
-//                        Toast.makeText(getContext(), "Signature successfully saved", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Signature successfully saved", Toast.LENGTH_SHORT).show();
 
                         userRef.update("signedApplicationForm", "Yes");
 
+                        buttonSelected = true;
                         amountOfTimesSaved++; // add if (amountOfTimesSigned != amountOfTimesSaved) then save when applying
                     }
                 });

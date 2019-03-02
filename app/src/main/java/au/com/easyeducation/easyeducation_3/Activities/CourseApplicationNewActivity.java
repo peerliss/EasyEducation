@@ -3,6 +3,7 @@ package au.com.easyeducation.easyeducation_3.Activities;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -267,8 +269,14 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
                         userRef.update("courseName", documentSnapshot.getString("name"));
                         userRef.update("courseCode", documentSnapshot.getString("courseCode"));
                     }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CourseApplicationNewActivity.this, "Failed to get course details - " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 });
 
+                userRef.update("applicationStatus", "Pending");
                 CourseApplication courseApplication = documentSnapshot.toObject(CourseApplication.class);
                 userRef.collection("Applications").document().set(courseApplication);
                 instituteRef.collection("Applications").document().set(courseApplication);
