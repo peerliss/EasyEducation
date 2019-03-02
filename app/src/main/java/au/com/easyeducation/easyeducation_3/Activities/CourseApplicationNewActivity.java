@@ -50,6 +50,10 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
+    private String businessTypeString;
+    private String instituteRefString;
+    private String courseRefString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,12 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
 
         Drawable gradient = getResources().getDrawable(R.drawable.gradient);
         getSupportActionBar().setBackgroundDrawable(gradient);
+
+        Intent intent = getIntent();
+
+        businessTypeString = intent.getExtras().getString("businessType");
+        instituteRefString = intent.getExtras().getString("businessRef");
+        courseRefString = intent.getExtras().getString("courseRef");
 
         findViewById(R.id.container).setVisibility(View.GONE);
 
@@ -95,7 +105,8 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
         if (backStackEntryCount == 0) {
             addFragment();
         }
-//        nextButton.setVisibility(View.GONE);
+
+        setResult(RESULT_OK, intent);
     }
 
     public void addFragment() {

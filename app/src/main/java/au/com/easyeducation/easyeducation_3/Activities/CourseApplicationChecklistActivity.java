@@ -3,6 +3,7 @@ package au.com.easyeducation.easyeducation_3.Activities;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -44,13 +45,34 @@ public class CourseApplicationChecklistActivity extends AppCompatActivity {
         beginApplicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), CourseApplicationActivity.class);
                 Intent intent = new Intent(getApplicationContext(), CourseApplicationNewActivity.class);
-                startActivity(intent);
+                intent.putExtra("businessType", businessTypeString);
+                intent.putExtra("businessRef", instituteRefString);
+                intent.putExtra("courseRef", courseRefString);
+                startActivityForResult(intent, 1);
             }
         });
 
         setResult(RESULT_OK, intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                if (data.getStringExtra("businessType") != null) {
+                    businessTypeString = data.getStringExtra("businessType");
+                    instituteRefString = data.getStringExtra("businessRef");
+                    courseRefString = data.getStringExtra("courseRef");
+//                    Toast.makeText(this, businessTypeString + instituteRefString + courseRefString, Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(this, "businessType is null", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     @Override
