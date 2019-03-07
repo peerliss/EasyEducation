@@ -2,11 +2,16 @@ package au.com.easyeducation.easyeducation_3.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,16 +21,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
 
+import java.io.File;
 import java.util.Calendar;
 
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
@@ -33,10 +44,14 @@ import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActiv
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
+import static android.app.Activity.RESULT_OK;
+
 public class CourseApply4Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private Button nextButton;
+    private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
 
     public CourseApply4Fragment() {
         // Required empty public constructor
@@ -56,6 +71,8 @@ public class CourseApply4Fragment extends Fragment {
     private EditText mPassportExpiry;
 
     private LinearLayout mPassportPhotoLayout;
+    private ImageView mImageView1;
+    private static final int CAMERA_REQUEST_CODE = 1;
 
     String name;
     String surname;
@@ -63,6 +80,8 @@ public class CourseApply4Fragment extends Fragment {
     String passportExpiryDate;
 
     private DocumentReference userRef;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference passportPhoto1Ref;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
@@ -73,19 +92,26 @@ public class CourseApply4Fragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_course_apply_4, container, false);
 
         mPassportNumber = rootView.findViewById(R.id.courseApplyPassportNumber_ET);
         mPassportExpiry = rootView.findViewById(R.id.courseApplyPassportExpiry_ET);
 
+        mImageView1 = rootView.findViewById(R.id.courseApplyTakePassportPhoto_ImageView1);
+
         mPassportPhotoLayout = rootView.findViewById(R.id.courseApplyTakePassportPhoto_Layout);
+
+        progressDialog = new ProgressDialog(getContext());
 
         final CountryCodePicker mCourseApplyCountryCitizenship = rootView.findViewById(R.id.courseApplyCountryCitizenship);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        firebaseStorage = FirebaseStorage.getInstance();
+//        passportPhoto1Ref = firebaseStorage.getReference("users/" + mAuth.getUid() + "/passport_photo_1.png");
 
         userRef = db.collection("users").document(mAuth.getUid());
 
@@ -106,7 +132,7 @@ public class CourseApply4Fragment extends Fragment {
 //                }
 //                if (documentSnapshot.getString("visaSubclass") != null) {
 //                    mVisaSubclass.setText(documentSnapshot.getString("visaSubclass"));
-//                }
+    //                }
                 if (documentSnapshot.get("countryCitizenshipCode") != null) {
                     mCourseApplyCountryCitizenship.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryCitizenshipCode"));
                     mCourseApplyCountryCitizenship.resetToDefaultCountry();
@@ -189,13 +215,6 @@ public class CourseApply4Fragment extends Fragment {
             }
         });
 
-        mPassportPhotoLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-            }
-        });
-
         nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -212,10 +231,48 @@ public class CourseApply4Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Passport photo click", Toast.LENGTH_SHORT).show();
+
+                try {
+                    Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(camera_intent, CAMERA_REQUEST_CODE);
+                }
+                catch (Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            progressDialog.setMessage("Uploading Image...");
+            progressDialog.show();
+
+            Uri uri = data.getData();
+
+//            passportPhoto1Ref = firebaseStorage.getReference("users/" + mAuth.getUid() + "/Passport" + "/passport_photo_1.png");
+//            Will overwrite the images
+            passportPhoto1Ref = firebaseStorage.getReference("users/" + mAuth.getUid() + "/Passport" + uri.getLastPathSegment());
+
+            passportPhoto1Ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getContext(), "Image successfully saved", Toast.LENGTH_LONG).show();
+
+                    progressDialog.dismiss();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        }
     }
 
     private boolean validateFields() {

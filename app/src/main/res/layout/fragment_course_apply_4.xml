@@ -171,6 +171,12 @@
                 android:text="Please ensure you take a photo of the front page which contains your image and the back page which may contain your address and other details"
                 android:textAlignment="center" />
 
+            <ImageView
+                android:id="@+id/courseApplyTakePassportPhoto_ImageView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/flag_transparent" />
+
         </LinearLayout>
     </ScrollView>
 
