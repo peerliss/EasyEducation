@@ -208,6 +208,13 @@ public class CourseApply4Fragment extends Fragment {
             }
         });
 
+        mPassportPhotoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Passport photo click", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return rootView;
     }
 

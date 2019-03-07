@@ -17,13 +17,13 @@ public class CourseApplication {
     private String currentlyStudying, currentQualificationName, currentQualificationInstitution;
     private String applyingForRPL, nameChanged, previousName, employmentStatus;
     private String institutionName, institutionCricos, courseName, courseCode;
-    private String applicationStatus;
+    private String applicationStatus, uid;
 
     public CourseApplication() {
 
     }
 
-    public CourseApplication(String name, String surname, String fullname, String email, String number, String dob, String gender, String countryBirth, String street, String suburb, String state, String postCode, String currentAddress, String homeCountryStreet, String homeCountrySuburb, String homeCountryState, String homeCountryPostCode, String homeCountry, String homeCountryAddress, String usi, String passportNumber, String passportExpiryDate, String countryCitizenship, String visaType, String visaSubclass, String visaExpiryDate, String visaNumber, String englishLevel, String englishTest, String englishTestDate, String englishTestResults, String englishTestMainLanguageSpoken, String furtherStudies, String furtherStudiesCourse, String furtherStudiesInstitution, String furtherStudiesCommencementDate, String highestQualification, String highestQualificationName, String highestQualificationInstitution, String highestQualificationCountryName, String highestQualification2Name, String highestQualification2Institution, String highestQualification2CountryName, String highestQualification3Name, String highestQualification3Institution, String highestQualification3CountryName, String issues, String issuesMedical, String issuesLegal, String issuesVisa, String issuesAAT, String issuesOther, String issuesMedicalDetails, String issuesLegalDetails, String issuesVisaDetails, String issuesAATDetails, String issuesOtherDetails, String healthInsurance, String healthInsuranceProviderName, String healthInsuranceMembershipNumber, String healthInsuranceExpiryDate, String currentlyStudying, String currentQualificationName, String currentQualificationInstitution, String applyingForRPL, String nameChanged, String previousName, String employmentStatus, String institutionName, String institutionCricos, String courseName, String courseCode, String applicationStatus) {
+    public CourseApplication(String name, String surname, String fullname, String email, String number, String dob, String gender, String countryBirth, String street, String suburb, String state, String postCode, String currentAddress, String homeCountryStreet, String homeCountrySuburb, String homeCountryState, String homeCountryPostCode, String homeCountry, String homeCountryAddress, String usi, String passportNumber, String passportExpiryDate, String countryCitizenship, String visaType, String visaSubclass, String visaExpiryDate, String visaNumber, String englishLevel, String englishTest, String englishTestDate, String englishTestResults, String englishTestMainLanguageSpoken, String furtherStudies, String furtherStudiesCourse, String furtherStudiesInstitution, String furtherStudiesCommencementDate, String highestQualification, String highestQualificationName, String highestQualificationInstitution, String highestQualificationCountryName, String highestQualification2Name, String highestQualification2Institution, String highestQualification2CountryName, String highestQualification3Name, String highestQualification3Institution, String highestQualification3CountryName, String issues, String issuesMedical, String issuesLegal, String issuesVisa, String issuesAAT, String issuesOther, String issuesMedicalDetails, String issuesLegalDetails, String issuesVisaDetails, String issuesAATDetails, String issuesOtherDetails, String healthInsurance, String healthInsuranceProviderName, String healthInsuranceMembershipNumber, String healthInsuranceExpiryDate, String currentlyStudying, String currentQualificationName, String currentQualificationInstitution, String applyingForRPL, String nameChanged, String previousName, String employmentStatus, String institutionName, String institutionCricos, String courseName, String courseCode, String applicationStatus, String uid) {
         this.name = name;
         this.surname = surname;
         this.fullname = fullname;
@@ -97,6 +97,7 @@ public class CourseApplication {
         this.courseName = courseName;
         this.courseCode = courseCode;
         this.applicationStatus = applicationStatus;
+        this.uid = uid;
     }
 
     public String getName() {
@@ -389,5 +390,9 @@ public class CourseApplication {
 
     public String getApplicationStatus() {
         return applicationStatus;
+    }
+
+    public String getUid() {
+        return uid;
     }
 }

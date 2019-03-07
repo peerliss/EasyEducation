@@ -71,6 +71,8 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private FirebaseStorage firebaseStorage;
+    private DocumentReference instituteRef;
+    private DocumentReference courseRef;
 
 
     @Override
@@ -133,6 +135,25 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
         if (backStackEntryCount == 0) {
             addFragment();
         }
+
+        instituteRef = db.collection("institutions").document(instituteRefString);
+        courseRef = instituteRef.collection("courses").document(courseRefString);
+
+        instituteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userRef.update("institutionName", documentSnapshot.getString("name"));
+                userRef.update("institutionCricos", documentSnapshot.getString("cricos"));
+            }
+        });
+
+        courseRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userRef.update("courseName", documentSnapshot.getString("name"));
+                userRef.update("courseCode", documentSnapshot.getString("courseCode"));
+            }
+        });
 
         setResult(RESULT_OK, intent);
     }
@@ -252,34 +273,11 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                DocumentReference instituteRef = db.collection("institutions").document(instituteRefString);
-                DocumentReference courseRef = instituteRef.collection("courses").document(courseRefString);
-
-                instituteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        userRef.update("institutionName", documentSnapshot.getString("name"));
-                        userRef.update("institutionCricos", documentSnapshot.getString("cricos"));
-                    }
-                });
-
-                courseRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        userRef.update("courseName", documentSnapshot.getString("name"));
-                        userRef.update("courseCode", documentSnapshot.getString("courseCode"));
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CourseApplicationNewActivity.this, "Failed to get course details - " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
+                userRef.update("uid", mAuth.getUid());
                 userRef.update("applicationStatus", "Pending");
                 CourseApplication courseApplication = documentSnapshot.toObject(CourseApplication.class);
-                userRef.collection("Applications").document().set(courseApplication);
-                instituteRef.collection("Applications").document().set(courseApplication);
+                userRef.collection("Applications").document(instituteRef.getId()).set(courseApplication);
+                instituteRef.collection("Applications").document(mAuth.getUid()).set(courseApplication);
             }
         });
     }
