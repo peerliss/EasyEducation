@@ -1,19 +1,25 @@
 package au.com.easyeducation.easyeducation_3.Fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,9 +41,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
@@ -45,13 +54,19 @@ import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsAct
 import au.com.easyeducation.easyeducation_3.R;
 
 import static android.app.Activity.RESULT_OK;
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 public class CourseApply4Fragment extends Fragment {
 
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private OnFragmentInteractionListener mListener;
     private Button nextButton;
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
+    private Uri pictureUri;
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
 
     public CourseApply4Fragment() {
         // Required empty public constructor
@@ -233,11 +248,12 @@ public class CourseApply4Fragment extends Fragment {
                 Toast.makeText(getContext(), "Passport photo click", Toast.LENGTH_SHORT).show();
 
                 try {
-                    Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(camera_intent, CAMERA_REQUEST_CODE);
+                    verifyPermissions();
+//                    Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    startActivityForResult(camera_intent, CAMERA_REQUEST_CODE);
                 }
                 catch (Exception e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -251,28 +267,99 @@ public class CourseApply4Fragment extends Fragment {
 
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             progressDialog.setMessage("Uploading Image...");
-            progressDialog.show();
+//            progressDialog.show();
 
-            Uri uri = data.getData();
+            try {
+                Uri uri = data.getData();
 
 //            passportPhoto1Ref = firebaseStorage.getReference("users/" + mAuth.getUid() + "/Passport" + "/passport_photo_1.png");
 //            Will overwrite the images
-            passportPhoto1Ref = firebaseStorage.getReference("users/" + mAuth.getUid() + "/Passport" + uri.getLastPathSegment());
+                passportPhoto1Ref = firebaseStorage.getReference("users/" + mAuth.getUid() + "/Passport" + "Passport_photo_1.jpg");
 
-            passportPhoto1Ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getContext(), "Image successfully saved", Toast.LENGTH_LONG).show();
+//                passportPhoto1Ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                passportPhoto1Ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getContext(), "Image successfully saved", Toast.LENGTH_LONG).show();
 
-                    progressDialog.dismiss();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
 
-                }
-            });
+                        Uri downloadUri = taskSnapshot.getUploadSessionUri();
+
+                        Picasso.get().load(downloadUri).fit().centerCrop().into(mImageView1);
+
+                        mImageView1.setVisibility(View.VISIBLE);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Image save failure - " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            catch (Exception e) {
+                Toast.makeText(getContext(), "OnActvitiyResult exception - " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
+    }
+
+    private void verifyPermissions() {
+        Log.d("Verify Camera Permission", "verifyPermissions: asking user for permissions");
+        String cameraPermission[] = {Manifest.permission.CAMERA};
+
+        if (ContextCompat.checkSelfPermission(getContext(), cameraPermission[0]) == PackageManager.PERMISSION_GRANTED) {
+            Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(camera_intent, CAMERA_REQUEST_CODE);
+
+//            final Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            pictureUri = Uri.fromFile(getOutputMediaFile(MEDIA_TYPE_IMAGE));
+//            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,pictureUri);
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+        else {
+            ActivityCompat.requestPermissions(getActivity(), cameraPermission, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new   File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+        } else if(type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "VID_"+ timeStamp + ".mp4");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        verifyPermissions();
     }
 
     private boolean validateFields() {
