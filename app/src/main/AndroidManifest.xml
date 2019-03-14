@@ -66,15 +66,6 @@
                 android:value="au.com.easyeducation.easyeducation_3.Activities.LoginActivity" />
         </activity>
         <activity
-            android:name=".Activities.AgentRegisterActivity"
-            android:label="@string/title_activity_agent_register"
-            android:parentActivityName=".Activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".Activities.RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".Activities.LoginActivity"
@@ -95,14 +86,7 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity> <!-- <fragment android:name=".Fragments.AgentFragment"/> -->
+        </activity>
         <activity
             android:name=".Activities.ProfileActivity"
             android:label="@string/title_activity_profile"

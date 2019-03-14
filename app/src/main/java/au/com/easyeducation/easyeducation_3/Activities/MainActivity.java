@@ -1,15 +1,11 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,14 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -34,9 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import au.com.easyeducation.easyeducation_3.Adapter.FirestoreAgentAdapter;
 import au.com.easyeducation.easyeducation_3.Adapter.FirestoreInstitutionAdapter;
-import au.com.easyeducation.easyeducation_3.Model.Agent;
 import au.com.easyeducation.easyeducation_3.Model.Institution;
 import au.com.easyeducation.easyeducation_3.R;
 
@@ -46,16 +37,13 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private DatabaseReference mDatabase;
-    private CollectionReference agentRef;
     private CollectionReference institutionRef;
 
-    private FirestoreAgentAdapter firestoreAgentAdapter;
     private FirestoreInstitutionAdapter firestoreInstitutionAdapter;
 
-    Button agentButton;
     Button instituteButton;
     //    SearchView searchView;
-    RecyclerView agentRecyclerView;
+    RecyclerView institutionRecyclerView;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -82,72 +70,21 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
 
         db = FirebaseFirestore.getInstance();
-        agentRef = db.collection("agents");
         institutionRef = db.collection("institutions");
 
-        agentButton = findViewById(R.id.agent_button);
         instituteButton = findViewById(R.id.institution_button);
 //        searchView = findViewById(R.id.searchView);
-        agentRecyclerView = findViewById(R.id.main_recyclerView);
+        institutionRecyclerView = findViewById(R.id.main_recyclerView);
 
 //        searchView.clearFocus();
-//        agentButton.setPressed(true);
+
         instituteButton.setPressed(true);
 
-        agentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        institutionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        setupAgentFirestoreRecyclerView();
         setupInstitutionFirestoreRecyclerView();
 
-        agentButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (instituteButton.isPressed()) {
-                    instituteButton.setPressed(false);
-                }
-
-                agentRecyclerView.setAdapter(firestoreAgentAdapter);
-
-                agentButton.setPressed(true);
-                return true;
-            }
-        });
-
-        instituteButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (agentButton.isPressed()) {
-                    agentButton.setPressed(false);
-                }
-
-                agentRecyclerView.setAdapter(firestoreInstitutionAdapter);
-
-                instituteButton.setPressed(true);
-                return true;
-            }
-        });
-
 //        cloneDocument();
-    }
-
-    private void setupAgentFirestoreRecyclerView() {
-        Query query = agentRef;
-
-        FirestoreRecyclerOptions<Agent> options = new FirestoreRecyclerOptions.Builder<Agent>()
-                .setQuery(query, Agent.class)
-                .build();
-
-        firestoreAgentAdapter = new FirestoreAgentAdapter(options);
-
-        firestoreAgentAdapter.setOnItemClickListener(new FirestoreAgentAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentReference documentReference) {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                intent.putExtra("businessType", "Agent");
-                intent.putExtra("businessRef", documentReference.getId());
-                startActivity(intent);
-            }
-        });
     }
 
     private void setupInstitutionFirestoreRecyclerView() {
@@ -159,7 +96,7 @@ public class MainActivity extends AppCompatActivity
 
         firestoreInstitutionAdapter = new FirestoreInstitutionAdapter(options);
 
-        agentRecyclerView.setAdapter(firestoreInstitutionAdapter);
+        institutionRecyclerView.setAdapter(firestoreInstitutionAdapter);
 
         firestoreInstitutionAdapter.setOnItemClickListener(new FirestoreInstitutionAdapter.OnItemClickListener() {
             @Override
@@ -179,7 +116,6 @@ public class MainActivity extends AppCompatActivity
 //        FirebaseUser currentUser = mAuth.getCurrentUser();
 //        updateUI(currentUser);
 
-        firestoreAgentAdapter.startListening();
         firestoreInstitutionAdapter.startListening();
     }
 
@@ -187,13 +123,12 @@ public class MainActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
 
-        firestoreAgentAdapter.stopListening();
         firestoreInstitutionAdapter.stopListening();
     }
 
     // Clone a document in Firestore
     private void cloneDocument() {
-        agentRef.document("Agent1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        institutionRef.document("Institution 1").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Institution institution = documentSnapshot.toObject(Institution.class);
@@ -282,11 +217,6 @@ public class MainActivity extends AppCompatActivity
         mAuth.signOut();
 
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClick_createAgent(MenuItem item) {
-        Intent intent = new Intent(getApplicationContext(), AgentRegisterActivity.class);
         startActivity(intent);
     }
 
