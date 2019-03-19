@@ -174,7 +174,7 @@
             <ImageView
                 android:id="@+id/courseApplyTakePassportPhoto_ImageView1"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="500dp"
                 android:src="@drawable/flag_transparent"
                 android:visibility="gone" />
 
