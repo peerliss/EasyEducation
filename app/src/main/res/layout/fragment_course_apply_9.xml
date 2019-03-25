@@ -9,6 +9,7 @@
     tools:context=".Fragments.CourseApply9Fragment">
 
     <ScrollView
+        android:id="@+id/courseApplyVisa_Scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:isScrollContainer="true">
@@ -76,14 +77,27 @@
                 android:padding="13dp"
                 android:textSize="18sp" />
 
+
+            <LinearLayout
+                android:id="@+id/courseApplyViewVisaPhoto_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/courseApplyTakeVisaPhoto_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:background="@drawable/profile_buttons_border_unselected"
+                android:clickable="true"
                 android:gravity="center_vertical"
                 android:paddingStart="25dp"
-                android:paddingEnd="25dp">
+                android:paddingEnd="25dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp">
 
                 <ImageView
                     android:id="@+id/imageButton"

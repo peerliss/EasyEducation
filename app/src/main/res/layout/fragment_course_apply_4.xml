@@ -105,53 +105,11 @@
                 android:text="Nationality as shown on your passport"
                 android:textAlignment="center" />
 
-            <!--<EditText-->
-            <!--android:id="@+id/courseApplyVisaType_ET"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--android:background="@drawable/et_background"-->
-            <!--android:ems="10"-->
-            <!--android:hint="Visa type"-->
-            <!--android:inputType="textPersonName"-->
-            <!--android:padding="13dp"-->
-            <!--android:textSize="18sp"-->
-            <!--android:visibility="gone" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/courseApplyVisaSubclass_ET"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--android:background="@drawable/et_background"-->
-            <!--android:ems="10"-->
-            <!--android:hint="Visa subclass"-->
-            <!--android:inputType="textPersonName"-->
-            <!--android:padding="13dp"-->
-            <!--android:textSize="18sp"-->
-            <!--android:visibility="gone" />-->
-
             <LinearLayout
                 android:id="@+id/courseApplyViewPassportPhoto_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/courseApplyTakePassportPhoto_ImageView1"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="500dp"-->
-                    <!--android:layout_marginBottom="25dp"-->
-                    <!--android:src="@drawable/flag_transparent"-->
-                    <!--android:visibility="gone" />-->
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/courseApplyTakePassportPhoto_ImageView2"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="500dp"-->
-                    <!--android:layout_marginBottom="25dp"-->
-                    <!--android:src="@drawable/flag_transparent"-->
-                    <!--android:visibility="gone" />-->
 
             </LinearLayout>
 

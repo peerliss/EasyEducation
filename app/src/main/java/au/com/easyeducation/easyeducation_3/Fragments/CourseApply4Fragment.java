@@ -82,8 +82,6 @@ public class CourseApply4Fragment extends Fragment {
     private EditText mPassportNumber;
     private EditText mPassportExpiry;
 
-    private LinearLayout mPassportPhotoLayout;
-    private Button mPassportPhoto2Button;
     private ImageView mImageView1;
     private ImageView mPasportPhoto2_ImageView;
     private StorageReference passportPhoto2Ref;
@@ -95,9 +93,6 @@ public class CourseApply4Fragment extends Fragment {
     String passportExpiryDate;
 
     private DocumentReference userRef;
-    private FirebaseStorage firebaseStorage;
-    private StorageReference passportPhotoRef;
-    private Boolean isValid = true;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
@@ -105,22 +100,28 @@ public class CourseApply4Fragment extends Fragment {
     int mMonth;
     int mDay;
 
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PASSPORT_PHOTO_2 = 2;
     private OnFragmentInteractionListener mListener;
     private Button nextButton;
-    private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
     private Uri pictureUri;
-    private String currentPhotoPath;
-    private int photoTakenAmount;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
+
+    // Camera functionality - variables
+    private FirebaseAuth mAuth;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference passportPhotoRef;
     private Uri photoURI;
     private ScrollView mPassportScrollView;
+    private LinearLayout mPassportPhotoLayout;
     private LinearLayout mViewPassportPhotoLayout;
+    private int photoTakenAmount;
     private int imageLoadIndex = 1;
+    private boolean photoTaken = false;
+    private String currentPhotoPath;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -132,17 +133,11 @@ public class CourseApply4Fragment extends Fragment {
         mPassportNumber = rootView.findViewById(R.id.courseApplyPassportNumber_ET);
         mPassportExpiry = rootView.findViewById(R.id.courseApplyPassportExpiry_ET);
 
-//        mImageView1 = rootView.findViewById(R.id.courseApplyTakePassportPhoto_ImageView1);
-//        mPasportPhoto2_ImageView = rootView.findViewById(R.id.courseApplyTakePassportPhoto_ImageView2);
-
-        mPassportPhoto2Button = rootView.findViewById(R.id.courseApplyTakeAdditionalPassportPhoto_Button);
-
+        // Camera functionality - initialize
+        firebaseStorage = FirebaseStorage.getInstance();
         mPassportPhotoLayout = rootView.findViewById(R.id.courseApplyTakePassportPhoto_Layout);
-
         mPassportScrollView = rootView.findViewById(R.id.courseApplyPassport_Scrollview);
-
         mViewPassportPhotoLayout = rootView.findViewById(R.id.courseApplyViewPassportPhoto_Layout);
-
         progressDialog = new ProgressDialog(getContext());
 
         final CountryCodePicker mCourseApplyCountryCitizenship = rootView.findViewById(R.id.courseApplyCountryCitizenship);
@@ -150,11 +145,7 @@ public class CourseApply4Fragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        firebaseStorage = FirebaseStorage.getInstance();
-
         userRef = db.collection("users").document(mAuth.getUid());
-
-        passportPhotoRef = firebaseStorage.getReference("users/" + mAuth.getUid() + "/Passport/" + "passportPhoto_1.jpg");
 
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -172,6 +163,7 @@ public class CourseApply4Fragment extends Fragment {
                     mCourseApplyCountryCitizenship.setDefaultCountryUsingNameCode(documentSnapshot.getString("countryCitizenshipCode"));
                     mCourseApplyCountryCitizenship.resetToDefaultCountry();
                 }
+                // Camera functionality - initialize
                 if (documentSnapshot.getString("passportPhotoTakenAmount") != null) {
                     photoTakenAmount = Integer.valueOf(documentSnapshot.getString("passportPhotoTakenAmount"));
                     loadImages(imageLoadIndex);
@@ -266,6 +258,7 @@ public class CourseApply4Fragment extends Fragment {
             }
         });
 
+        // Camera functionality - button
         mPassportPhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -282,25 +275,10 @@ public class CourseApply4Fragment extends Fragment {
             }
         });
 
-        mPassportPhoto2Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    verifyPermissions(photoTakenAmount);
-                } catch (Exception e) {
-                    Toast.makeText(getContext(), "Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
         return rootView;
     }
 
-    private void addPassportPhotoAmount() {
-        photoTakenAmount++;
-//        Toast.makeText(getContext(), "Amount++", Toast.LENGTH_SHORT).show();
-    }
-
+    // Camera functionality
     private void addimageLoadIndexAmount() {
         imageLoadIndex++;
     }
@@ -318,6 +296,8 @@ public class CourseApply4Fragment extends Fragment {
                 Glide.with(mViewPassportPhotoLayout).load(uri).into(imageView);
 
                 addimageLoadIndexAmount();
+                photoTaken = true;
+
                 if (imageLoadIndex <= photoTakenAmount) {
                     loadImages(imageLoadIndex);
                 }
@@ -325,8 +305,8 @@ public class CourseApply4Fragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                photoTakenAmount = 0;
-                userRef.update("passportPhotoTakenAmount", String.valueOf(0));
+//                photoTakenAmount = 0;
+//                userRef.update("passportPhotoTakenAmount", String.valueOf(0));
             }
         });
     }
@@ -342,7 +322,6 @@ public class CourseApply4Fragment extends Fragment {
                 View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewPassportPhotoLayout, false);
                 mViewPassportPhotoLayout.addView(photo_imageView);
                 ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-//                Picasso.get().load(photoURI).fit().centerCrop().into(imageView);
                 Glide.with(imageView).load(photoURI).into(imageView);
 
                 String passportPhotoName = "passportPhoto_" + (photoTakenAmount + 1) + ".jpg";
@@ -355,6 +334,8 @@ public class CourseApply4Fragment extends Fragment {
                         photoTakenAmount++;
                         userRef.update("passportPhotoTakenAmount", String.valueOf(photoTakenAmount));
                         focusToTakePhotoButton();
+
+                        photoTaken = true;
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -368,77 +349,7 @@ public class CourseApply4Fragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (resultCode == RESULT_OK) {
-//            switch (requestCode) {
-//                case 0:
-//                    progressDialog.setMessage("Uploading Image...");
-//                    progressDialog.show();
-//                    try {
-//                        Picasso.get().load(photoURI).fit().centerCrop().into(mImageView1);
-//                        mImageView1.setVisibility(View.VISIBLE);
-//
-//                        passportPhotoRef = firebaseStorage.getReference("users/" + mAuth.getUid() + "/Passport/" + "passportPhoto_1.jpg");
-//
-//                        passportPhotoRef.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                                progressDialog.dismiss();
-////                                mPassportPhoto2Button.setVisibility(View.VISIBLE);
-////                                mPassportPhoto2Button.requestFocus();
-//                                mPassportPhotoLayout.requestFocus();
-//                                focusToTakePhotoButton();
-//
-//                                photoTakenAmount++;
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(getContext(), "Image save failure - " + e.getMessage(), Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//                    } catch (Exception e) {
-//                        Toast.makeText(getContext(), "OnActvitiyResult exception - " + e.getMessage(), Toast.LENGTH_LONG).show();
-//                        mImageView1.setVisibility(View.GONE);
-//                    }
-//                    break;
-//                default:
-//                    progressDialog.setMessage("Uploading Image...");
-//                    progressDialog.show();
-//                    try {
-//                        View photo_imageview_view = getLayoutInflater().inflate(R.layout.photo_imageview, mViewPassportPhotoLayout, false);
-//                        mViewPassportPhotoLayout.addView(photo_imageview_view);
-//                        ImageView imageView = photo_imageview_view.findViewById(R.id.photo_imageview);
-//                        Picasso.get().load(photoURI).fit().centerCrop().into(imageView);
-//
-//                        String passportPhotoName = "passportPhoto_" + (photoTakenAmount + 1) + ".jpg";
-//                        passportPhotoRef = firebaseStorage.getReference("users/" + mAuth.getUid() + "/Passport/" + passportPhotoName);
-//
-//                        passportPhotoRef.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                                progressDialog.dismiss();
-//                                photoTakenAmount++;
-//                                focusToTakePhotoButton();
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(getContext(), "Image save failure - " + e.getMessage(), Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//                    } catch (Exception e) {
-//                        Toast.makeText(getContext(), "OnActvitiyResult exception - " + e.getMessage(), Toast.LENGTH_LONG).show();
-//                    }
-//                    break;
-//            }
-//        }
-//    }
-
-    private final void focusToTakePhotoButton() {
+    private void focusToTakePhotoButton() {
         mPassportScrollView.post(new Runnable() {
             @Override
             public void run() {
@@ -507,6 +418,8 @@ public class CourseApply4Fragment extends Fragment {
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         verifyPermissions(requestCode);
     }
+    // end camera functionality
+
 
     private boolean validateFields() {
         boolean valid = true;
@@ -523,6 +436,12 @@ public class CourseApply4Fragment extends Fragment {
             valid = false;
         } else {
             mPassportExpiry.setError(null);
+        }
+
+        // Camera functionality
+        if (!photoTaken) {
+            Toast.makeText(getContext(), "Please take valid photo of passport", Toast.LENGTH_LONG).show();
+            valid = false;
         }
 
         return valid;
