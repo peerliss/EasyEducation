@@ -330,7 +330,7 @@ public class CourseApply20Fragment extends Fragment {
 
         // Camera functionality
         if (!photoTaken) {
-            Toast.makeText(getContext(), "Please take valid photo of currentQualification", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Please take valid photo of Current Qualification", Toast.LENGTH_LONG).show();
             valid = false;
         }
 

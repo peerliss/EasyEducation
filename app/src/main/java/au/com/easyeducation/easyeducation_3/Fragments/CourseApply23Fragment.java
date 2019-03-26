@@ -49,6 +49,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class CourseApply23Fragment extends Fragment {
 
+    private OnFragmentInteractionListener mListener;
+
     public CourseApply23Fragment() {
         // Required empty public constructor
     }
@@ -63,7 +65,6 @@ public class CourseApply23Fragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private OnFragmentInteractionListener mListener;
     private Button nextButton;
 
     private EditText mPreviousName;
@@ -308,7 +309,7 @@ public class CourseApply23Fragment extends Fragment {
 
         // Camera functionality
         if (!photoTaken) {
-            Toast.makeText(getContext(), "Please take valid photo of nameChanged", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Please take valid photo of Name Change Documents", Toast.LENGTH_LONG).show();
             valid = false;
         }
 

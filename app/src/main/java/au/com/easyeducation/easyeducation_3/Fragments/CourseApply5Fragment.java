@@ -496,7 +496,7 @@ public class CourseApply5Fragment extends Fragment {
 
         // Camera functionality
         if (!photoTaken) {
-            Toast.makeText(getContext(), "Please take valid photo of englishTest", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Please take valid photo of English Test Results", Toast.LENGTH_LONG).show();
             valid = false;
         }
 
