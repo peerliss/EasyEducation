@@ -118,8 +118,6 @@ public class CourseApply13Fragment extends Fragment {
     private ProgressDialog progressDialog;
     private String currentPhotoPath;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_IMAGE_CAPTURE_Q2 = 2;
-    private static final int REQUEST_IMAGE_CAPTURE_Q3 = 3;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override

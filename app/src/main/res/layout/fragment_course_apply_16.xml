@@ -8,6 +8,7 @@
     tools:context=".Fragments.CourseApply16Fragment">
 
     <ScrollView
+        android:id="@+id/courseApplyIssueDetails_Scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:isScrollContainer="true">
@@ -68,10 +69,21 @@
                     android:scrollbars="vertical" />
 
                 <LinearLayout
+                    android:id="@+id/courseApplyViewIssuesMedicalPhoto_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/courseApplyTakeMedicalIssuesPhoto_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:background="@drawable/profile_buttons_border_unselected"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
                     android:paddingStart="25dp"
                     android:paddingEnd="25dp">
 
@@ -90,7 +102,7 @@
                         android:layout_marginStart="25dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Take photo of all documents  supporting your listed issues"
+                        android:text="Take a photo of all documents  supporting your listed issues"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -129,11 +141,22 @@
                     android:scrollbars="vertical" />
 
                 <LinearLayout
+                    android:id="@+id/courseApplyViewIssuesLegalPhoto_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/courseApplyTakeLegalIssuesPhoto_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:background="@drawable/profile_buttons_border_unselected"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
                     android:paddingStart="25dp"
                     android:paddingEnd="25dp">
 
@@ -154,7 +177,7 @@
                         android:layout_marginStart="25dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Take photo of all documents  supporting your listed issues"
+                        android:text="Take a photo of all documents  supporting your listed issues"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -192,11 +215,22 @@
                     android:scrollbars="vertical" />
 
                 <LinearLayout
+                    android:id="@+id/courseApplyViewIssuesVisaPhoto_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/courseApplyTakeVisaIssuesPhoto_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:background="@drawable/profile_buttons_border_unselected"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
                     android:paddingStart="25dp"
                     android:paddingEnd="25dp">
 
@@ -215,7 +249,7 @@
                         android:layout_marginStart="25dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Take photo of all documents  supporting your listed issues"
+                        android:text="Take a photo of all documents  supporting your listed issues"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -253,11 +287,22 @@
                     android:scrollbars="vertical" />
 
                 <LinearLayout
+                    android:id="@+id/courseApplyViewIssuesAATPhoto_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/courseApplyTakeAATIssuesPhoto_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:background="@drawable/profile_buttons_border_unselected"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
                     android:paddingStart="25dp"
                     android:paddingEnd="25dp">
 
@@ -276,7 +321,7 @@
                         android:layout_marginStart="25dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Take photo of all documents  supporting your listed issues"
+                        android:text="Take a photo of all documents  supporting your listed issues"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -313,11 +358,22 @@
                     android:scrollbars="vertical" />
 
                 <LinearLayout
+                    android:id="@+id/courseApplyViewIssuesOtherPhoto_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/courseApplyTakeOtherIssuesPhoto_Layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:background="@drawable/profile_buttons_border_unselected"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
                     android:paddingStart="25dp"
                     android:paddingEnd="25dp">
 
@@ -336,7 +392,7 @@
                         android:layout_marginStart="25dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Take photo of all documents  supporting your listed issues"
+                        android:text="Take a photo of all documents  supporting your listed issues"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
