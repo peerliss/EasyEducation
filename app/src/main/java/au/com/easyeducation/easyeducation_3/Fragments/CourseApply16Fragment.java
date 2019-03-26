@@ -411,7 +411,6 @@ public class CourseApply16Fragment extends Fragment {
 
                         imageLoadIndex_Legal++;
 
-//                        if (imageLoadIndex_Legal <= photoTakenAmount_Legal) {
                         if (imageLoadIndex_Legal <= photoTakenAmount_Legal) {
                             loadImages(imageLoadIndex_Legal, 2);
                         }
