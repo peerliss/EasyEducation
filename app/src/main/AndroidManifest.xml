@@ -89,16 +89,21 @@
             android:label="@string/title_activity_register"
             android:parentActivityName=".Activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.LoginActivity" />
-        </activity>
-        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="au.com.easyeducation.easyeducation_3.Activities.LoginActivity" />
+        </activity>
+        <activity android:name=".Activities.LoginActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".Activities.MainActivity"
@@ -118,8 +123,7 @@
             android:name=".Activities.CourseApplicationNewActivity"
             android:label="CourseApplicationNewActivity"
             android:parentActivityName=".Activities.CourseApplicationChecklistActivity"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"
-            android:windowSoftInputMode="adjustPan|adjustResize">
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="au.com.easyeducation.easyeducation_3.Activities.CollegeCourseInformationActivity" />

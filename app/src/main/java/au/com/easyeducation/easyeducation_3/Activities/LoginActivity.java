@@ -1,5 +1,7 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -110,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             DocumentReference userRef = db.collection("users").document(mAuth.getUid());
 
-                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
 
                             userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
@@ -167,11 +170,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.loginButton) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+            hideKeyboardFrom(getApplicationContext(), v);
         }
         else if (i == R.id.registerButton) {
             Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
