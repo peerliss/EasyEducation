@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
+import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
@@ -91,7 +92,7 @@ public class RegisterProfileNameFragment extends Fragment {
                     userRef.update("surname", surname);
                     userRef.update("fullname", fullname);
 
-                    ((RegisterProfileDetailsActivity) getActivity()).setCurrentItem(1, true);
+                    ((RegisterProfileDetailsNewActivity) getActivity()).addFragment();
                 }
             }
         });

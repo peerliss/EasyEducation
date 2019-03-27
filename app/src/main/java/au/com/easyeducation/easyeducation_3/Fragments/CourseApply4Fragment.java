@@ -421,6 +421,12 @@ public class CourseApply4Fragment extends Fragment {
     // end camera functionality
 
 
+    @Override
+    public void onResume() {
+        loadImages(imageLoadIndex);
+        super.onResume();
+    }
+
     private boolean validateFields() {
         boolean valid = true;
 

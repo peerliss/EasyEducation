@@ -797,7 +797,10 @@ public class CourseApply13Fragment extends Fragment {
         }
 
         //INSERT CUSTOM CODE HERE
-        i = 0;
+//        i = 0;
+        loadImages(imageLoadIndex, 1);
+        loadImages(imageLoadIndex, 2);
+        loadImages(imageLoadIndex, 3);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

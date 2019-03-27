@@ -29,6 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
+                    app:title=" "
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
@@ -43,7 +44,7 @@
                     android:layout_marginEnd="0dp"
                     android:text="Profile Details"
                     android:textAlignment="center"
-                    android:textColor="@color/menu"
+                    android:textColor="@color/white"
                     android:textSize="23sp" />
 
             </RelativeLayout>
@@ -51,6 +52,11 @@
         </android.support.design.widget.AppBarLayout>
 
         <!--<include layout="@layout/register_profile_name_fragment" />-->
+
+        <FrameLayout
+            android:id="@+id/profileDetails_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

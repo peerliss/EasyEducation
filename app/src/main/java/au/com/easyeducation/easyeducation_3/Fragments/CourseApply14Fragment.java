@@ -140,7 +140,7 @@ public class CourseApply14Fragment extends Fragment {
         boolean valid =  true;
 
         if (!buttonSelected) {
-            Toast.makeText(getContext(), "Please Yes or No", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please select either Yes or No", Toast.LENGTH_SHORT).show();
             valid =  false;
         }
 

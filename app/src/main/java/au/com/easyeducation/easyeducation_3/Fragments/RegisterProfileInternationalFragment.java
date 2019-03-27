@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
+import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
@@ -109,7 +110,8 @@ public class RegisterProfileInternationalFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((RegisterProfileDetailsActivity) getActivity()).setCurrentItem(5, true);
+                ((RegisterProfileDetailsNewActivity) getActivity()).addFragment();
+
             }
         });
 

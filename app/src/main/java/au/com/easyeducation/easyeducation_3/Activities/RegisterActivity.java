@@ -108,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             progressBar.setVisibility(View.GONE);
 
-                            Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsNewActivity.class);
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.

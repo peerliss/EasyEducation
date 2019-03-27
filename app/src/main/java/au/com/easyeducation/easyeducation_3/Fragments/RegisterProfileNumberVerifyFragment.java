@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 import au.com.easyeducation.easyeducation_3.Activities.MainActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
+import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsNewActivity;
 import au.com.easyeducation.easyeducation_3.Model.Institution;
 import au.com.easyeducation.easyeducation_3.R;
 
@@ -173,7 +174,7 @@ public class RegisterProfileNumberVerifyFragment extends Fragment {
 //                          Closes all activities
 //                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                            startActivity(intent);
-                            ((RegisterProfileDetailsActivity) getActivity()).setCurrentItem(5, true);
+                            ((RegisterProfileDetailsNewActivity) getActivity()).addFragment();
                         } else
                             Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }

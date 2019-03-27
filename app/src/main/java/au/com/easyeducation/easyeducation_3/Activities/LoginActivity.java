@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         }
                                     }
                                     else {
-                                        Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsActivity.class);
+                                        Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsNewActivity.class);
                                         startActivity(intent);
                                     }
                                 }

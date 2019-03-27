@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
 
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
+import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
@@ -109,7 +110,8 @@ public class RegisterProfileNumberFragment extends Fragment {
                 else {
                     userRef.update("number", "+" + countryCode + number);
 
-                    ((RegisterProfileDetailsActivity) getActivity()).setCurrentItem(3, true);
+                    ((RegisterProfileDetailsNewActivity) getActivity()).addFragment();
+
                 }
             }
         });

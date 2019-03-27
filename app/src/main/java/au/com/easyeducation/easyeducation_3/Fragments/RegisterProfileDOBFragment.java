@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Calendar;
 
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
+import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class RegisterProfileDOBFragment extends Fragment {
@@ -120,7 +121,7 @@ public class RegisterProfileDOBFragment extends Fragment {
                 }
                 else {
                     userRef.update("dob", dob);
-                    ((RegisterProfileDetailsActivity) getActivity()).setCurrentItem(2, true);
+                    ((RegisterProfileDetailsNewActivity) getActivity()).addFragment();
                 }
             }
         });
