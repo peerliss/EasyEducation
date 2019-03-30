@@ -1,16 +1,25 @@
 package au.com.easyeducation.easyeducation_3.Adapter;
 
+import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import au.com.easyeducation.easyeducation_3.Model.Institution;
 import au.com.easyeducation.easyeducation_3.R;
@@ -19,12 +28,16 @@ public class FirestoreInstitutionAdapter extends FirestoreRecyclerAdapter<Instit
 
     private OnItemClickListener listener;
 
+    private StorageReference profileImagePhotoRef;
+    private FirebaseStorage firebaseStorage;
+    private Context context;
+
     public FirestoreInstitutionAdapter(@NonNull FirestoreRecyclerOptions<Institution> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull InstitutionHolder holder, int position, @NonNull Institution institution) {
+    protected void onBindViewHolder(@NonNull final InstitutionHolder holder, int position, @NonNull Institution institution) {
         holder.institution_name.setText(institution.getName());
         holder.institution_username.setText(institution.getUsername());
         holder.institution_description.setText(institution.getDescription());
@@ -33,6 +46,16 @@ public class FirestoreInstitutionAdapter extends FirestoreRecyclerAdapter<Instit
         holder.institution_distance.setText(String.valueOf(institution.getDistance()));
         holder.institution_reviews.setText(String.valueOf(institution.getReviews()));
         holder.institution_rating.setText(String.valueOf(institution.getRating()));
+
+        firebaseStorage = FirebaseStorage.getInstance();
+        profileImagePhotoRef = firebaseStorage.getReference("institutions/" + institution.getId() + "/profile_image.png");
+
+        profileImagePhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(context).load(uri).into(holder.institution_imageView);
+            }
+        });
     }
 
     @NonNull
@@ -52,6 +75,7 @@ public class FirestoreInstitutionAdapter extends FirestoreRecyclerAdapter<Instit
         TextView institution_reviews;
         TextView institution_rating;
         CardView cardView;
+        ImageView institution_imageView;
 
         public InstitutionHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +89,7 @@ public class FirestoreInstitutionAdapter extends FirestoreRecyclerAdapter<Instit
             institution_reviews = itemView.findViewById(R.id.institution_reviews);
             institution_rating = itemView.findViewById(R.id.institution_rating);
             cardView = itemView.findViewById(R.id.fragment_institution);
+            institution_imageView = itemView.findViewById(R.id.institution_profile_imageview);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,6 +100,8 @@ public class FirestoreInstitutionAdapter extends FirestoreRecyclerAdapter<Instit
                     }
                 }
             });
+
+            context = itemView.getContext();
         }
     }
 

@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/profileLogo"
+                android:id="@+id/profileImageView"
                 android:layout_width="167dp"
                 android:layout_height="158dp"
                 android:layout_marginStart="8dp"

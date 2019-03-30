@@ -2,6 +2,7 @@ package au.com.easyeducation.easyeducation_3.Activities;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -20,6 +23,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import au.com.easyeducation.easyeducation_3.Adapter.FirestoreCourseAdapter;
 import au.com.easyeducation.easyeducation_3.Model.Course;
@@ -32,6 +37,10 @@ public class ProfileActivity extends AppCompatActivity {
     private DocumentReference instituteRef;
     private CollectionReference coursesListRef;
     private CollectionReference coursesRef;
+
+    private StorageReference profileImagePhotoRef;
+    private FirebaseStorage firebaseStorage;
+
 
     private TextView profileName;
     private TextView profileUsername;
@@ -53,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Drawable selectedBG;
     private Drawable unselectedBG;
+    private ImageView institution_imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         db = FirebaseFirestore.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
 
         if (intent.getExtras() != null) {
             businessTypeString = intent.getExtras().getString("businessType");
@@ -90,6 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileUsername = findViewById(R.id.profileUsername);
         profileDescription = findViewById(R.id.profileDescriptionTextView);
         profileCricos = findViewById(R.id.profileCricos);
+        institution_imageView = findViewById(R.id.profileImageView);
 
         profileDescriptionButton = findViewById(R.id.profileDescriptionButton);
         profileCoursesButton = findViewById(R.id.profileCoursesButton);
@@ -105,6 +117,14 @@ public class ProfileActivity extends AppCompatActivity {
                 profileUsername.setText(institution.getUsername());
                 profileDescription.setText(institution.getDescription());
                 profileCricos.setText("CRICOS NO: " + institution.getCricos());
+
+                profileImagePhotoRef = firebaseStorage.getReference("institutions/" + institution.getId() + "/profile_image.png");
+                profileImagePhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(getApplicationContext()).load(uri).into(institution_imageView);
+                    }
+                });
             }
         });
 

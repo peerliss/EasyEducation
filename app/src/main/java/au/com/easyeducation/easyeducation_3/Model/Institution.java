@@ -12,11 +12,13 @@ public class Institution {
     private double distance;
     private int reviews;
     private double rating;
-//    private Image agent_profile;
+    //    private Image agent_profile;
+    private String id;
 
-    public Institution(){}
+    public Institution() {
+    }
 
-    public Institution(String name, String username, String description, String visa, String hours, String cricos, double distance, int reviews, double rating/*, Image agent_profile*/) {
+    public Institution(String name, String username, String description, String visa, String hours, String cricos, double distance, int reviews, double rating/*, Image agent_profile*/, String id) {
         this.name = name;
         this.username = username;
         this.description = description;
@@ -27,6 +29,7 @@ public class Institution {
         this.reviews = reviews;
         this.rating = rating;
 //        this.agent_profile = agent_profile;
+        this.id = id;
     }
 
     public String getName() {
@@ -51,6 +54,10 @@ public class Institution {
 
     public String getCricos() {
         return cricos;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public double getDistance() {
@@ -99,5 +106,9 @@ public class Institution {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
