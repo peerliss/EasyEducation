@@ -168,6 +168,7 @@ public class CourseApply7Fragment extends Fragment {
         });
 
         nextButton = getActivity().findViewById(R.id.courseApplicationNextButton);
+        nextButton.setText("Apply");
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

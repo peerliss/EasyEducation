@@ -165,7 +165,7 @@ public class CourseApply8Fragment extends Fragment {
                 userRef.update("homeCountryCode", homeCountry.getSelectedCountryNameCode());
                 userRef.update("homeCountryAddress", mStreet.getText() + ", " + mSuburb.getText()
                         + ", " + mState.getText() + ", " + mPostCode.getText() + ", " + homeCountry.getSelectedCountryName());
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(3);
             }
         });
 

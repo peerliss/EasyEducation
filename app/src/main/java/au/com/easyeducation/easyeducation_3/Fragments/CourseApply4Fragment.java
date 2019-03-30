@@ -254,7 +254,7 @@ public class CourseApply4Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(5);
             }
         });
 
@@ -268,14 +268,26 @@ public class CourseApply4Fragment extends Fragment {
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(getContext(), "Can only take 5 passport photos", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
         return rootView;
+    }
+
+    private boolean verifyDate() {
+        Calendar today = Calendar.getInstance();
+
+        if (today.get(Calendar.YEAR) == mYear) {
+            if (today.get(Calendar.MONTH) + 1 == mMonth) {
+                return today.get(Calendar.DAY_OF_MONTH) < mDay;
+            }
+            return today.get(Calendar.MONTH) <= mMonth;
+        }
+
+        return today.get(Calendar.YEAR) < mYear;
     }
 
     // Camera functionality
@@ -305,6 +317,7 @@ public class CourseApply4Fragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.e("English Test Photo - Load Failure", e.getMessage());
 //                photoTakenAmount = 0;
 //                userRef.update("passportPhotoTakenAmount", String.valueOf(0));
             }
@@ -421,11 +434,11 @@ public class CourseApply4Fragment extends Fragment {
     // end camera functionality
 
 
-    @Override
-    public void onResume() {
-        loadImages(imageLoadIndex);
-        super.onResume();
-    }
+//    @Override
+//    public void onResume() {
+//        loadImages(imageLoadIndex);
+//        super.onResume();
+//    }
 
     private boolean validateFields() {
         boolean valid = true;
@@ -448,6 +461,11 @@ public class CourseApply4Fragment extends Fragment {
         if (!photoTaken) {
             Toast.makeText(getContext(), "Please take valid photo of passport", Toast.LENGTH_LONG).show();
             valid = false;
+        }
+
+        if (!verifyDate()) {
+            valid = false;
+            Toast.makeText(getContext(), "Passport expiry date cannot be in the past", Toast.LENGTH_LONG).show();
         }
 
         return valid;

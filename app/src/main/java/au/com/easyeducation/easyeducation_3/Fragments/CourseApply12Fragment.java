@@ -212,7 +212,7 @@ public class CourseApply12Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(10);
             }
         });
 

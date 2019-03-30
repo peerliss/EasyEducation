@@ -298,11 +298,24 @@ public class CourseApply11Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(9);
             }
         });
 
         return rootView;
+    }
+
+    private boolean verifyDate() {
+        Calendar today = Calendar.getInstance();
+
+        if (today.get(Calendar.YEAR) == mYear) {
+            if (today.get(Calendar.MONTH) + 1 == mMonth) {
+                return today.get(Calendar.DAY_OF_MONTH) < mDay;
+            }
+            return today.get(Calendar.MONTH) + 1 <= mMonth;
+        }
+
+        return today.get(Calendar.YEAR) < mYear;
     }
 
     private boolean validateFields() {
@@ -332,6 +345,11 @@ public class CourseApply11Fragment extends Fragment {
             valid = false;
         } else {
             mCommencementDate.setError(null);
+        }
+
+        if (!verifyDate()) {
+            valid = false;
+            Toast.makeText(getContext(), "Course commencement date cannot be in the past", Toast.LENGTH_LONG).show();
         }
 
         return valid;

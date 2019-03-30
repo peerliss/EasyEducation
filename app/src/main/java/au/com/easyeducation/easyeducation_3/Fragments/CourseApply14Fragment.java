@@ -25,6 +25,8 @@ public class CourseApply14Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private boolean buttonSelected = false;
+    private boolean noSelected = false;
+    private boolean yesSelected = false;
     private Button nextButton;
 
     public CourseApply14Fragment() {
@@ -98,6 +100,8 @@ public class CourseApply14Fragment extends Fragment {
             public void onClick(View v) {
                 unSelectAllButtons();
                 issuesNoButton.setBackground(selectedBG);
+                yesSelected = false;
+                noSelected = true;
             }
         });
         
@@ -118,6 +122,8 @@ public class CourseApply14Fragment extends Fragment {
             public void onClick(View v) {
                 unSelectAllButtons();
                 issuesYesButton.setBackground(selectedBG);
+                noSelected = false;
+                yesSelected = true;
             }
         });
 
@@ -129,7 +135,12 @@ public class CourseApply14Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                if (noSelected) {
+                    ((CourseApplicationNewActivity) getActivity()).addFragment(14);
+                }
+                if (yesSelected) {
+                    ((CourseApplicationNewActivity) getActivity()).addFragment(12);
+                }
             }
         });
 

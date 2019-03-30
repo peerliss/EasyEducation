@@ -282,7 +282,7 @@ public class CourseApply16Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(14);
             }
         });
 

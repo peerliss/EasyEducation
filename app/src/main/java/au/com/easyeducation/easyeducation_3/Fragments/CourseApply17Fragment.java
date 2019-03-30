@@ -26,6 +26,8 @@ public class CourseApply17Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private boolean buttonSelected = false;
+    private boolean noSelected = false;
+    private boolean yesSelected = false;
     private Button nextButton;
 
     public CourseApply17Fragment() {
@@ -99,6 +101,8 @@ public class CourseApply17Fragment extends Fragment {
             public void onClick(View v) {
                 unSelectAllButtons();
                 mHealthInsuranceYes.setBackground(selectedBG);
+                noSelected = false;
+                yesSelected = true;
             }
         });
 
@@ -119,6 +123,8 @@ public class CourseApply17Fragment extends Fragment {
             public void onClick(View v) {
                 unSelectAllButtons();
                 mHealthInsuranceNo.setBackground(selectedBG);
+                yesSelected = false;
+                noSelected = true;
             }
         });
 
@@ -130,7 +136,12 @@ public class CourseApply17Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                if (noSelected) {
+                    ((CourseApplicationNewActivity) getActivity()).addFragment(16);
+                }
+                if (yesSelected) {
+                    ((CourseApplicationNewActivity) getActivity()).addFragment(15);
+                }
             }
         });
 

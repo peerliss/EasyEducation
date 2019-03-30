@@ -123,9 +123,7 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
             @Override
             public void onBackStackChanged() {
 //                Toast.makeText(CourseApplicationNewActivity.this, "Fragment count in backstack - " + fragmentManager.getBackStackEntryCount(), Toast.LENGTH_LONG).show();
-                if (fragmentManager.getBackStackEntryCount() == 23) {
-                    nextButton.setText("Apply");
-                } else {
+                if (fragmentManager.getBackStackEntryCount() < 18) {
                     nextButton.setText("Next");
                 }
             }
@@ -133,7 +131,7 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
 
         int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
         if (backStackEntryCount == 0) {
-            addFragment();
+            addFragment(0);
         }
 
         instituteRef = db.collection("institutions").document(instituteRefString);
@@ -158,10 +156,10 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
     }
 
-    public void addFragment() {
+    public void addFragment(int fragmentNumber) {
         Fragment fragment;
 
-        switch (fragmentManager.getBackStackEntryCount()) {
+        switch (fragmentNumber) {
             case 0:
                 fragment = new CourseApply1Fragment();
                 applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
@@ -255,6 +253,7 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
             case 22:
                 fragment = new CourseApply7Fragment();
                 applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+                nextButton.setText("Apply");
                 break;
             default:
                 return;
@@ -268,6 +267,117 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+//    public void addFragment() {
+//        Fragment fragment;
+//
+//        switch (fragmentManager.getBackStackEntryCount()) {
+//            case 0:
+//                fragment = new CourseApply1Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 1:
+////                nextButton.setVisibility(View.VISIBLE);
+//                fragment = new CourseApply2Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 2:
+////                nextButton.setVisibility(View.VISIBLE);
+//                fragment = new CourseApply8Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 3:
+//                fragment = new CourseApply3Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 4:
+//                fragment = new CourseApply4Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 5:
+//                fragment = new CourseApply9Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 6:
+//                fragment = new CourseApply10Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 7:
+//                fragment = new CourseApply5Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 8:
+//                fragment = new CourseApply11Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 9:
+//                fragment = new CourseApply12Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 10:
+//                fragment = new CourseApply13Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 11:
+//                fragment = new CourseApply14Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 12:
+//                fragment = new CourseApply15Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 13:
+//                fragment = new CourseApply16Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 14:
+//                fragment = new CourseApply17Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 15:
+//                fragment = new CourseApply18Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 16:
+//                fragment = new CourseApply19Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 17:
+//                fragment = new CourseApply20Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 18:
+//                fragment = new CourseApply21Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 19:
+//                fragment = new CourseApply22Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 20:
+//                fragment = new CourseApply23Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 21:
+//                fragment = new CourseApply6Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            case 22:
+//                fragment = new CourseApply7Fragment();
+//                applyCourseProgressBar.setProgress(applyCourseProgressBar.getProgress() + 1);
+//                break;
+//            default:
+//                return;
+//
+//        }
+//
+//        fragmentTransaction = fragmentManager.beginTransaction();
+////        fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.enter, R.anim.exit);
+//        fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.left_to_right, R.anim.right_to_left);
+//        fragmentTransaction.replace(R.id.courseApply_fragment_container, fragment, "CourseApplyFragment");
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
+//    }
 
     public void completeApplication() {
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

@@ -54,6 +54,10 @@ public class RegisterProfileDOBFragment extends Fragment {
 
     private DocumentReference userRef;
 
+    int mYear;
+    int mMonth;
+    int mDay;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -109,6 +113,10 @@ public class RegisterProfileDOBFragment extends Fragment {
                 userRef.update("dobDay", Integer.toString(dayOfMonth));
 
                 mDOB.setText(dob);
+
+                mYear = year;
+                mMonth = month;
+                mDay = dayOfMonth;
             }
         };
 
@@ -129,6 +137,17 @@ public class RegisterProfileDOBFragment extends Fragment {
         return rootView;
     }
 
+    private boolean verifyAge() {
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - mYear;
+
+        if (today.get(Calendar.DAY_OF_MONTH) < mDay) {
+            age--;
+        }
+
+        return age >= 18;
+    }
+
     private boolean validateDOB() {
         boolean valid = true;
 
@@ -139,6 +158,11 @@ public class RegisterProfileDOBFragment extends Fragment {
             valid = false;
         } else {
             mDOB.setError(null);
+        }
+
+        if (!verifyAge()) {
+            valid = false;
+            Toast.makeText(getContext(), "Must be at least 18 years or older", Toast.LENGTH_LONG).show();
         }
 
         return valid;

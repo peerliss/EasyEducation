@@ -249,7 +249,7 @@ public class CourseApply9Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(6);
             }
         });
 
@@ -298,6 +298,19 @@ public class CourseApply9Fragment extends Fragment {
                 }
             }
         });
+    }
+
+    private boolean verifyDate() {
+        Calendar today = Calendar.getInstance();
+
+        if (today.get(Calendar.YEAR) == mYear) {
+            if (today.get(Calendar.MONTH) + 1 == mMonth) {
+                return today.get(Calendar.DAY_OF_MONTH) < mDay;
+            }
+            return today.get(Calendar.MONTH) <= mMonth;
+        }
+
+        return today.get(Calendar.YEAR) < mYear;
     }
 
     @Override
@@ -445,7 +458,12 @@ public class CourseApply9Fragment extends Fragment {
             Toast.makeText(getContext(), "Please take valid photo of visa", Toast.LENGTH_LONG).show();
             valid = false;
         }
-        
+
+        if (!verifyDate()) {
+            valid = false;
+            Toast.makeText(getContext(), "Visa expiry date cannot be in the past", Toast.LENGTH_LONG).show();
+        }
+
         return valid;
     }
 

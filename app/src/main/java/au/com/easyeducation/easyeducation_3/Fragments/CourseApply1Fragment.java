@@ -70,8 +70,7 @@ public class CourseApply1Fragment extends Fragment {
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
-    private boolean isFemaleButtonPressed = false;
-    private boolean isMaleButtonPressed = false;
+    private boolean isGenderSelected = false;
 
     int mYear;
     int mMonth;
@@ -125,9 +124,11 @@ public class CourseApply1Fragment extends Fragment {
                 if (documentSnapshot.getString("gender") != null) {
                     if (documentSnapshot.getString("gender").matches("Male")) {
                         mCourseApplyMaleButton.performClick();
+                        isGenderSelected = true;
                     }
                     if (documentSnapshot.getString("gender").matches("Female")) {
                         mCourseApplyFemaleButton.performClick();
+                        isGenderSelected = true;
                     }
                 }
                 if (documentSnapshot.get("countryBirthCode") != null) {
@@ -160,7 +161,7 @@ public class CourseApply1Fragment extends Fragment {
         mCourseApplyMaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isMaleButtonPressed = true;
+                isGenderSelected = true;
 
                 userRef.update("gender", "Male");
 
@@ -176,7 +177,7 @@ public class CourseApply1Fragment extends Fragment {
         mCourseApplyFemaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isFemaleButtonPressed = true;
+                isGenderSelected = true;
 
                 userRef.update("gender", "Female");
 
@@ -194,7 +195,7 @@ public class CourseApply1Fragment extends Fragment {
             public void onClick(View v) {
                 if (mYear == 0) {
                     Calendar calendar = Calendar.getInstance();
-                    mYear = calendar.get(Calendar.YEAR);
+                    mYear = calendar.get(Calendar.YEAR) - 18;
                     mMonth = calendar.get(Calendar.MONTH);
                     mDay = calendar.get(Calendar.DAY_OF_MONTH);
                 }
@@ -247,11 +248,22 @@ public class CourseApply1Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(1);
             }
         });
 
         return rootView;
+    }
+
+    private boolean verifyAge() {
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - mYear;
+
+        if (today.get(Calendar.DAY_OF_MONTH) < mDay) {
+            age--;
+        }
+
+        return age >= 18;
     }
 
     private boolean validateFields() {
@@ -278,39 +290,17 @@ public class CourseApply1Fragment extends Fragment {
             mDOB.setError(null);
         }
 
-//        if (!isMaleButtonPressed || !isFemaleButtonPressed) {
-//            Toast.makeText(getContext(), "Please select gender", Toast.LENGTH_SHORT).show();
-//        }
+        if (!isGenderSelected) {
+            Toast.makeText(getContext(), "Please select Male or Female", Toast.LENGTH_SHORT).show();
+        }
 
-        // Add dob requirements to be atleast 18 years old
-
-//        if (valid) {
-//            nextButton.setBackground(gradient);
-//            nextButton.setEnabled(true);
-//        }
-//        else {
-//            nextButton.setBackground(disabledGradient);
-//        }
+        if (!verifyAge()) {
+            valid = false;
+            Toast.makeText(getContext(), "Must be at least 18 years or older", Toast.LENGTH_LONG).show();
+        }
 
         return valid;
     }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        getActivity().getSupportFragmentManager();
-//    }
 
     @Override
     public void onDetach() {

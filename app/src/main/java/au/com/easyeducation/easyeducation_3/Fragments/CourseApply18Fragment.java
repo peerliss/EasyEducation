@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -161,11 +162,24 @@ public class CourseApply18Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(16);
             }
         });
 
         return rootView;
+    }
+
+    private boolean verifyExpiryDate() {
+        Calendar today = Calendar.getInstance();
+
+        if (today.get(Calendar.YEAR) == mYear) {
+            if (today.get(Calendar.MONTH) + 1 == mMonth) {
+                return today.get(Calendar.DAY_OF_MONTH) < mDay;
+            }
+            return today.get(Calendar.MONTH) + 1 <= mMonth;
+        }
+
+        return today.get(Calendar.YEAR) < mYear;
     }
 
     private boolean validateFields() {
@@ -190,6 +204,11 @@ public class CourseApply18Fragment extends Fragment {
             valid = false;
         } else {
             mHealthInsuranceExpiryDate.setError(null);
+        }
+
+        if (!verifyExpiryDate()) {
+            valid = false;
+            Toast.makeText(getContext(), "Health Insurance Expiry date cannot be in the past", Toast.LENGTH_LONG).show();
         }
 
         return valid;

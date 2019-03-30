@@ -158,7 +158,7 @@ public class CourseApply2Fragment extends Fragment {
                 }
                 userRef.update("currentAddress", mStreet.getText() + ", " + mSuburb.getText()
                 + ", " + mState.getText() + ", " + mPostCode.getText() + ", " + "Australia");
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(2);
             }
         });
 

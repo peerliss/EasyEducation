@@ -49,6 +49,9 @@ public class CourseApply22Fragment extends Fragment {
     private Drawable selectedBG;
     private Drawable unSelectedBG;
 
+    private boolean noSelected = false;
+    private boolean yesSelected = false;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,6 +104,8 @@ public class CourseApply22Fragment extends Fragment {
             public void onClick(View v) {
                 unSelectAllButtons();
                 mNameChangedNo.setBackground(selectedBG);
+                yesSelected = false;
+                noSelected = true;
             }
         });
 
@@ -121,6 +126,8 @@ public class CourseApply22Fragment extends Fragment {
             public void onClick(View v) {
                 unSelectAllButtons();
                 mNameChangedYes.setBackground(selectedBG);
+                yesSelected = true;
+                noSelected = false;
             }
         });
 
@@ -132,7 +139,12 @@ public class CourseApply22Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                if (noSelected) {
+                    ((CourseApplicationNewActivity) getActivity()).addFragment(21);
+                }
+                if (yesSelected) {
+                    ((CourseApplicationNewActivity) getActivity()).addFragment(20);
+                }
             }
         });
 

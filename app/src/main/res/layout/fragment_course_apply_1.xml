@@ -83,7 +83,7 @@
                     android:focusable="false"
                     android:inputType="date"
                     android:padding="13dp"
-                    android:text="01/01/1999"
+                    android:hint="DOB"
                     android:textSize="18sp" />
 
 

@@ -306,7 +306,7 @@ public class CourseApply5Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment();
+                ((CourseApplicationNewActivity) getActivity()).addFragment(8);
             }
         });
 
@@ -328,6 +328,19 @@ public class CourseApply5Fragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private boolean verifyDate() {
+        Calendar today = Calendar.getInstance();
+
+        if (today.get(Calendar.YEAR) == mYear) {
+            if (today.get(Calendar.MONTH) + 1 >= mMonth) {
+                return today.get(Calendar.DAY_OF_MONTH) >= mDay;
+            }
+            return today.get(Calendar.MONTH) >= mMonth;
+        }
+
+        return today.get(Calendar.YEAR) >= mYear;
     }
 
     // Camera functionality
@@ -353,6 +366,11 @@ public class CourseApply5Fragment extends Fragment {
                 if (imageLoadIndex <= photoTakenAmount) {
                     loadImages(imageLoadIndex);
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("English Test Photo - Load Failure", e.getMessage());
             }
         });
     }
@@ -498,6 +516,11 @@ public class CourseApply5Fragment extends Fragment {
         if (!photoTaken) {
             Toast.makeText(getContext(), "Please take valid photo of English Test Results", Toast.LENGTH_LONG).show();
             valid = false;
+        }
+
+        if (!verifyDate()) {
+            valid = false;
+            Toast.makeText(getContext(), "Test taken date cannot be in the future", Toast.LENGTH_LONG).show();
         }
 
         return valid;

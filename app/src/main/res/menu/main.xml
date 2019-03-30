@@ -14,12 +14,12 @@
         android:onClick="onClick_enterProfileDetails"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_applicationForm"
-        android:orderInCategory="200"
-        android:title="Course Apply Form"
-        android:onClick="onClick_courseApplyForm"
-        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/action_applicationForm"-->
+        <!--android:orderInCategory="200"-->
+        <!--android:title="Course Apply Form"-->
+        <!--android:onClick="onClick_courseApplyForm"-->
+        <!--app:showAsAction="never" />-->
 
     <item
         android:id="@+id/action_signOut"
