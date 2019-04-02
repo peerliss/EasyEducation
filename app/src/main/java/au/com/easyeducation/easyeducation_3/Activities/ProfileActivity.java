@@ -4,19 +4,24 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,8 +30,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import au.com.easyeducation.easyeducation_3.Adapter.FirestoreCourseAdapter;
+import au.com.easyeducation.easyeducation_3.Adapter.ProfileImagesGalleryAdapter;
 import au.com.easyeducation.easyeducation_3.Model.Course;
 import au.com.easyeducation.easyeducation_3.Model.Institution;
 import au.com.easyeducation.easyeducation_3.R;
@@ -39,8 +46,9 @@ public class ProfileActivity extends AppCompatActivity {
     private CollectionReference coursesRef;
 
     private StorageReference profileImagePhotoRef;
+    private StorageReference galleryImagePhotoRef;
+    private LinearLayout mViewGalleryPhotoLayout;
     private FirebaseStorage firebaseStorage;
-
 
     private TextView profileName;
     private TextView profileUsername;
@@ -51,6 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private View descriptionLayout;
     private RecyclerView coursesRecyclerView;
+//    private RecyclerView galleryRecyclerView;
 
     private Institution institution;
 
@@ -58,11 +67,14 @@ public class ProfileActivity extends AppCompatActivity {
     private String businessTypeString;
 
     private FirestoreCourseAdapter firestoreCourseAdapter;
+    private ProfileImagesGalleryAdapter profileImagesGalleryAdapter;
     private String courseRefString;
 
     private Drawable selectedBG;
     private Drawable unselectedBG;
     private ImageView institution_imageView;
+    private int imageLoadIndex = 1;
+    private int galleryImagesAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +119,12 @@ public class ProfileActivity extends AppCompatActivity {
         profileCoursesButton = findViewById(R.id.profileCoursesButton);
 
         descriptionLayout = findViewById(R.id.profileDescription_layout);
+
+        mViewGalleryPhotoLayout = findViewById(R.id.profileImageGalleryViewPhoto_Layout);
+
         coursesRecyclerView = findViewById(R.id.profileCourses_recyclerView);
+
+//        galleryRecyclerView = findViewById(R.id.profileCourses_imageGallery_recyclerView);
 
         instituteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -125,17 +142,57 @@ public class ProfileActivity extends AppCompatActivity {
                         Glide.with(getApplicationContext()).load(uri).into(institution_imageView);
                     }
                 });
+
+                // Camera functionality - initialize
+                if (documentSnapshot.getString("galleryImagesAmount") != null) {
+                    galleryImagesAmount = Integer.valueOf(documentSnapshot.getString("galleryImagesAmount"));
+                    loadImages(imageLoadIndex);
+                }
             }
         });
 
         coursesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        galleryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         setupCoursesRecyclerView();
+//        setupGalleryRecyclerView();
 
         selectedBG = getDrawable(R.drawable.profile_buttons_square_border_selected);
         unselectedBG = getDrawable(R.drawable.profile_buttons_square_border_unselected);
 
 //        cloneDocument();
+    }
+
+    // Camera functionality
+    private void addimageLoadIndexAmount() {
+        imageLoadIndex++;
+    }
+
+    private void loadImages(int photoNumber) {
+        galleryImagePhotoRef = firebaseStorage.getReference("institutions/" + instituteRefString
+                + "/gallery/" + String.valueOf(photoNumber) + ".png");
+
+        galleryImagePhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                View photo_imageView = getLayoutInflater().inflate(R.layout.image_gallery, mViewGalleryPhotoLayout, false);
+                mViewGalleryPhotoLayout.addView(photo_imageView);
+                ImageView imageView = photo_imageView.findViewById(R.id.image_gallery_imageview);
+//                Glide.with(mViewGalleryPhotoLayout).load(uri).into(imageView);
+                Picasso.get().load(uri).centerCrop().fit().into(imageView);
+
+                addimageLoadIndexAmount();
+
+                if (imageLoadIndex <= galleryImagesAmount) {
+                    loadImages(imageLoadIndex);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("Image Gallery - Load Failure", e.getMessage());
+            }
+        });
     }
 
     private void setupCoursesRecyclerView() {
@@ -163,11 +220,24 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void setupGalleryRecyclerView() {
+        Query query = coursesRef;
+
+        FirestoreRecyclerOptions<Institution> options = new FirestoreRecyclerOptions.Builder<Institution>()
+                .setQuery(query, Institution.class)
+                .build();
+
+        profileImagesGalleryAdapter = new ProfileImagesGalleryAdapter(options);
+
+        coursesRecyclerView.setAdapter(profileImagesGalleryAdapter);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
 
         firestoreCourseAdapter.startListening();
+//        profileImagesGalleryAdapter.startListening();
     }
 
     @Override
@@ -175,6 +245,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onStop();
 
         firestoreCourseAdapter.stopListening();
+//        profileImagesGalleryAdapter.stopListening();
     }
 
     public void onClick_profileDescriptionButton(View view) {

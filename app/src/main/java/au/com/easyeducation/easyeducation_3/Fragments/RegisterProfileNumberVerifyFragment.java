@@ -155,7 +155,8 @@ public class RegisterProfileNumberVerifyFragment extends Fragment {
         grabDatabaseData();
 //        sendVerificationCode(phoneNumber);
         initializeButtons();
-        mResendVerificationTV.performClick();
+        sendVerificationCode(phoneNumber);
+//        mResendVerificationTV.performClick();
 //        mVerifyButton.performClick();
     }
 
