@@ -59,12 +59,12 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Drawable gradient = getResources().getDrawable(R.drawable.gradient);
-        getSupportActionBar().setBackgroundDrawable(gradient);
+//        Drawable gradient = getResources().getDrawable(R.drawable.gradient);
+//        getSupportActionBar().setBackgroundDrawable(gradient);
 
         mEmailField = findViewById(R.id.registerEmail);
         mPasswordField = findViewById(R.id.registerPassword);
