@@ -2,6 +2,7 @@ package au.com.easyeducation.easyeducation_3.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -24,6 +26,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,6 +125,7 @@ public class CourseApply4Fragment extends Fragment {
     private boolean photoTaken = false;
     private String currentPhotoPath;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Button backButton;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -166,7 +170,12 @@ public class CourseApply4Fragment extends Fragment {
                 // Camera functionality - initialize
                 if (documentSnapshot.getString("passportPhotoTakenAmount") != null) {
                     photoTakenAmount = Integer.valueOf(documentSnapshot.getString("passportPhotoTakenAmount"));
-                    loadImages(imageLoadIndex);
+                    try {
+                        loadImages(imageLoadIndex);
+                    }
+                    catch (Exception e) {
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -299,29 +308,42 @@ public class CourseApply4Fragment extends Fragment {
         String passportPhotoName = "passportPhoto_" + String.valueOf((photoNumber)) + ".jpg";
         passportPhotoRef = firebaseStorage.getReference("users/" + mAuth.getUid() + "/Passport/" + passportPhotoName);
 
-        passportPhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewPassportPhotoLayout, false);
-                mViewPassportPhotoLayout.addView(photo_imageView);
-                ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-                Glide.with(mViewPassportPhotoLayout).load(uri).into(imageView);
+        Activity activity = getActivity();
+        if (activity != null && isAdded()) {
+            passportPhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    try {
+                        View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewPassportPhotoLayout, false);
+                        mViewPassportPhotoLayout.addView(photo_imageView);
+                        ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
+                        Glide.with(getContext()).load(uri).into(imageView);
 
-                addimageLoadIndexAmount();
-                photoTaken = true;
+                        addimageLoadIndexAmount();
+                        photoTaken = true;
 
-                if (imageLoadIndex <= photoTakenAmount) {
-                    loadImages(imageLoadIndex);
+                        if (imageLoadIndex <= photoTakenAmount) {
+                            loadImages(imageLoadIndex);
+                        }
+                    }
+                    catch (Exception e) {
+//                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("English Test Photo - Load Failure", e.getMessage());
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e("English Test Photo - Load Failure", e.getMessage());
 //                photoTakenAmount = 0;
 //                userRef.update("passportPhotoTakenAmount", String.valueOf(0));
-            }
-        });
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -469,13 +491,6 @@ public class CourseApply4Fragment extends Fragment {
         }
 
         return valid;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override

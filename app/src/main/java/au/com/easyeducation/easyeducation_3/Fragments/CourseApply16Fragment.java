@@ -378,15 +378,19 @@ public class CourseApply16Fragment extends Fragment {
                 issueDetailsPhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewMedicalIssueDetailsPhotoLayout, false);
-                        mViewMedicalIssueDetailsPhotoLayout.addView(photo_imageView);
-                        ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-                        Glide.with(mViewMedicalIssueDetailsPhotoLayout).load(uri).into(imageView);
+                        try {
+                            View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewMedicalIssueDetailsPhotoLayout, false);
+                            mViewMedicalIssueDetailsPhotoLayout.addView(photo_imageView);
+                            ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
+                            Glide.with(mViewMedicalIssueDetailsPhotoLayout).load(uri).into(imageView);
 
-                        imageLoadIndex_Medical++;
+                            imageLoadIndex_Medical++;
 
-                        if (imageLoadIndex_Medical <= photoTakenAmount_Medical) {
-                            loadImages(imageLoadIndex_Medical, 1);
+                            if (imageLoadIndex_Medical <= photoTakenAmount_Medical) {
+                                loadImages(imageLoadIndex_Medical, 1);
+                            }
+                        } catch (Exception e) {
+//                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -404,15 +408,19 @@ public class CourseApply16Fragment extends Fragment {
                 issueDetailsPhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewLegalIssueDetailsPhotoLayout, false);
-                        mViewLegalIssueDetailsPhotoLayout.addView(photo_imageView);
-                        ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-                        Glide.with(mViewLegalIssueDetailsPhotoLayout).load(uri).into(imageView);
+                        try {
+                            View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewLegalIssueDetailsPhotoLayout, false);
+                            mViewLegalIssueDetailsPhotoLayout.addView(photo_imageView);
+                            ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
+                            Glide.with(mViewLegalIssueDetailsPhotoLayout).load(uri).into(imageView);
 
-                        imageLoadIndex_Legal++;
+                            imageLoadIndex_Legal++;
 
-                        if (imageLoadIndex_Legal <= photoTakenAmount_Legal) {
-                            loadImages(imageLoadIndex_Legal, 2);
+                            if (imageLoadIndex_Legal <= photoTakenAmount_Legal) {
+                                loadImages(imageLoadIndex_Legal, 2);
+                            }
+                        } catch (Exception e) {
+//                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -424,15 +432,19 @@ public class CourseApply16Fragment extends Fragment {
                 issueDetailsPhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewVisaIssueDetailsPhotoLayout, false);
-                        mViewVisaIssueDetailsPhotoLayout.addView(photo_imageView);
-                        ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-                        Glide.with(mViewVisaIssueDetailsPhotoLayout).load(uri).into(imageView);
+                        try {
+                            View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewVisaIssueDetailsPhotoLayout, false);
+                            mViewVisaIssueDetailsPhotoLayout.addView(photo_imageView);
+                            ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
+                            Glide.with(mViewVisaIssueDetailsPhotoLayout).load(uri).into(imageView);
 
-                        imageLoadIndex_Visa++;
+                            imageLoadIndex_Visa++;
 
-                        if (imageLoadIndex_Visa <= photoTakenAmount_Visa) {
-                            loadImages(imageLoadIndex_Visa, 3);
+                            if (imageLoadIndex_Visa <= photoTakenAmount_Visa) {
+                                loadImages(imageLoadIndex_Visa, 3);
+                            }
+                        } catch (Exception e) {
+//                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -444,15 +456,19 @@ public class CourseApply16Fragment extends Fragment {
                 issueDetailsPhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewAATIssueDetailsPhotoLayout, false);
-                        mViewAATIssueDetailsPhotoLayout.addView(photo_imageView);
-                        ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-                        Glide.with(mViewAATIssueDetailsPhotoLayout).load(uri).into(imageView);
+                        try {
+                            View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewAATIssueDetailsPhotoLayout, false);
+                            mViewAATIssueDetailsPhotoLayout.addView(photo_imageView);
+                            ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
+                            Glide.with(mViewAATIssueDetailsPhotoLayout).load(uri).into(imageView);
 
-                        imageLoadIndex_AAT++;
+                            imageLoadIndex_AAT++;
 
-                        if (imageLoadIndex_AAT <= photoTakenAmount_AAT) {
-                            loadImages(imageLoadIndex_AAT, 4);
+                            if (imageLoadIndex_AAT <= photoTakenAmount_AAT) {
+                                loadImages(imageLoadIndex_AAT, 4);
+                            }
+                        } catch (Exception e) {
+//                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -464,15 +480,19 @@ public class CourseApply16Fragment extends Fragment {
                 issueDetailsPhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewOtherIssueDetailsPhotoLayout, false);
-                        mViewOtherIssueDetailsPhotoLayout.addView(photo_imageView);
-                        ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-                        Glide.with(mViewOtherIssueDetailsPhotoLayout).load(uri).into(imageView);
+                        try {
+                            View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewOtherIssueDetailsPhotoLayout, false);
+                            mViewOtherIssueDetailsPhotoLayout.addView(photo_imageView);
+                            ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
+                            Glide.with(mViewOtherIssueDetailsPhotoLayout).load(uri).into(imageView);
 
-                        imageLoadIndex_Other++;
+                            imageLoadIndex_Other++;
 
-                        if (imageLoadIndex_Other <= photoTakenAmount_Other) {
-                            loadImages(imageLoadIndex_Other, 5);
+                            if (imageLoadIndex_Other <= photoTakenAmount_Other) {
+                                loadImages(imageLoadIndex_Other, 5);
+                            }
+                        } catch (Exception e) {
+//                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

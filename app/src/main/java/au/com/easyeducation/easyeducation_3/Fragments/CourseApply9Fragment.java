@@ -75,7 +75,7 @@ public class CourseApply9Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private Button nextButton;
-    
+
     private EditText mVisaType;
     private EditText mVisaSubclass;
     private EditText mVisaExpiry;
@@ -263,14 +263,18 @@ public class CourseApply9Fragment extends Fragment {
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "Visa Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(getContext(), "Can only take 5 visa photos", Toast.LENGTH_LONG).show();
                 }
             }
         });
-        
+
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     // Camera functionality
@@ -285,16 +289,20 @@ public class CourseApply9Fragment extends Fragment {
         visaPhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewVisaPhotoLayout, false);
-                mViewVisaPhotoLayout.addView(photo_imageView);
-                ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-                Glide.with(mViewVisaPhotoLayout).load(uri).into(imageView);
+                try {
+                    View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewVisaPhotoLayout, false);
+                    mViewVisaPhotoLayout.addView(photo_imageView);
+                    ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
+                    Glide.with(mViewVisaPhotoLayout).load(uri).into(imageView);
 
-                addimageLoadIndexAmount();
-                photoTaken = true;
+                    addimageLoadIndexAmount();
+                    photoTaken = true;
 
-                if (imageLoadIndex <= photoTakenAmount) {
-                    loadImages(imageLoadIndex);
+                    if (imageLoadIndex <= photoTakenAmount) {
+                        loadImages(imageLoadIndex);
+                    }
+                } catch (Exception e) {
+//                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -421,7 +429,7 @@ public class CourseApply9Fragment extends Fragment {
         verifyPermissions(requestCode);
     }
     // end camera functionality
-    
+
     private boolean validateFields() {
         boolean valid = true;
 

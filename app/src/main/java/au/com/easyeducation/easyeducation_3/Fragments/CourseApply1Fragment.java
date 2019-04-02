@@ -257,13 +257,20 @@ public class CourseApply1Fragment extends Fragment {
 
     private boolean verifyAge() {
         Calendar today = Calendar.getInstance();
-        int age = today.get(Calendar.YEAR) - mYear;
 
-        if (today.get(Calendar.DAY_OF_MONTH) < mDay) {
-            age--;
+        if (today.get(Calendar.YEAR) - mYear == 18) {
+            if (today.get(Calendar.MONTH) + 1 == mMonth) {
+                return today.get(Calendar.DAY_OF_MONTH) >= mDay;
+            }
+            return today.get(Calendar.MONTH) >= mMonth;
         }
 
-        return age >= 18;
+        return today.get(Calendar.YEAR) - mYear >= 18;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     private boolean validateFields() {

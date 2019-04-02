@@ -151,8 +151,7 @@ public class CourseApply23Fragment extends Fragment {
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "NameChanged Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(getContext(), "Can only take 5 Name Change Document photos", Toast.LENGTH_LONG).show();
                 }
             }
@@ -173,16 +172,20 @@ public class CourseApply23Fragment extends Fragment {
         nameChangedPhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewNameChangedPhotoLayout, false);
-                mViewNameChangedPhotoLayout.addView(photo_imageView);
-                ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-                Glide.with(mViewNameChangedPhotoLayout).load(uri).into(imageView);
+                try {
+                    View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewNameChangedPhotoLayout, false);
+                    mViewNameChangedPhotoLayout.addView(photo_imageView);
+                    ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
+                    Glide.with(mViewNameChangedPhotoLayout).load(uri).into(imageView);
 
-                addimageLoadIndexAmount();
-                photoTaken = true;
+                    addimageLoadIndexAmount();
+                    photoTaken = true;
 
-                if (imageLoadIndex <= photoTakenAmount) {
-                    loadImages(imageLoadIndex);
+                    if (imageLoadIndex <= photoTakenAmount) {
+                        loadImages(imageLoadIndex);
+                    }
+                } catch (Exception e) {
+//                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

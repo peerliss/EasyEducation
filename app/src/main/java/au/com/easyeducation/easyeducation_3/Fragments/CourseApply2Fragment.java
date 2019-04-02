@@ -165,6 +165,11 @@ public class CourseApply2Fragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     private boolean validateFields() {
         boolean valid = true;
 
