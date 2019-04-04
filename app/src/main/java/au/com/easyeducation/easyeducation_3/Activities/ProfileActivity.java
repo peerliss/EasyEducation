@@ -30,7 +30,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import au.com.easyeducation.easyeducation_3.Adapter.FirestoreCourseAdapter;
 import au.com.easyeducation.easyeducation_3.Adapter.ProfileImagesGalleryAdapter;
@@ -179,7 +178,8 @@ public class ProfileActivity extends AppCompatActivity {
                 mViewGalleryPhotoLayout.addView(photo_imageView);
                 ImageView imageView = photo_imageView.findViewById(R.id.image_gallery_imageview);
 //                Glide.with(mViewGalleryPhotoLayout).load(uri).into(imageView);
-                Picasso.get().load(uri).centerCrop().fit().into(imageView);
+                Glide.with(getApplicationContext()).load(uri).into(imageView);
+//                Picasso.get().load(uri).centerCrop().fit().into(imageView);
 
                 addimageLoadIndexAmount();
 

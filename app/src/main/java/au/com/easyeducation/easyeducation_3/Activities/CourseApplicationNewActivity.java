@@ -156,6 +156,10 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
     }
 
+    public DocumentReference getInstituteRef() {
+        return instituteRef;
+    }
+
     public void disableBackButton() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }

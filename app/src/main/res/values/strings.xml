@@ -32,4 +32,11 @@
     </string>
     <string name="signature">Signature</string>
     <string name="form_checklist">Form checklist</string>
+    <string name="home">Home</string>
+    <string name="invite_friends">Invite friends</string>
+    <string name="course">Course</string>
+    <string name="support">Support</string>
+    <string name="title_activity_support">SupportActivity</string>
+    <string name="help_support"><![CDATA[Help & Support]]></string>
+    <string name="call_us">Call Us</string>
 </resources>

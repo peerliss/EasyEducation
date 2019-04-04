@@ -117,10 +117,37 @@
     <!--app:layout_constraintTop_toTopOf="parent"-->
     <!--app:layout_constraintVertical_bias="0.226" />-->
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_recyclerView"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/main_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/main_tab_divider"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/main_tab_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@id/main_bottomNavigationView"
+            android:background="#D5D5D5"
+            android:orientation="horizontal" />
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/main_bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/menu_bottom_navigation"
+            app:labelVisibilityMode="unlabeled"
+            app:itemIconSize="30dp"
+            app:itemIconTint="@drawable/bottom_navigation_colors"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

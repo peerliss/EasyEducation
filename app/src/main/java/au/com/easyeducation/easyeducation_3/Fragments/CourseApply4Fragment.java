@@ -50,7 +50,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hbb20.CountryCodePicker;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -120,7 +119,7 @@ public class CourseApply4Fragment extends Fragment {
     private ScrollView mPassportScrollView;
     private LinearLayout mPassportPhotoLayout;
     private LinearLayout mViewPassportPhotoLayout;
-    private int photoTakenAmount;
+    private int photoTakenAmount = 0;
     private int imageLoadIndex = 1;
     private boolean photoTaken = false;
     private String currentPhotoPath;
@@ -278,7 +277,7 @@ public class CourseApply4Fragment extends Fragment {
                         Toast.makeText(getContext(), "Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Can only take 5 passport photos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Cannot take more passport photos", Toast.LENGTH_LONG).show();
                 }
             }
         });

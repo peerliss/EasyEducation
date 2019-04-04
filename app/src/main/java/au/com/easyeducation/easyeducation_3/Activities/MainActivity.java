@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -83,6 +85,29 @@ public class MainActivity extends AppCompatActivity
         institutionRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         setupInstitutionFirestoreRecyclerView();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.main_bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.menu_bottom_navigation_home);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.menu_bottom_navigation_home:
+                        break;
+                    case R.id.menu_bottom_navigation_referral:
+                        break;
+                    case R.id.menu_bottom_navigation_course:
+                        break;
+                    case R.id.menu_bottom_navigation_support:
+                        Intent intent = new Intent(getApplicationContext(), SupportActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+
+                return false;
+            }
+        });
 
 //        cloneDocument();
     }

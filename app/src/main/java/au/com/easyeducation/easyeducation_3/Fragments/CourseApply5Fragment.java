@@ -77,6 +77,7 @@ public class CourseApply5Fragment extends Fragment {
     }
 
     private DocumentReference userRef;
+    private DocumentReference instituteRef;
 
     private Button ieltsButton;
     private Button pteButton;
@@ -99,6 +100,7 @@ public class CourseApply5Fragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private boolean buttonSelected = false;
+    private boolean isEnglishCollege = false;
     private Button nextButton;
 
     // Camera functionality - variables
@@ -136,6 +138,18 @@ public class CourseApply5Fragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        instituteRef = ((CourseApplicationNewActivity) getActivity()).getInstituteRef();
+        instituteRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("type") != null) {
+                    if (documentSnapshot.getString("type").matches("English")) {
+                        isEnglishCollege = true;
+                    }
+                }
+            }
+        });
 
         userRef = db.collection("users").document(mAuth.getUid());
 
@@ -306,7 +320,12 @@ public class CourseApply5Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
-                ((CourseApplicationNewActivity) getActivity()).addFragment(8);
+                if (isEnglishCollege) {
+                    ((CourseApplicationNewActivity) getActivity()).addFragment(8);
+                }
+                else {
+                    ((CourseApplicationNewActivity) getActivity()).addFragment(9);
+                }
             }
         });
 

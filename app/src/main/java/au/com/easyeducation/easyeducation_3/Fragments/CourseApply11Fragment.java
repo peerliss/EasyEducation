@@ -298,6 +298,7 @@ public class CourseApply11Fragment extends Fragment {
                 if (!validateFields()) {
                     return;
                 }
+
                 ((CourseApplicationNewActivity) getActivity()).addFragment(9);
             }
         });
@@ -319,11 +320,11 @@ public class CourseApply11Fragment extends Fragment {
     }
 
     private boolean validateFields() {
-        boolean valid =  true;
+        boolean valid = true;
 
         if (!buttonSelected) {
             Toast.makeText(getContext(), "Please select your english level", Toast.LENGTH_SHORT).show();
-            valid =  false;
+            valid = false;
         }
 
         if (TextUtils.isEmpty(mCourseName.getText()) || mCourseName.length() == 0) {

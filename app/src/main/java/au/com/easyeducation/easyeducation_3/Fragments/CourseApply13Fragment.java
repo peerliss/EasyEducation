@@ -229,9 +229,8 @@ public class CourseApply13Fragment extends Fragment {
                     if (i == 0 && !TextUtils.isEmpty(mHighestQualificationName.getText()) || mHighestQualificationName.length() != 0
                             && !TextUtils.isEmpty(mHighestQualificationInstitution.getText()) || mHighestQualificationInstitution.length() != 0) {
                         mQualification2Layout.setVisibility(View.VISIBLE);
-//                        mHighestQualificationName.setError(null);
-//                        mHighestQualificationInstitution.setError(null);
                         i++;
+
                         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -252,24 +251,22 @@ public class CourseApply13Fragment extends Fragment {
                         });
                         return;
                     }
-//                    else {
-//                        mHighestQualificationName.setError("Required.");
-//                        mHighestQualificationInstitution.setError("Required.");
-//                        return;
-//                    }
+                    else {
+                        mHighestQualificationName.setError("Required.");
+                        mHighestQualificationInstitution.setError("Required.");
+                        return;
+                    }
+
+                if (mQualification3Layout.getVisibility() == View.GONE)
                 if (i == 1 && !TextUtils.isEmpty(mHighestQualification2Name.getText()) || mHighestQualification2Name.length() != 0
-                        && !TextUtils.isEmpty(mHighestQualificationInstitution.getText()) || mHighestQualificationInstitution.length() != 0) {
-//                    mHighestQualification2Name.setError(null);
-//                    mHighestQualification2Institution.setError(null);
+                        && !TextUtils.isEmpty(mHighestQualification2Institution.getText()) || mHighestQualification2Institution.length() != 0) {
+
+                    mQualification3Layout.setVisibility(View.VISIBLE);
+                    mAddQualificationButton.setVisibility(View.GONE);
+
                     userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (mHighestQualification2Name != null && mHighestQualification2Institution != null) {
-                                mQualification3Layout.setVisibility(View.VISIBLE);
-                                mAddQualificationButton.setVisibility(View.GONE);
-                            } else {
-                                Toast.makeText(getContext(), "Please enter details for qualification 2 first.", Toast.LENGTH_SHORT).show();
-                            }
                             if (documentSnapshot.get("highestQualification3Country") != null) {
                                 mQualification3Country.setDefaultCountryUsingNameCode(documentSnapshot.getString("highestQualification3Country"));
                                 mQualification3Country.resetToDefaultCountry();
@@ -280,10 +277,10 @@ public class CourseApply13Fragment extends Fragment {
                         }
                     });
                 }
-//                else {
-//                    mHighestQualification2Name.setError("Required.");
-//                    mHighestQualification2Institution.setError("Required.");
-//                }
+                else {
+                    mHighestQualification2Name.setError("Required.");
+                    mHighestQualification2Institution.setError("Required.");
+                }
             }
         });
 
@@ -383,14 +380,14 @@ public class CourseApply13Fragment extends Fragment {
         mHighestQualificationPhotoLayoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (photoTakenAmount_Q1 <= 4) {
+                if (photoTakenAmount_Q1 <= 19) {
                     try {
                         verifyPermissions(1);
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "HighestQualification Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Can only take 5 Highest Qualification Document photos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Cannot take more Highest Qualification Document photos", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -399,14 +396,14 @@ public class CourseApply13Fragment extends Fragment {
         mHighestQualification2PhotoLayoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (photoTakenAmount_Q2 <= 4) {
+                if (photoTakenAmount_Q2 <= 19) {
                     try {
                         verifyPermissions(2);
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "HighestQualification2 Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Can only take 5 Highest Qualification 2 Document photos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Cannot take more Highest Qualification 2 Document photos", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -415,14 +412,14 @@ public class CourseApply13Fragment extends Fragment {
         mHighestQualification3PhotoLayoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (photoTakenAmount_Q3 <= 4) {
+                if (photoTakenAmount_Q3 <= 19) {
                     try {
                         verifyPermissions(3);
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "HighestQualification3 Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Can only take 5 Highest Qualification 3 Document photos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Cannot take more Highest Qualification 3 Document photos", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -539,7 +536,6 @@ public class CourseApply13Fragment extends Fragment {
                                 progressDialog.dismiss();
                                 photoTakenAmount_Q1++;
                                 userRef.update("highestQualificationPhotoTakenAmount", String.valueOf(photoTakenAmount_Q1));
-                                focusToTakePhotoButton(1);
 
                                 photoTaken_Q1 = true;
                             }
@@ -565,7 +561,6 @@ public class CourseApply13Fragment extends Fragment {
                                 progressDialog.dismiss();
                                 photoTakenAmount_Q2++;
                                 userRef.update("highestQualification2PhotoTakenAmount", String.valueOf(photoTakenAmount_Q2));
-                                focusToTakePhotoButton(2);
 
                                 photoTaken_Q2 = true;
                             }
@@ -591,7 +586,6 @@ public class CourseApply13Fragment extends Fragment {
                                 progressDialog.dismiss();
                                 photoTakenAmount_Q3++;
                                 userRef.update("highestQualification3PhotoTakenAmount", String.valueOf(photoTakenAmount_Q3));
-                                focusToTakePhotoButton(3);
 
                                 photoTaken_Q3 = true;
                             }
@@ -607,63 +601,6 @@ public class CourseApply13Fragment extends Fragment {
                 Toast.makeText(getContext(), "OnActvitiyResult exception - " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (resultCode == RESULT_OK) {
-//            progressDialog.setMessage("Uploading Image...");
-//            progressDialog.show();
-//            try {
-//                View photo_imageView = getLayoutInflater().inflate(R.layout.photo_imageview, mViewHighestQualificationPhotoLayout, false);
-//                mViewHighestQualificationPhotoLayout.addView(photo_imageView);
-//                ImageView imageView = photo_imageView.findViewById(R.id.photo_imageview);
-//                Glide.with(imageView).load(photoURI).into(imageView);
-//
-//                String highestQualificationPhotoName = "highestQualificationPhoto_" + (photoTakenAmount_Q1 + 1) + ".jpg";
-//                highestQualificationPhotoRef = firebaseStorage.getReference("users/" + mAuth.getUid() + "/HighestQualification/" + "/1/" + highestQualificationPhotoName);
-//
-//                highestQualificationPhotoRef.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        progressDialog.dismiss();
-//                        photoTakenAmount_Q1++;
-//                        userRef.update("highestQualificationPhotoTakenAmount", String.valueOf(photoTakenAmount_Q1));
-//                        focusToTakePhotoButton();
-//
-//                        photoTaken_Q1 = true;
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(getContext(), "Image save failure - " + e.getMessage(), Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//            } catch (Exception e) {
-//                Toast.makeText(getContext(), "OnActvitiyResult exception - " + e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        }
-//    }
-
-    private void focusToTakePhotoButton(final int qualificationFocusNumber) {
-//        mHighestQualificationScrollView.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                switch (qualificationFocusNumber) {
-//                    case 1:
-//                        mHighestQualificationScrollView.smoothScrollTo(0, mHighestQualificationPhotoLayoutButton.getTop());
-//                        break;
-//                    case 2:
-//                        mHighestQualificationScrollView.smoothScrollTo(0, mHighestQualification2PhotoLayoutButton.getTop());
-//                        break;
-//                    case 3:
-//                        mHighestQualificationScrollView.smoothScrollTo(0, mHighestQualification3PhotoLayoutButton.getTop());
-//                        break;
-//                }
-//            }
-//        });
     }
 
     private void verifyPermissions(int highestQualificationPhotoNumber) {
@@ -750,7 +687,7 @@ public class CourseApply13Fragment extends Fragment {
             valid = false;
         }
 
-        if (mQualification2Layout.getVisibility() == View.VISIBLE) {
+        if (mQualification2Layout.getVisibility() == View.VISIBLE && photoTaken_Q1) {
             // Camera functionality
             if (!photoTaken_Q2) {
                 Toast.makeText(getContext(), "Please take valid photo of your Second Highest Qualification", Toast.LENGTH_LONG).show();
@@ -758,7 +695,21 @@ public class CourseApply13Fragment extends Fragment {
             }
         }
 
-        if (mQualification3Layout.getVisibility() == View.VISIBLE) {
+        if (mQualification3Layout.getVisibility() == View.VISIBLE && photoTaken_Q2) {
+            if (TextUtils.isEmpty(mHighestQualification3Name.getText()) || mHighestQualification3Name.length() == 0) {
+                mHighestQualification3Name.setError("Required.");
+                valid = false;
+            } else {
+                mHighestQualification3Name.setError(null);
+            }
+
+            if (TextUtils.isEmpty(mHighestQualification3Institution.getText()) || mHighestQualification3Institution.length() == 0) {
+                mHighestQualification3Institution.setError("Required.");
+                valid = false;
+            } else {
+                mHighestQualification3Institution.setError(null);
+            }
+
             // Camera functionality
             if (!photoTaken_Q3) {
                 Toast.makeText(getContext(), "Please take valid photo of your Third Highest Qualification", Toast.LENGTH_LONG).show();
