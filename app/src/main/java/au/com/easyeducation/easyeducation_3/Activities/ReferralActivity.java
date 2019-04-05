@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -16,12 +14,12 @@ import android.widget.Button;
 
 import au.com.easyeducation.easyeducation_3.R;
 
-public class SupportActivity extends AppCompatActivity {
+public class ReferralActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_support);
+        setContentView(R.layout.activity_referral);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -38,8 +36,8 @@ public class SupportActivity extends AppCompatActivity {
             }
         });
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.support_bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.menu_bottom_navigation_support);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.referral_bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.menu_bottom_navigation_referral);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -50,14 +48,14 @@ public class SupportActivity extends AppCompatActivity {
                         startActivity(intent_main);
                         break;
                     case R.id.menu_bottom_navigation_referral:
-                        Intent intent_referral = new Intent(getApplicationContext(), ReferralActivity.class);
-                        startActivity(intent_referral);
                         break;
                     case R.id.menu_bottom_navigation_course:
                         Intent intent_course = new Intent(getApplicationContext(), CourseApplicationStatusActivity.class);
                         startActivity(intent_course);
                         break;
                     case R.id.menu_bottom_navigation_support:
+                        Intent intent_support = new Intent(getApplicationContext(), SupportActivity.class);
+                        startActivity(intent_support);
                         break;
                 }
 

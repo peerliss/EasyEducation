@@ -96,12 +96,16 @@ public class MainActivity extends AppCompatActivity
                     case R.id.menu_bottom_navigation_home:
                         break;
                     case R.id.menu_bottom_navigation_referral:
+                        Intent intent_referral = new Intent(getApplicationContext(), ReferralActivity.class);
+                        startActivity(intent_referral);
                         break;
                     case R.id.menu_bottom_navigation_course:
+                        Intent intent_course = new Intent(getApplicationContext(), CourseApplicationStatusActivity.class);
+                        startActivity(intent_course);
                         break;
                     case R.id.menu_bottom_navigation_support:
-                        Intent intent = new Intent(getApplicationContext(), SupportActivity.class);
-                        startActivity(intent);
+                        Intent intent_support = new Intent(getApplicationContext(), SupportActivity.class);
+                        startActivity(intent_support);
                         break;
                 }
 

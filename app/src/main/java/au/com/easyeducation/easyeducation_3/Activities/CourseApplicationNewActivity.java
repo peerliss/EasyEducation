@@ -284,11 +284,30 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String numberOfApplicationsString;
+                if (documentSnapshot.getString("numberOfApplications") != null) {
+                    int numberOfApplications = Integer.valueOf(documentSnapshot.getString("numberOfApplications"));
+                    numberOfApplications++;
+                    numberOfApplicationsString = String.valueOf(numberOfApplications);
+                    userRef.update("numberOfApplications", numberOfApplicationsString);
+                }
+                else {
+                    userRef.update("numberOfApplications", "1");
+                    numberOfApplicationsString = "1";
+                }
+
                 userRef.update("uid", mAuth.getUid());
                 userRef.update("applicationStatus", "Pending");
                 CourseApplication courseApplication = documentSnapshot.toObject(CourseApplication.class);
-                userRef.collection("Applications").document(instituteRef.getId()).set(courseApplication);
+//                userRef.collection("Applications").document(instituteRef.getId()).set(courseApplication);
+                userRef.collection("Applications").document("Application " + numberOfApplicationsString).set(courseApplication);
                 instituteRef.collection("Applications").document(mAuth.getUid()).set(courseApplication);
+
+                userRef.collection("Applications").document("Application " + numberOfApplicationsString).update("institutionRef", instituteRef.getId());
+
+                Intent intent = new Intent(getApplicationContext(), CourseApplicationStatusActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
     }

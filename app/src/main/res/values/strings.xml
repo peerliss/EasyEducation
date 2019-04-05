@@ -39,4 +39,5 @@
     <string name="title_activity_support">SupportActivity</string>
     <string name="help_support"><![CDATA[Help & Support]]></string>
     <string name="call_us">Call Us</string>
+    <string name="course_application_details">Course Application Details</string>
 </resources>

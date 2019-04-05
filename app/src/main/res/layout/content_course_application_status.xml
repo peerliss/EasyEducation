@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.CourseApplicationStatusActivity"
+    tools:showIn="@layout/activity_course_application_status">
+
+    <TextView
+        android:id="@+id/courseApplicationStatus_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/course_application_details"
+        android:textAlignment="center"
+        android:textColor="#19769F"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:id="@+id/courseApplicationStatus_notApplied_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/courseApplicationStatus_tab_divider"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Have not applied yet"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/courseApplicationStatus_details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/courseApplicationStatus_tab_divider"
+        android:layout_below="@id/courseApplicationStatus_title"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/courseApplicationStatus_congratulations_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Congratulations! Your enrolment application has been accepted!"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/courseApplicationStatus_denied_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Unfortunately, your enrolment application has been denied. Please contact the institution for further information"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/courseApplicationStatus_applicationStatus_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Application Status - Pending"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/courseApplicationStatus_courseName_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Course Name - "
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/courseApplicationStatus_courseCode_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="National Course Code - "
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/courseApplicationStatus_courseDuration_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Course Duration - "
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/courseApplicationStatus_institutionName_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Institution Name - "
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/courseApplicationStatus_institutionCricos_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:text="Institution Cricos - "
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/courseApplicationStatus_payTuition_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/courseApplicationStatus_payTuition_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:text="Please proceed to pay your tuition:"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="22sp" />
+
+            <Button
+                android:id="@+id/courseApplicationStatus_payTuition_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_gradient"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:text="Pay Tuition"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="normal|bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/courseApplicationStatus_tab_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/courseApplicationStatus_bottomNavigationView"
+        android:background="#D5D5D5"
+        android:orientation="horizontal" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/courseApplicationStatus_bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@drawable/bottom_navigation_colors"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/menu_bottom_navigation" />
+
+</RelativeLayout>

@@ -177,7 +177,7 @@ public class CourseApply7Fragment extends Fragment {
                 }
                 ((CourseApplicationNewActivity) getActivity()).completeApplication();
 
-                Toast.makeText(getContext(), "Course Application Sent", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), "Course Application Submitted", Toast.LENGTH_LONG).show();
             }
         });
 

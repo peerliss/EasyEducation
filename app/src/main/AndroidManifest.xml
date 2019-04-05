@@ -20,11 +20,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activities.CourseApplicationStatusActivity"
+            android:label="Course Applcication Status Activity"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".Activities.ReferralActivity"
+            android:label="Referral Activity"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".Activities.SupportActivity"
             android:label="@string/title_activity_support"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
