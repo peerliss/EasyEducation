@@ -20,6 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activities.CourseApplicationPaymentActivity"
+            android:label="Course Applcication Payment Activity"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="au.com.easyeducation.easyeducation_3.Activities.CourseApplicationStatusActivity" />
+        </activity>
         <activity android:name=".Activities.CourseApplicationStatusActivity"
             android:label="Course Applcication Status Activity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
