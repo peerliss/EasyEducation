@@ -2,7 +2,7 @@ package au.com.easyeducation.easyeducation_3.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -19,11 +19,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
 
-import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class RegisterProfileNumberFragment extends Fragment {
 
@@ -127,7 +124,7 @@ public class RegisterProfileNumberFragment extends Fragment {
         countryCode = countryCodePicker.getSelectedCountryCode();
         number = mNumber.getText().toString().trim();
 
-        if (TextUtils.isEmpty(number) && number.length() >= 9) {
+        if (TextUtils.isEmpty(number) && number.length() <= 9) {
             mNumber.setError("Required.");
             valid = false;
         } else {

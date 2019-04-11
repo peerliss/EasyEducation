@@ -1,27 +1,25 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply10Fragment;
@@ -47,21 +45,17 @@ import au.com.easyeducation.easyeducation_3.Fragments.CourseApply6Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply7Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply8Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply9Fragment;
-import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileDOBFragment;
-import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNameFragment;
-import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNumberFragment;
-import au.com.easyeducation.easyeducation_3.Fragments.RegisterProfileNumberVerifyFragment;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApplicationActivity extends AppCompatActivity {
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * The {@link PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * {@link FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 

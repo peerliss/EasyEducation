@@ -3,13 +3,13 @@ package au.com.easyeducation.easyeducation_3.Activities;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -50,7 +49,6 @@ import au.com.easyeducation.easyeducation_3.Fragments.CourseApply7Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply8Fragment;
 import au.com.easyeducation.easyeducation_3.Fragments.CourseApply9Fragment;
 import au.com.easyeducation.easyeducation_3.Model.CourseApplication;
-import au.com.easyeducation.easyeducation_3.Model.Institution;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApplicationNewActivity extends AppCompatActivity {
@@ -290,14 +288,16 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
                     numberOfApplications++;
                     numberOfApplicationsString = String.valueOf(numberOfApplications);
                     userRef.update("numberOfApplications", numberOfApplicationsString);
+                    userRef.update("uid", mAuth.getUid());
+                    userRef.update("applicationStatus", "Pending");
                 }
                 else {
                     userRef.update("numberOfApplications", "1");
                     numberOfApplicationsString = "1";
+                    userRef.update("uid", mAuth.getUid());
+                    userRef.update("applicationStatus", "Pending");
                 }
 
-                userRef.update("uid", mAuth.getUid());
-                userRef.update("applicationStatus", "Pending");
                 CourseApplication courseApplication = documentSnapshot.toObject(CourseApplication.class);
 //                userRef.collection("Applications").document(instituteRef.getId()).set(courseApplication);
                 userRef.collection("Applications").document("Application " + numberOfApplicationsString).set(courseApplication);

@@ -175,11 +175,12 @@
         android:background="#D5D5D5"
         android:orientation="horizontal" />
 
-    <android.support.design.widget.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/courseApplicationStatus_bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/white"
         app:itemIconSize="30dp"
         app:itemIconTint="@drawable/bottom_navigation_colors"
         app:labelVisibilityMode="unlabeled"

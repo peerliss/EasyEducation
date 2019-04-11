@@ -2,7 +2,7 @@ package au.com.easyeducation.easyeducation_3.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,11 +18,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class RegisterProfileNameFragment extends Fragment {
 

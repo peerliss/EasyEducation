@@ -5,11 +5,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,7 +23,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 
-import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
@@ -124,8 +121,7 @@ public class RegisterProfileDOBFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!validateDOB()) {
-                    Toast.makeText(getContext(), "Please check fields.",
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Must be at least 18 years or older", Toast.LENGTH_LONG).show();
                 }
                 else {
                     userRef.update("dob", dob);
@@ -139,13 +135,15 @@ public class RegisterProfileDOBFragment extends Fragment {
 
     private boolean verifyAge() {
         Calendar today = Calendar.getInstance();
-        int age = today.get(Calendar.YEAR) - mYear;
 
-        if (today.get(Calendar.DAY_OF_MONTH) < mDay) {
-            age--;
+        if (today.get(Calendar.YEAR) - mYear == 18) {
+            if (today.get(Calendar.MONTH) + 1 == mMonth) {
+                return today.get(Calendar.DAY_OF_MONTH) >= mDay;
+            }
+            return today.get(Calendar.MONTH) >= mMonth;
         }
 
-        return age >= 18;
+        return today.get(Calendar.YEAR) - mYear >= 18;
     }
 
     private boolean validateDOB() {

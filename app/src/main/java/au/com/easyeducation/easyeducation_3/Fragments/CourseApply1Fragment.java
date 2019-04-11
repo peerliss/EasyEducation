@@ -2,16 +2,13 @@ package au.com.easyeducation.easyeducation_3.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,9 +25,7 @@ import com.hbb20.CountryCodePicker;
 
 import java.util.Calendar;
 
-import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationActivity;
 import au.com.easyeducation.easyeducation_3.Activities.CourseApplicationNewActivity;
-import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApply1Fragment extends Fragment {

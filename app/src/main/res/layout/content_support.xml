@@ -96,14 +96,15 @@
         android:background="#D5D5D5"
         android:orientation="horizontal" />
 
-    <android.support.design.widget.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/support_bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_bottom_navigation"
-        app:labelVisibilityMode="unlabeled"
+        android:background="@color/white"
         app:itemIconSize="30dp"
-        app:itemIconTint="@drawable/bottom_navigation_colors" />
+        app:itemIconTint="@drawable/bottom_navigation_colors"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/menu_bottom_navigation" />
 
 </RelativeLayout>
