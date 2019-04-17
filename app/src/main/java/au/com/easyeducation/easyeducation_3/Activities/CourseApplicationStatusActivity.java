@@ -156,10 +156,10 @@ public class CourseApplicationStatusActivity extends AppCompatActivity {
                     institutionCricosTv.setText("Institution Cricos - " + documentSnapshot.getString("institutionCricos"));
                 }
                 // Testing payments - remove to revert to visible when applied
-                else {
-                    notAppliedLayout.setVisibility(View.GONE);
-                    applicationStatusDetailsLayout.setVisibility(View.VISIBLE);
-                }
+//                else {
+//                    notAppliedLayout.setVisibility(View.GONE);
+//                    applicationStatusDetailsLayout.setVisibility(View.VISIBLE);
+//                }
             }
         });
     }

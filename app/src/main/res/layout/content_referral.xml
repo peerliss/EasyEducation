@@ -9,84 +9,132 @@
     tools:context=".Activities.ReferralActivity"
     tools:showIn="@layout/activity_referral">
 
-    <TextView
-        android:id="@+id/textView28"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="40dp"
-        android:text="@string/help_support"
-        android:textAlignment="center"
-        android:textColor="#19769F"
-        android:textSize="30sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_above="@id/referral_tab_divider"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingStart="25dp"
-        android:paddingEnd="25dp">
+        android:layout_alignParentTop="true">
 
-        <TextView
-            android:id="@+id/textView29"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Got a question on your mind?"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:orientation="vertical"
+            android:paddingTop="30dp">
 
-        <TextView
-            android:id="@+id/textView30"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contact Us"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/invite_friends"
+                android:textAlignment="center"
+                android:textColor="#19769F"
+                android:textSize="30sp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="15dp"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="25dp">
 
-        <TextView
-            android:id="@+id/textView31"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="info@easyeducation.com.au"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+                <LinearLayout
+                    android:id="@+id/referral_amountEarned_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-        <TextView
-            android:id="@+id/textView32"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Phone: 1300 411 875"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/referral_amountEarned_Tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="$1,250"
+                        android:textAlignment="center"
+                        android:textColor="@color/menu"
+                        android:textSize="60sp"
+                        android:textStyle="bold" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
+                    <TextView
+                        android:id="@+id/referral_amountEarned_numberOfReferrals_Tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Earned from 5 referrals"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/support_call_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/button_gradient"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
-            android:text="@string/call_us"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="normal|bold" />
-    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Share with a friend"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/referral_signUpBonus_Tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:text="Get $250 each for you and a friend when your friend signs up for a course and mentions your name."
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Refer more earn more"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/referral_payoutPerReferral_Tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:text="Payout per referral
+First 4- $250 per person
+5-9 people- $??? each for all referred
+10-19 people - $??? each for all referred
+20 - 30 people - $??? each for all referred "
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Successful referrals"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/referral_referredPeople_Tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="First Last - firstlast@email.com
+First Last - firstlast@email.com
+First Last - firstlast@email.com
+First Last - firstlast@email.com
+First Last - firstlast@email.com"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/referral_tab_divider"
@@ -101,10 +149,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_bottom_navigation"
-        app:labelVisibilityMode="unlabeled"
         android:background="@color/white"
         app:itemIconSize="30dp"
-        app:itemIconTint="@drawable/bottom_navigation_colors" />
+        app:itemIconTint="@drawable/bottom_navigation_colors"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/menu_bottom_navigation" />
 
 </RelativeLayout>

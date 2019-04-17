@@ -1,15 +1,20 @@
 package au.com.easyeducation.easyeducation_3.Activities;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,13 +23,19 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
+import com.stripe.android.CustomerSession;
+import com.stripe.android.EphemeralKeyProvider;
+import com.stripe.android.EphemeralKeyUpdateListener;
 import com.stripe.android.SourceCallback;
 import com.stripe.android.Stripe;
+import com.stripe.android.StripeError;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Customer;
@@ -36,8 +47,10 @@ import com.stripe.android.model.Source;
 import com.stripe.android.model.SourceParams;
 import com.stripe.android.model.Token;
 import com.stripe.android.view.CardInputWidget;
+import com.stripe.android.view.PaymentMethodsActivity;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Text;
 
 import java.security.Signature;
 import java.text.DecimalFormat;
@@ -79,8 +92,15 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
     private FirebaseFunctions firebaseFunctions;
     private Stripe stripe;
     private DocumentReference userRef;
+    private CollectionReference sourceRef;
     private SourceCallback sourceCallback;
     private String sourceId;
+    private Source source;
+    private int payableSemesterAmount;
+    private DocumentReference tokenRef;
+    private ProgressBar progressBar;
+    private Customer customerRetrieved;
+    private TextView successfullyPaid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +131,8 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
             }
         });
 
+        tokenRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("tokens").document();
+
         courseNameTv = findViewById(R.id.courseApplicationPayment_courseName_tv);
         courseCodeTv = findViewById(R.id.courseApplicationPayment_courseCode_tv);
 
@@ -124,6 +146,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         courseFullFeeSemester = findViewById(R.id.courseApplicationPayment_payment_fullFeeSemester_tv);
         courseCashBackSemester = findViewById(R.id.courseApplicationPayment_payment_cashbackSemester_tv);
         coursePayableSemester = findViewById(R.id.courseApplicationPayment_payment_youPaySemester_tv);
+        successfullyPaid = findViewById(R.id.courseApplicationPayment_payment_SuccessfulPayments);
 
         additionalFee1Tv = findViewById(R.id.courseApplicationPayment_additionalFees_1_tv);
         additionalFee2Tv = findViewById(R.id.courseApplicationPayment_additionalFees_2_tv);
@@ -134,88 +157,112 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         mCardInputWidget = findViewById(R.id.card_input_widget);
         mCardInputWidget.clearFocus();
 
-//        Card card = new Card("4000-0003-6000-0006", 12, 2020, "123");
-//        card.validateCVC();
-
         stripe = new Stripe(getApplicationContext(), "pk_test_jDcOdq33BYd98URKsivS1jfh");
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cardToSave = mCardInputWidget.getCard();
+//              Add details such as full name and address to card
+//                fillCardFields();
 
-                // Add details such as full name and address to card
-                fillCardFields();
-
-                if (!cardToSave.validateCard()) {
+                if (cardToSave == null || !cardToSave.validateCard()) {
                     Toast.makeText(getApplicationContext(), "Card is invalid", Toast.LENGTH_LONG).show();
                     return;
+                } else {
+                    progressBar = findViewById(R.id.progressbar);
+                    progressBar.setVisibility(View.VISIBLE);// To Show ProgressBar
+
+//                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+//                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                    createToken();
                 }
-                stripe.createToken(
-                        cardToSave,
-                        new TokenCallback() {
-                            public void onSuccess(Token token) {
-                                // Send token to your server
-                                DocumentReference tokenRef;
-                                tokenRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("tokens").document();
-
-                                tokenRef.set(token).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(CourseApplicationPaymentActivity.this, "Token successfully added to database", Toast.LENGTH_LONG).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(CourseApplicationPaymentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                });
-
-                                SourceParams sourceParams = SourceParams.createCardParams(cardToSave);
-                                stripe.createSource(sourceParams, sourceCallback);
-
-                                final String tokenId = token.getId();
-
-                                sourceCallback = new SourceCallback() {
-                                    @Override
-                                    public void onError(@NonNull Exception error) {
-                                        Toast.makeText(CourseApplicationPaymentActivity.this, "Source" + error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onSuccess(@NonNull Source source) {
-                                        DocumentReference sourceRef;
-                                        sourceRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("sources").document(tokenId);
-                                        sourceRef.set(source);
-                                        Toast.makeText(CourseApplicationPaymentActivity.this, "Source" + source.getId(), Toast.LENGTH_SHORT).show();
-                                        sourceId = source.getId();
-                                    }
-                                };
-
-                            }
-
-                            public void onError(Exception error) {
-                                // Show localized error message
-                                Toast.makeText(getApplicationContext(),
-                                        error.getLocalizedMessage(),
-                                        Toast.LENGTH_LONG
-                                ).show();
-                            }
-                        }
-                );
-
-                DocumentReference chargeRef;
-                chargeRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("charges").document();
-                Map<String, Object> amount = new HashMap<>();
-
-                //Test amount of 5 - to be replaced with a variable
-                amount.put("amount", 5);
-                amount.put("currency", "aud");
-                amount.put("description", "Test charge");
-                amount.put("source", sourceId);
-                chargeRef.set(amount);
+//                createCharge();
             }
         });
+    }
+
+    private void loadSuccessfulPayment() {
+        try {
+            CollectionReference chargeCollectionRef;
+            chargeCollectionRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("charges");
+            chargeCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        int numberOfDocs = queryDocumentSnapshots.getDocuments().size();
+                        double amountPaid = 0;
+                        for (int i = 0; i < numberOfDocs; i++) {
+                            if (queryDocumentSnapshots.getDocuments().get(i).getString("status") != null) {
+                                if (queryDocumentSnapshots.getDocuments().get(i).getString("status").matches("succeeded")) {
+                                    amountPaid = amountPaid + queryDocumentSnapshots.getDocuments().get(i).getDouble("amount") / 100;
+                                    successfullyPaid.setText("Successfully paid: $" + String.valueOf(amountPaid));
+                                    successfullyPaid.setVisibility(View.VISIBLE);
+//                                confirmButton.setEnabled(false);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void createToken() {
+        stripe.createToken(cardToSave, new TokenCallback() {
+            @Override
+            public void onSuccess(Token token) {
+                // Send token to your server
+//                Toast.makeText(CourseApplicationPaymentActivity.this, "createToken - onSuccess", Toast.LENGTH_LONG).show();
+                tokenRef.set(token).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(CourseApplicationPaymentActivity.this, "Token successfully added to database", Toast.LENGTH_LONG).show();
+                        createCharge();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CourseApplicationPaymentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Exception error) {
+                // Show localized error message
+                Toast.makeText(getApplicationContext(),
+                        error.getLocalizedMessage(),
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        });
+    }
+
+    private void createCharge() {
+        DocumentReference chargeRef;
+        chargeRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("charges").document();
+        Map<String, Object> charge = new HashMap<>();
+
+        charge.put("amount", payableSemesterAmount * 100);
+        charge.put("currency", "aud");
+        chargeRef.set(charge).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+//                Toast.makeText(CourseApplicationPaymentActivity.this, "Payment successful", Toast.LENGTH_LONG).show();
+                loadSuccessfulPayment();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CourseApplicationPaymentActivity.this, "Payment failed - " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
     }
 
     private void fillCardFields() {
@@ -223,7 +270,6 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 CourseApplication courseApplication = documentSnapshot.toObject(CourseApplication.class);
-                Toast.makeText(CourseApplicationPaymentActivity.this, courseApplication.getFullname(), Toast.LENGTH_SHORT).show();
                 cardToSave.setName(courseApplication.getFullname());
                 cardToSave.setAddressLine1(courseApplication.getStreet());
                 cardToSave.setAddressCity(courseApplication.getSuburb());
@@ -288,6 +334,8 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 String fullFeeString = formatter.format(fullFee);
                 String fullSemesterFeeString = formatter.format(fullSemesterFee);
 
+                confirmButton.setText("Pay $" + fullSemesterFeeString);
+
                 Double cashback = Double.valueOf(course.getCashback());
                 Double cashbackSemester = (double) (course.getCashback() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
 
@@ -296,6 +344,8 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
 
                 Double payable = Double.valueOf(course.getPayable());
                 Double payableSemester = (double) (course.getPayable() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
+                payableSemesterAmount = course.getFullFee() / (Integer.valueOf(course.getDuration().substring(0, 1)) * 2);
+                loadSuccessfulPayment();
 
                 String payableString = formatter.format(payable);
                 String payableSemesterString = formatter.format(payableSemester);
@@ -312,14 +362,20 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                     findViewById(R.id.courseApplicationPayment_additionalFees_layout).setVisibility(View.VISIBLE);
                     additionalFee1Tv.setText(documentSnapshot.getString("additionalFee1"));
                     additionalFee1Tv.setVisibility(View.VISIBLE);
+                    payableSemesterAmount = payableSemesterAmount + Integer.valueOf(documentSnapshot.getString("additionalFee1"));
+                    loadSuccessfulPayment();
                 }
                 if (documentSnapshot.getString("additionalFee2") != null) {
                     additionalFee2Tv.setText(documentSnapshot.getString("additionalFee2"));
                     additionalFee2Tv.setVisibility(View.VISIBLE);
+                    payableSemesterAmount = payableSemesterAmount + Integer.valueOf(documentSnapshot.getString("additionalFee2"));
+                    loadSuccessfulPayment();
                 }
                 if (documentSnapshot.getString("additionalFee3") != null) {
                     additionalFee3Tv.setText(documentSnapshot.getString("additionalFee3"));
                     additionalFee3Tv.setVisibility(View.VISIBLE);
+                    payableSemesterAmount = payableSemesterAmount + Integer.valueOf(documentSnapshot.getString("additionalFee3"));
+                    loadSuccessfulPayment();
                 }
             }
         });

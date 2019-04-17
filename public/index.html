@@ -5,7 +5,7 @@
     <title>Cloud Functions for Firebase (Stripe example)</title>
     <script src="https://js.stripe.com/v2/"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css"/>
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 </head>
 <body>
 <div class="container">
@@ -76,8 +76,7 @@
                         Card
                         <select v-model="newCharge.source">
                             <option :value="null">Default payment method</option>
-                            <option v-for="(source, id) in sources" v-bind:value="source.id"
-                                    v-if="source.id">
+                            <option v-for="(source, id) in sources" v-bind:value="source.id" v-if="source.id">
                                 {{ source.brand }} &hellip;{{ source.last4 }}
                                 (exp. {{ source.exp_month }}/{{ source.exp_year }})
                             </option>
@@ -111,14 +110,7 @@
 <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
 
 <script>
-      firebase.initializeApp({
-        apiKey: "AIzaSyAjuxR-j-aUPwRZnXbEo432evwAk368fZ0",
-        authDomain: "easy-education-92fce.firebaseapp.com",
-        databaseURL: "https://easy-education-92fce.firebaseio.com",
-        storageBucket: "easy-education-92fce.appspot.com",
-        messagingSenderId: "847255428378"
-      });
-      Stripe.setPublishableKey('pk_test_jDcOdq33BYd98URKsivS1jfh');
+      Stripe.setPublishableKey(pk_test_jDcOdq33BYd98URKsivS1jfh);
       var firebaseUI = new firebaseui.auth.AuthUI(firebase.auth());
       var firebaseAuthOptions = {
         callbacks: {
@@ -223,8 +215,6 @@
           }
         }
       });
-
-
-</script>
+    </script>
 </body>
 </html>

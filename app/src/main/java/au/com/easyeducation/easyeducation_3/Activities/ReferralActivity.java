@@ -4,17 +4,48 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import au.com.easyeducation.easyeducation_3.R;
 
 public class ReferralActivity extends AppCompatActivity {
+
+    private TextView mAmountEarned;
+    private TextView mNumberOfReferrals;
+    private TextView mSignupBonus;
+    private TextView mPayoutPerReferral;
+    private TextView mReferredPeople;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private DocumentReference userRef;
+    private DocumentReference referralOverviewRef;
+    private int numberOfReferrals;
+    private String referralDoc = "Referral 1";
+    private String numberOfReferralsString;
+    private int amountEarned;
+    private String amountEarnedString;
+    private int referralLoadIndex = 1;
+    private LinearLayout mAmountEarnedLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +57,6 @@ public class ReferralActivity extends AppCompatActivity {
 
         Drawable gradient = getResources().getDrawable(R.drawable.gradient);
         getSupportActionBar().setBackgroundDrawable(gradient);
-
-        Button callButton = findViewById(R.id.support_call_button);
-        callButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "+611300411875", null));
-                startActivity(intent);
-            }
-        });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.referral_bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.menu_bottom_navigation_referral);
@@ -62,6 +84,56 @@ public class ReferralActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        mAmountEarnedLayout = findViewById(R.id.referral_amountEarned_Layout);
+        mAmountEarned = findViewById(R.id.referral_amountEarned_Tv);
+        mNumberOfReferrals = findViewById(R.id.referral_amountEarned_numberOfReferrals_Tv);
+        mSignupBonus = findViewById(R.id.referral_signUpBonus_Tv);
+        mPayoutPerReferral = findViewById(R.id.referral_payoutPerReferral_Tv);
+        mReferredPeople = findViewById(R.id.referral_referredPeople_Tv);
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        referralOverviewRef = db.collection("users").document(mAuth.getUid()).collection("referrals").document("overview");
+        referralOverviewRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("amountEarned") != null) {
+                    amountEarned = Integer.valueOf(documentSnapshot.getString("amountEarned"));
+                    if (amountEarned > 0) {
+                        mAmountEarnedLayout.setVisibility(View.VISIBLE);
+                    }
+                    amountEarnedString = "$" + documentSnapshot.getString("amountEarned");
+                    mAmountEarned.setText(amountEarnedString);
+                }
+                if (documentSnapshot.getString("numberOfReferrals") != null) {
+                    numberOfReferrals = Integer.valueOf(documentSnapshot.getString("numberOfReferrals"));
+                    numberOfReferralsString = "Earned from " + String.valueOf(documentSnapshot.getString("numberOfReferrals") + " referrals");
+                    if (numberOfReferrals == 1) {
+                        numberOfReferralsString = "Earned from " + String.valueOf(documentSnapshot.getString("numberOfReferrals") + " referral");
+                    }
+                    mNumberOfReferrals.setText(numberOfReferralsString);
+                    loadReferralDetails();
+                }
+            }
+        });
     }
 
+    private void loadReferralDetails() {
+        referralDoc = "Referral" + String.valueOf(referralLoadIndex);
+        userRef = db.collection("users").document(mAuth.getUid()).collection("referrals").document(referralDoc);
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("numberOfReferrals") != null) {
+
+                    referralLoadIndex++;
+                    if (referralLoadIndex < numberOfReferrals) {
+                        loadReferralDetails();
+                    }
+                }
+            }
+        });
+    }
 }

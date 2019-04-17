@@ -18,8 +18,15 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
-//Causes error during deploy
-//const logging = require('@google-cloud/logging')();
+//const logging = require('@google-cloud/logging');
+
+const {Logging} = require('@google-cloud/logging');
+const projectId = 'easy-education-92fce';
+// Creates a client
+const logging = new Logging({
+  projectId: projectId,
+});
+
 const stripe = require('stripe')(functions.config().stripe.token);
 const currency = functions.config().stripe.currency || 'AUD';
 
@@ -62,7 +69,7 @@ exports.createStripeCustomer = functions.auth.user().onCreate(async (user) => {
 // Add a payment source (card) for a user by writing a stripe payment source token to Realtime database
 exports.addPaymentSource = functions.firestore.document('/stripe_customers/{userId}/tokens/{pushId}').onCreate(async (snap, context) => {
   const source = snap.data();
-  const token = source.token;
+  const token = source.id;
   if (source === null){
     return null;
   }
@@ -71,7 +78,7 @@ exports.addPaymentSource = functions.firestore.document('/stripe_customers/{user
     const snapshot = await admin.firestore().collection('stripe_customers').doc(context.params.userId).get();
     const customer =  snapshot.data().customer_id;
     const response = await stripe.customers.createSource(customer, {source: token});
-    return admin.firestore().collection('stripe_customers').doc(context.params.userId).collection("sources").doc(response.fingerprint).set(response, {merge: true});
+    return admin.firestore().collection('stripe_customers').doc(context.params.userId).collection('sources').doc(response.fingerprint).set(response, {merge: true});
   } catch (error) {
     await snap.ref.set({'error':userFacingMessage(error)},{merge:true});
     return reportError(error, {user: context.params.userId});
@@ -94,8 +101,8 @@ function reportError(err, context = {}) {
   // This is the name of the StackDriver log stream that will receive the log
   // entry. This name can be any valid log stream name, but must contain "err"
   // in order for the error to be picked up by StackDriver Error Reporting.
-//  const logName = 'errors';
-//  const log = logging.log(logName);
+  const logName = 'errors';
+  const log = logging.log(logName);
 
   // https://cloud.google.com/logging/docs/api/ref_v2beta1/rest/v2beta1/MonitoredResource
   const metadata = {
