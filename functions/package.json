@@ -3,8 +3,11 @@
   "description": "Stripe Firebase Functions",
   "dependencies": {
     "@google-cloud/logging": "^4.5.1",
-    "firebase-admin": "~7.2.0",
+    "fill-pdf": "^1.1.0",
+    "firebase-admin": "^7.2.0",
     "firebase-functions": "^2.2.1",
+    "node-pdftk": "^2.0.2",
+    "nodemailer": "^6.1.0",
     "stripe": "^6.28.0"
   },
   "devDependencies": {

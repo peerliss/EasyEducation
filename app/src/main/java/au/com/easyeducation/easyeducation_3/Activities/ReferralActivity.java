@@ -9,7 +9,11 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +37,7 @@ public class ReferralActivity extends AppCompatActivity {
     private TextView mAmountEarned;
     private TextView mNumberOfReferrals;
     private TextView mSignupBonus;
+    private TextView mReferralCodeTv;
     private TextView mPayoutPerReferral;
     private TextView mReferredPeople;
     private FirebaseAuth mAuth;
@@ -53,9 +58,22 @@ public class ReferralActivity extends AppCompatActivity {
         setContentView(R.layout.activity_referral);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Drawable gradient = getResources().getDrawable(R.drawable.gradient);
+        FloatingActionButton fab = findViewById(R.id.referral_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri link = generateContentLink();
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, link.toString());
+
+                startActivity(Intent.createChooser(intent, "Share Link"));
+            }
+        });
+
+        Drawable gradient = getResources().getDrawable(R.drawable.gradient, getTheme());
         getSupportActionBar().setBackgroundDrawable(gradient);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.referral_bottomNavigationView);
@@ -89,8 +107,7 @@ public class ReferralActivity extends AppCompatActivity {
         mAmountEarned = findViewById(R.id.referral_amountEarned_Tv);
         mNumberOfReferrals = findViewById(R.id.referral_amountEarned_numberOfReferrals_Tv);
         mSignupBonus = findViewById(R.id.referral_signUpBonus_Tv);
-        mPayoutPerReferral = findViewById(R.id.referral_payoutPerReferral_Tv);
-        mReferredPeople = findViewById(R.id.referral_referredPeople_Tv);
+        mReferralCodeTv = findViewById(R.id.referral_referralCode_Tv);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -118,6 +135,16 @@ public class ReferralActivity extends AppCompatActivity {
                 }
             }
         });
+
+        userRef = db.collection("users").document(mAuth.getUid());
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("referralCode") != null) {
+                    mReferralCodeTv.setText(documentSnapshot.getString("referralCode"));
+                }
+            }
+        });
     }
 
     private void loadReferralDetails() {
@@ -135,5 +162,20 @@ public class ReferralActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public static Uri generateContentLink() {
+        Uri baseUrl = Uri.parse("https://easyeducation.page.link/join");
+        String domain = "https://easyeducation.page.link";
+
+        DynamicLink link = FirebaseDynamicLinks.getInstance()
+                .createDynamicLink()
+                .setLink(baseUrl)
+                .setDomainUriPrefix(domain)
+                .setIosParameters(new DynamicLink.IosParameters.Builder("com.your.bundleid").build())
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder("com.your.packageName").build())
+                .buildDynamicLink();
+
+        return link.getUri();
     }
 }

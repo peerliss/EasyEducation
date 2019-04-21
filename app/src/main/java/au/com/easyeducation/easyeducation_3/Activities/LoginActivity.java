@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
+    private ProgressBar progressBar;
     // [END declare_auth]
 
     @Override
@@ -51,6 +53,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.registerButton).setOnClickListener(this);
         findViewById(R.id.registerText).setOnClickListener(this);
         findViewById(R.id.forgotPasswordText).setOnClickListener(this);
+
+        progressBar = findViewById(R.id.loginProgressBar);
 
         mPasswordField.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -114,11 +118,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     if (documentSnapshot.getString("employmentStatus") != null) {
                                         if (documentSnapshot.getString("name") != null) {
+                                            progressBar.setVisibility(View.GONE);
                                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                             startActivity(intent);
                                         }
                                     }
                                     else {
+                                        progressBar.setVisibility(View.GONE);
                                         Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsNewActivity.class);
                                         startActivity(intent);
                                     }
@@ -174,6 +180,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.loginButton) {
+            progressBar.setVisibility(View.VISIBLE);
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
             hideKeyboardFrom(getApplicationContext(), v);
         }

@@ -17,6 +17,8 @@
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const fillPdf = require("fill-pdf");
+
 admin.initializeApp();
 //const logging = require('@google-cloud/logging');
 
@@ -138,3 +140,19 @@ function reportError(err, context = {}) {
 function userFacingMessage(error) {
   return error.type ? error.message : 'An error occurred, developers have been alerted';
 }
+
+// PDF Functionality
+exports.createApplicationPDF = functions.firestore.document('/users/{userId}/Applications/{pushId}').onCreate(async (snap, context) => {
+  const source = snap.data();
+  const name = source.fullname;
+
+  const formData = { Name: name };
+  const pdfTemplatePath = "pdf-form-example.pdf";
+
+  try {
+
+  } catch (error) {
+    await snap.ref.set({'error':userFacingMessage(error)},{merge:true});
+    return reportError(error, {user: context.params.userId});
+  }
+});

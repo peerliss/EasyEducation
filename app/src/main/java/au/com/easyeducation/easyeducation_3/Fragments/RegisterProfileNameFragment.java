@@ -18,6 +18,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Random;
+
 import au.com.easyeducation.easyeducation_3.Activities.RegisterProfileDetailsNewActivity;
 import au.com.easyeducation.easyeducation_3.R;
 
@@ -41,6 +43,7 @@ public class RegisterProfileNameFragment extends Fragment {
 
     private EditText mName;
     private EditText mSurname;
+    private boolean hasReferralCode = false;
 
     String name;
     String surname;
@@ -74,6 +77,9 @@ public class RegisterProfileNameFragment extends Fragment {
                 if (documentSnapshot.getString("surname") != null) {
                     mSurname.setText(documentSnapshot.getString("surname"));
                 }
+                if (documentSnapshot.getString("referralCode") != null) {
+                    hasReferralCode = true;
+                }
             }
         });
 
@@ -88,6 +94,15 @@ public class RegisterProfileNameFragment extends Fragment {
                     userRef.update("name", name);
                     userRef.update("surname", surname);
                     userRef.update("fullname", fullname);
+
+                    if (!hasReferralCode) {
+                        String referralNameLowercase = name.toLowerCase().concat(surname.substring(0, 1).toLowerCase());
+                        int randomNumber = new Random().nextInt((9999 - 1000) + 1) + 1000;
+                        String randomNumberString = String.valueOf(randomNumber);
+
+                        String referralCode = referralNameLowercase.concat(randomNumberString);
+                        userRef.update("referralCode", referralCode);
+                    }
 
                     ((RegisterProfileDetailsNewActivity) getActivity()).addFragment();
                 }

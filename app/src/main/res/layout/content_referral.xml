@@ -34,8 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="15dp"
                 android:paddingStart="25dp"
+                android:paddingTop="15dp"
                 android:paddingEnd="25dp"
                 android:paddingBottom="25dp">
 
@@ -82,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="25dp"
-                    android:text="Get $250 each for you and a friend when your friend signs up for a course and mentions your name."
+                    android:text="Get $250 each for you and a friend when your friend signs up for a course and enters your referral code."
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
@@ -90,51 +90,85 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Refer more earn more"
+                    android:text="Your Referral Code"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/referral_payoutPerReferral_Tv"
+                    android:id="@+id/referral_referralCode_Tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="25dp"
-                    android:text="Payout per referral
-First 4- $250 per person
-5-9 people- $??? each for all referred
-10-19 people - $??? each for all referred
-20 - 30 people - $??? each for all referred "
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Successful referrals"
+                    android:background="@drawable/et_background"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:text=""
+                    android:textIsSelectable="true"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="26sp"
-                    android:textStyle="bold" />
+                    android:textSize="27sp" />
 
-                <TextView
-                    android:id="@+id/referral_referredPeople_Tv"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/referral_successfulReferrals_Layout"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="First Last - firstlast@email.com
-First Last - firstlast@email.com
-First Last - firstlast@email.com
-First Last - firstlast@email.com
-First Last - firstlast@email.com"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Successful referrals"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/referral_referredPeople_Person1_Tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="First Last - firstlast@email.com"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/referral_referredPeople_Person2_Tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="First Last - firstlast@email.com"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/referral_referredPeople_Person3_Tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="First Last - firstlast@email.com"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/referral_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/referral_tab_divider"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:scaleType="center"
+        android:tint="@android:color/white"
+        app:srcCompat="@drawable/ic_menu_share" />
 
     <LinearLayout
         android:id="@+id/referral_tab_divider"

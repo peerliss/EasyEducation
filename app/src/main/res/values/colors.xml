@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <!--<color name="colorPrimary">#ffffff</color>-->
+    <!--<color name="colorPrimary">#008577</color>-->
+    <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#00574B</color>
     <!--<color name="colorPrimaryDark">#ffffff</color>-->
     <color name="colorAccent">#D81B60</color>
     <color name="card_background">#d4f1f9ff</color>
     <!--<color name="menu">#2699fb</color>-->
     <color name="menu">#19769F</color>
+    <color name="fab">#00BCD4</color>
     <color name="white">#ffffff</color>
     <color name="share_color">#bce0fd</color>
     <color name="profile_button_selected">#35D8A6</color>

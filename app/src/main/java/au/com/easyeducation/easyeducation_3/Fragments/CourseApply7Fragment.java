@@ -107,6 +107,8 @@ public class CourseApply7Fragment extends Fragment {
             public void onClear() {
                 mClearButton.setEnabled(false);
                 mSaveButton.setEnabled(false);
+
+                buttonSelected = false;
             }
         });
 
