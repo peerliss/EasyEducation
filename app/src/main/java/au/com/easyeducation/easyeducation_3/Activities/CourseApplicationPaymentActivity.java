@@ -230,18 +230,21 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     if (!queryDocumentSnapshots.isEmpty()) {
+                        boolean isValidRefereeCode = false;
                         int numberOfDocs = queryDocumentSnapshots.getDocuments().size();
                         for (int i = 0; i < numberOfDocs; i++) {
                             if (queryDocumentSnapshots.getDocuments().get(i).getString("referralCode") != null) {
-                                referralQuery = queryDocumentSnapshots.getDocuments().get(1).getString("referralCode");
+                                referralQuery = queryDocumentSnapshots.getDocuments().get(i).getString("referralCode");
 
                                 if (referralQuery.matches(referredBy)) {
-                                    uid = queryDocumentSnapshots.getDocuments().get(1).getString("uid");
+                                    uid = queryDocumentSnapshots.getDocuments().get(i).getString("uid");
                                     enterReferredByDoc();
-                                } else {
-                                    Toast.makeText(CourseApplicationPaymentActivity.this, "Invalid referee code", Toast.LENGTH_LONG).show();
+                                    isValidRefereeCode = true;
                                 }
                             }
+                        }
+                        if (!isValidRefereeCode) {
+                            Toast.makeText(getApplicationContext(), "Invalid referee code", Toast.LENGTH_LONG).show();
                         }
                     }
                 }

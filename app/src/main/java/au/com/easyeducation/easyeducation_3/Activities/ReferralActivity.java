@@ -51,6 +51,7 @@ public class ReferralActivity extends AppCompatActivity {
     private String amountEarnedString;
     private int referralLoadIndex = 1;
     private LinearLayout mAmountEarnedLayout;
+    private String referralCodeString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +61,6 @@ public class ReferralActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.referral_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri link = generateContentLink();
-
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, link.toString());
-
-                startActivity(Intent.createChooser(intent, "Share Link"));
-            }
-        });
 
         Drawable gradient = getResources().getDrawable(R.drawable.gradient, getTheme());
         getSupportActionBar().setBackgroundDrawable(gradient);
@@ -141,8 +130,23 @@ public class ReferralActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.getString("referralCode") != null) {
-                    mReferralCodeTv.setText(documentSnapshot.getString("referralCode"));
+                    referralCodeString = (documentSnapshot.getString("referralCode"));
+                    mReferralCodeTv.setText(referralCodeString);
                 }
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri link = generateContentLink();
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+//                intent.putExtra(Intent.EXTRA_TEXT, link.toString());
+                intent.putExtra(Intent.EXTRA_TEXT, referralCodeString);
+
+                startActivity(Intent.createChooser(intent, "Share Link"));
             }
         });
     }
