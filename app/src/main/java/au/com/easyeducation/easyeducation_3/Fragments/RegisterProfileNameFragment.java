@@ -2,7 +2,9 @@ package au.com.easyeducation.easyeducation_3.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,9 +16,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Random;
 
@@ -44,12 +48,16 @@ public class RegisterProfileNameFragment extends Fragment {
     private EditText mName;
     private EditText mSurname;
     private boolean hasReferralCode = false;
+    private boolean isValid = true;
 
     String name;
     String surname;
     String fullname;
 
     private DocumentReference userRef;
+    private DocumentReference referralRef;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,10 +71,12 @@ public class RegisterProfileNameFragment extends Fragment {
 
         final Button mNameNextButton = rootView.findViewById(R.id.registerNameNextButton);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         userRef = db.collection("users").document(mAuth.getUid());
+        referralRef = db.collection("users").document(mAuth.getUid())
+                .collection("referrals").document("overview");
 
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -77,6 +87,12 @@ public class RegisterProfileNameFragment extends Fragment {
                 if (documentSnapshot.getString("surname") != null) {
                     mSurname.setText(documentSnapshot.getString("surname"));
                 }
+            }
+        });
+
+        referralRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.getString("referralCode") != null) {
                     hasReferralCode = true;
                 }
@@ -89,19 +105,15 @@ public class RegisterProfileNameFragment extends Fragment {
                 if (!validateName()) {
                     Toast.makeText(getContext(), "Please check fields.",
                             Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     userRef.update("name", name);
                     userRef.update("surname", surname);
                     userRef.update("fullname", fullname);
 
                     if (!hasReferralCode) {
-                        String referralNameLowercase = name.toLowerCase().concat(surname.substring(0, 1).toLowerCase());
-                        int randomNumber = new Random().nextInt((9999 - 1000) + 1) + 1000;
-                        String randomNumberString = String.valueOf(randomNumber);
-
-                        String referralCode = referralNameLowercase.concat(randomNumberString);
+                        String referralCode = createReferralCode();
                         userRef.update("referralCode", referralCode);
+                        referralRef.update("referralCode", referralCode);
                     }
 
                     ((RegisterProfileDetailsNewActivity) getActivity()).addFragment();
@@ -112,10 +124,8 @@ public class RegisterProfileNameFragment extends Fragment {
         mSurname.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                {
-                    switch (keyCode)
-                    {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                             mNameNextButton.performClick();
@@ -129,6 +139,46 @@ public class RegisterProfileNameFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private String createReferralCode() {
+        String referralNameLowercase = name.toLowerCase().concat(surname.substring(0, 1).toLowerCase());
+        int randomNumber = new Random().nextInt((9999 - 1000) + 1) + 1000;
+        String randomNumberString = String.valueOf(randomNumber);
+        String referralCode = referralNameLowercase.concat(randomNumberString);
+
+        if (checkIfReferralCodeIsUnique(referralCode)) {
+            return referralCode;
+        } else {
+            createReferralCode();
+        }
+        return null;
+    }
+
+    private boolean checkIfReferralCodeIsUnique(final String referralCode) {
+        isValid = true;
+        try {
+            CollectionReference userCollectionRef;
+            userCollectionRef = db.collection("users");
+            userCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        int numberOfDocs = queryDocumentSnapshots.getDocuments().size();
+                        for (int i = 0; i < numberOfDocs; i++) {
+                            if (queryDocumentSnapshots.getDocuments().get(i).getString("referralCode") != null) {
+                                if (queryDocumentSnapshots.getDocuments().get(i).getString("referralCode").matches(referralCode)) {
+                                    isValid = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
+        return isValid;
     }
 
     private boolean validateName() {

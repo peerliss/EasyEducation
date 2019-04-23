@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +65,7 @@ import au.com.easyeducation.easyeducation_3.R;
 
 public class CourseApplicationPaymentActivity extends AppCompatActivity {
 
+    private EditText mReferredBy;
     private TextView institutionCricosTv;
     private TextView institutionNameTv;
     private TextView courseCodeTv;
@@ -101,6 +103,10 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Customer customerRetrieved;
     private TextView successfullyPaid;
+    private String referredBy;
+    private String uid;
+    private int numberOfReferrals;
+    private String referralQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +127,9 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("referredBy") != null) {
+                    mReferredBy.setText(documentSnapshot.getString("referredBy"));
+                }
                 if (documentSnapshot.getString("numberOfApplications") != null) {
                     numberOfApplications = documentSnapshot.getString("numberOfApplications");
                     applicationString = "Application ".concat(numberOfApplications);
@@ -132,6 +141,8 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         });
 
         tokenRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("tokens").document();
+
+        mReferredBy = findViewById(R.id.courseApplicationPayment_referredBy_Et);
 
         courseNameTv = findViewById(R.id.courseApplicationPayment_courseName_tv);
         courseCodeTv = findViewById(R.id.courseApplicationPayment_courseCode_tv);
@@ -154,6 +165,15 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
 
         confirmButton = findViewById(R.id.courseApplicationPayment_confirm_button);
 
+        mReferredBy.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!v.hasFocus() && mReferredBy.length() > 0) {
+                    userRef.update("referredBy", mReferredBy.getText().toString().trim());
+                }
+            }
+        });
+
         mCardInputWidget = findViewById(R.id.card_input_widget);
         mCardInputWidget.clearFocus();
 
@@ -166,6 +186,8 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
 //              Add details such as full name and address to card
 //                fillCardFields();
 
+                addReferralDetails();
+
                 if (cardToSave == null || !cardToSave.validateCard()) {
                     Toast.makeText(getApplicationContext(), "Card is invalid", Toast.LENGTH_LONG).show();
                     return;
@@ -173,33 +195,51 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                     progressBar = findViewById(R.id.progressbar);
                     progressBar.setVisibility(View.VISIBLE);// To Show ProgressBar
 
-//                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-//                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
                     createToken();
                 }
-//                createCharge();
             }
         });
     }
 
-    private void loadSuccessfulPayment() {
+    private void addReferralDetails() {
+        enterReferee();
+    }
+
+    private void enterReferee() {
+        if (mReferredBy.length() > 0) {
+            referredBy = mReferredBy.getText().toString().trim();
+
+            userRef.update("referredBy", referredBy);
+
+            DocumentReference referralRef;
+
+            referralRef = db.collection("users").document(mAuth.getUid())
+                    .collection("referrals").document("overview");
+            referralRef.update("referredBy", referredBy);
+
+            getRefereeUid();
+        }
+    }
+
+    private void getRefereeUid() {
         try {
-            CollectionReference chargeCollectionRef;
-            chargeCollectionRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("charges");
-            chargeCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            CollectionReference userCollectionRef;
+            userCollectionRef = db.collection("users");
+            userCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         int numberOfDocs = queryDocumentSnapshots.getDocuments().size();
-                        double amountPaid = 0;
                         for (int i = 0; i < numberOfDocs; i++) {
-                            if (queryDocumentSnapshots.getDocuments().get(i).getString("status") != null) {
-                                if (queryDocumentSnapshots.getDocuments().get(i).getString("status").matches("succeeded")) {
-                                    amountPaid = amountPaid + queryDocumentSnapshots.getDocuments().get(i).getDouble("amount") / 100;
-                                    successfullyPaid.setText("Successfully paid: $" + String.valueOf(amountPaid));
-                                    successfullyPaid.setVisibility(View.VISIBLE);
-//                                confirmButton.setEnabled(false);
+                            if (queryDocumentSnapshots.getDocuments().get(i).getString("referralCode") != null) {
+                                referralQuery = queryDocumentSnapshots.getDocuments().get(1).getString("referralCode");
+
+                                if (referralQuery.matches(referredBy)) {
+                                    uid = queryDocumentSnapshots.getDocuments().get(1).getString("uid");
+                                    enterReferredByDoc();
+                                } else {
+                                    Toast.makeText(CourseApplicationPaymentActivity.this, "Invalid referee code", Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
@@ -207,8 +247,62 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void enterReferredByDoc() {
+        final DocumentReference refereeReferralRef = db.collection("users").document(mAuth.getUid())
+                .collection("referrals").document("referredBy");
+
+        Map<String, Object> referredBy = new HashMap<>();
+
+        referredBy.put("amountEarned", "250");
+        referredBy.put("refereeUid", uid);
+        referredBy.put("paid", false);
+
+        refereeReferralRef.set(referredBy);
+
+        addReferalInfoToReferee();
+    }
+
+    private void addReferalInfoToReferee() {
+        final DocumentReference refereeOverviewRef = db.collection("users").document(uid)
+                .collection("referrals").document("overview");
+
+        refereeOverviewRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("numberOfReferrals") != null) {
+                    numberOfReferrals = Integer.valueOf(documentSnapshot.getString("numberOfReferrals"));
+                    numberOfReferrals = numberOfReferrals + 1;
+                    refereeOverviewRef.update("numberOfReferrals", String.valueOf(numberOfReferrals));
+                } else {
+                    int numberOfReferrals = 1;
+                    refereeOverviewRef.update("numberOfReferrals", String.valueOf(numberOfReferrals));
+                }
+                if (documentSnapshot.getString("amountEarned") != null) {
+                    int amountEarned = Integer.valueOf(documentSnapshot.getString("amountEarned"));
+                    amountEarned = amountEarned + 250;
+                    refereeOverviewRef.update("amountEarned", String.valueOf(amountEarned));
+                } else {
+                    int amountEarned = 250;
+                    refereeOverviewRef.update("amountEarned", String.valueOf(amountEarned));
+                }
+            }
+        });
+
+        String referralNumber = "Referral ".concat(String.valueOf(numberOfReferrals));
+        final DocumentReference refereeReferralRef = db.collection("users").document(uid)
+                .collection("referrals").document(referralNumber);
+
+        Map<String, Object> referredBy = new HashMap<>();
+
+        referredBy.put("amountEarned", "250");
+        referredBy.put("referredUid", mAuth.getUid());
+        referredBy.put("paid", false);
+
+        refereeReferralRef.set(referredBy);
     }
 
     private void createToken() {
@@ -252,7 +346,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         chargeRef.set(charge).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-//                Toast.makeText(CourseApplicationPaymentActivity.this, "Payment successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(CourseApplicationPaymentActivity.this, "Payment successful", Toast.LENGTH_LONG).show();
                 loadSuccessfulPayment();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -263,6 +357,34 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         });
 //        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
+    }
+
+    private void loadSuccessfulPayment() {
+        try {
+            CollectionReference chargeCollectionRef;
+            chargeCollectionRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("charges");
+            chargeCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        int numberOfDocs = queryDocumentSnapshots.getDocuments().size();
+                        double amountPaid = 0;
+                        for (int i = 0; i < numberOfDocs; i++) {
+                            if (queryDocumentSnapshots.getDocuments().get(i).getString("status") != null) {
+                                if (queryDocumentSnapshots.getDocuments().get(i).getString("status").matches("succeeded")) {
+                                    amountPaid = amountPaid + queryDocumentSnapshots.getDocuments().get(i).getDouble("amount") / 100;
+                                    successfullyPaid.setText("Successfully paid: $" + String.valueOf(amountPaid));
+                                    successfullyPaid.setVisibility(View.VISIBLE);
+//                                confirmButton.setEnabled(false);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void fillCardFields() {

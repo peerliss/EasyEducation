@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,11 +25,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Customer;
 import com.stripe.android.model.Token;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import au.com.easyeducation.easyeducation_3.Model.User;
 import au.com.easyeducation.easyeducation_3.R;
@@ -120,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             db.collection("users").document(user.getUid()).set(dummyUser);
 //                            db.collection("stripe_customers").document(user.getUid()).set(dummyUser);
-
+                            addReferralStructure();
                             progressBar.setVisibility(View.GONE);
 
                             Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsNewActivity.class);
@@ -139,6 +145,17 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void addReferralStructure() {
+        Map<String, Object> referralStructure = new HashMap<>();
+        referralStructure.put("numberOfReferrals", "0");
+        referralStructure.put("amountEarned", "0");
+
+        DocumentReference referralRef = db.collection("users").document(mAuth.getUid())
+                .collection("referrals").document("overview");
+
+        referralRef.set(referralStructure);
     }
 
     private boolean validateForm() {
