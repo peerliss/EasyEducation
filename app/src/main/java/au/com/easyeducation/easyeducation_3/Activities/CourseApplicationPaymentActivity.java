@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ErrorDialogFragment;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -107,6 +109,9 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
     private String uid;
     private int numberOfReferrals;
     private String referralQuery;
+    private double amountPaid;
+    private boolean sourcesExists = false;
+    private DocumentReference chargeRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,14 +182,14 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         mCardInputWidget = findViewById(R.id.card_input_widget);
         mCardInputWidget.clearFocus();
 
+        progressBar = findViewById(R.id.progressbar);
+
         stripe = new Stripe(getApplicationContext(), "pk_test_jDcOdq33BYd98URKsivS1jfh");
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cardToSave = mCardInputWidget.getCard();
-//              Add details such as full name and address to card
-//                fillCardFields();
 
                 addReferralDetails();
 
@@ -192,7 +197,6 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Card is invalid", Toast.LENGTH_LONG).show();
                     return;
                 } else {
-                    progressBar = findViewById(R.id.progressbar);
                     progressBar.setVisibility(View.VISIBLE);// To Show ProgressBar
 
                     createToken();
@@ -309,38 +313,54 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
     }
 
     private void createToken() {
-        stripe.createToken(cardToSave, new TokenCallback() {
-            @Override
-            public void onSuccess(Token token) {
-                // Send token to your server
-//                Toast.makeText(CourseApplicationPaymentActivity.this, "createToken - onSuccess", Toast.LENGTH_LONG).show();
-                tokenRef.set(token).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-//                        Toast.makeText(CourseApplicationPaymentActivity.this, "Token successfully added to database", Toast.LENGTH_LONG).show();
-                        createCharge();
+        try {
+            CollectionReference sourceRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("sources");
+            sourceRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+//                        Toast.makeText(CourseApplicationPaymentActivity.this, "Sources exists", Toast.LENGTH_SHORT).show();
+                        sourcesExists = true;
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CourseApplicationPaymentActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
 
-            @Override
-            public void onError(Exception error) {
-                // Show localized error message
-                Toast.makeText(getApplicationContext(),
-                        error.getLocalizedMessage(),
-                        Toast.LENGTH_LONG
-                ).show();
-            }
-        });
+        if (sourcesExists) {
+            createCharge();
+        } else {
+            stripe.createToken(cardToSave, new TokenCallback() {
+                @Override
+                public void onSuccess(Token token) {
+                    // Send token to your server
+                    tokenRef.set(token).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            createCharge();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(CourseApplicationPaymentActivity.this, "Token upload failure - " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(Exception error) {
+                    // Show localized error message
+                    Toast.makeText(getApplicationContext(),
+                            error.getLocalizedMessage(),
+                            Toast.LENGTH_LONG
+                    ).show();
+                }
+            });
+        }
     }
 
     private void createCharge() {
-        DocumentReference chargeRef;
         chargeRef = db.collection("stripe_customers").document(mAuth.getUid()).collection("charges").document();
         Map<String, Object> charge = new HashMap<>();
 
@@ -349,8 +369,12 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         chargeRef.set(charge).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(CourseApplicationPaymentActivity.this, "Payment successful", Toast.LENGTH_LONG).show();
-                loadSuccessfulPayment();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        checkChargeStatus();
+                    }
+                }, 2500);   //2.5 seconds
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -358,7 +382,23 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 Toast.makeText(CourseApplicationPaymentActivity.this, "Payment failed - " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
-//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    private void checkChargeStatus() {
+        chargeRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.getString("status") != null) {
+                    if (documentSnapshot.getString("status").matches("succeeded")) {
+                        Toast.makeText(CourseApplicationPaymentActivity.this, "Payment successful", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
+                        loadSuccessfulPayment();
+                    } else {
+                        Toast.makeText(CourseApplicationPaymentActivity.this, documentSnapshot.getString("status"), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
         progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
     }
 
@@ -371,40 +411,29 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         int numberOfDocs = queryDocumentSnapshots.getDocuments().size();
-                        double amountPaid = 0;
+                        amountPaid = 0;
                         for (int i = 0; i < numberOfDocs; i++) {
                             if (queryDocumentSnapshots.getDocuments().get(i).getString("status") != null) {
                                 if (queryDocumentSnapshots.getDocuments().get(i).getString("status").matches("succeeded")) {
                                     amountPaid = amountPaid + queryDocumentSnapshots.getDocuments().get(i).getDouble("amount") / 100;
-                                    successfullyPaid.setText("Successfully paid: $" + String.valueOf(amountPaid));
-                                    successfullyPaid.setVisibility(View.VISIBLE);
-//                                confirmButton.setEnabled(false);
                                 }
                             }
                         }
+                        DecimalFormat formatter = new DecimalFormat("#,###,###");
+                        final String formattedAmountPaid = formatter.format(amountPaid);
+                        successfullyPaid.setVisibility(View.VISIBLE);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                successfullyPaid.setText("Successfully paid: $" + formattedAmountPaid);
+                            }
+                        });
                     }
                 }
             });
         } catch (Exception e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void fillCardFields() {
-        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                CourseApplication courseApplication = documentSnapshot.toObject(CourseApplication.class);
-                cardToSave.setName(courseApplication.getFullname());
-                cardToSave.setAddressLine1(courseApplication.getStreet());
-                cardToSave.setAddressCity(courseApplication.getSuburb());
-                cardToSave.setAddressZip(courseApplication.getPostCode());
-                cardToSave.setAddressState("NSW");
-                cardToSave.setAddressState(courseApplication.getState());
-                cardToSave.setAddressCountry("Australia");
-                cardToSave.setCurrency("AUD");
-            }
-        });
     }
 
     private void loadApplicationStatus(String applicationRefString) {
