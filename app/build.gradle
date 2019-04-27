@@ -4,7 +4,7 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "au.com.easyeducation.easyeducation_3"
+        applicationId 'au.com.app.edcall'
         minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
@@ -17,6 +17,9 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lintOptions {
+        warning 'InvalidPackage'
     }
 }
 

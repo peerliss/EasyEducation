@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="au.com.easyeducation.easyeducation_3">
+    package="au.com.app.edcall">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -25,7 +25,7 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.CourseApplicationStatusActivity" />
+                android:value=".Activities.CourseApplicationStatusActivity" />
         </activity>
         <activity android:name=".Activities.CourseApplicationStatusActivity"
             android:label="Course Applcication Status Activity"
@@ -41,7 +41,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="au.com.easyeducation.easyeducation_3.fileprovider"
+            android:authorities="au.com.app.edcall.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -56,7 +56,7 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.CollegeCourseInformationActivity" />
+                android:value=".Activities.CollegeCourseInformationActivity" />
         </activity>
         <activity
             android:name=".Activities.CourseApplicationActivity"
@@ -66,7 +66,7 @@
             android:windowSoftInputMode="adjustPan|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.CollegeCourseInformationActivity" />
+                android:value=".Activities.CollegeCourseInformationActivity" />
         </activity>
         <activity
             android:name=".Activities.RegisterProfileDetailsActivity"
@@ -75,7 +75,7 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.MainActivity" />
+                android:value=".Activities.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.RegisterProfileDetailsNewActivity"
@@ -84,7 +84,7 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.MainActivity" />
+                android:value=".Activities.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.CollegeCourseInformationActivity"
@@ -93,7 +93,7 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.ProfileActivity" />
+                android:value=".Activities.ProfileActivity" />
         </activity>
         <activity
             android:name=".Activities.ForgotPasswordActivity"
@@ -102,7 +102,7 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.LoginActivity" />
+                android:value=".Activities.LoginActivity" />
         </activity>
         <activity
             android:name=".Activities.RegisterActivity"
@@ -116,7 +116,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.LoginActivity" />
+                android:value=".Activities.LoginActivity" />
         </activity>
         <activity android:name=".Activities.LoginActivity">
 
@@ -139,7 +139,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.MainActivity" />
+                android:value=".Activities.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.CourseApplicationNewActivity"
@@ -149,7 +149,7 @@
             android:windowSoftInputMode="stateVisible|adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="au.com.easyeducation.easyeducation_3.Activities.CollegeCourseInformationActivity" />
+                android:value=".Activities.CollegeCourseInformationActivity" />
         </activity>
     </application>
 
