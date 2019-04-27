@@ -184,14 +184,21 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressbar);
 
-        stripe = new Stripe(getApplicationContext(), "pk_test_jDcOdq33BYd98URKsivS1jfh");
+        stripe = new Stripe(getApplicationContext(), "pk_live_0lzMcKMzGSb3lf2T0IDLzSG1");
+
+        mReferredBy.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!v.hasFocus() && mReferredBy.length() > 0) {
+                    addReferralDetails();
+                }
+            }
+        });
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cardToSave = mCardInputWidget.getCard();
-
-                addReferralDetails();
 
                 if (cardToSave == null || !cardToSave.validateCard()) {
                     Toast.makeText(getApplicationContext(), "Card is invalid", Toast.LENGTH_LONG).show();
@@ -344,6 +351,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(CourseApplicationPaymentActivity.this, "Token upload failure - " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
                         }
                     });
                 }
@@ -355,6 +363,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                             error.getLocalizedMessage(),
                             Toast.LENGTH_LONG
                     ).show();
+                    progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
                 }
             });
         }
@@ -380,6 +389,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(CourseApplicationPaymentActivity.this, "Payment failed - " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
             }
         });
     }
@@ -393,9 +403,10 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                         Toast.makeText(CourseApplicationPaymentActivity.this, "Payment successful", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
                         loadSuccessfulPayment();
-                    } else {
-                        Toast.makeText(CourseApplicationPaymentActivity.this, documentSnapshot.getString("status"), Toast.LENGTH_LONG).show();
                     }
+                }
+                else if (documentSnapshot.getString("error") != null) {
+                    Toast.makeText(CourseApplicationPaymentActivity.this, documentSnapshot.getString("error"), Toast.LENGTH_LONG).show();
                 }
             }
         });
