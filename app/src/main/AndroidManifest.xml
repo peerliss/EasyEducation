@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="au.com.app.edcall">
+    package="co.edcall.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -20,28 +20,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.CourseApplicationPaymentActivity"
+        <activity android:name="co.edcall.app.Activities.CourseApplicationPaymentActivity"
             android:label="Course Applcication Payment Activity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.CourseApplicationStatusActivity" />
+                android:value="co.edcall.app.Activities.CourseApplicationStatusActivity" />
         </activity>
-        <activity android:name=".Activities.CourseApplicationStatusActivity"
+        <activity android:name="co.edcall.app.Activities.CourseApplicationStatusActivity"
             android:label="Course Applcication Status Activity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name=".Activities.ReferralActivity"
+            android:name="co.edcall.app.Activities.ReferralActivity"
             android:label="Referral Activity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name=".Activities.SupportActivity"
+            android:name="co.edcall.app.Activities.SupportActivity"
             android:label="@string/title_activity_support"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="au.com.app.edcall.fileprovider"
+            android:authorities="co.edcall.app.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -50,62 +50,62 @@
         </provider>
 
         <activity
-            android:name=".Activities.CourseApplicationChecklistActivity"
+            android:name="co.edcall.app.Activities.CourseApplicationChecklistActivity"
             android:label="@string/title_activity_course_application_checklist"
-            android:parentActivityName=".Activities.CollegeCourseInformationActivity"
+            android:parentActivityName="co.edcall.app.Activities.CollegeCourseInformationActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.CollegeCourseInformationActivity" />
+                android:value="co.edcall.app.Activities.CollegeCourseInformationActivity" />
         </activity>
         <activity
-            android:name=".Activities.CourseApplicationActivity"
+            android:name="co.edcall.app.Activities.CourseApplicationActivity"
             android:label="@string/title_activity_course_application"
-            android:parentActivityName=".Activities.CollegeCourseInformationActivity"
+            android:parentActivityName="co.edcall.app.Activities.CollegeCourseInformationActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"
             android:windowSoftInputMode="adjustPan|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.CollegeCourseInformationActivity" />
+                android:value="co.edcall.app.Activities.CollegeCourseInformationActivity" />
         </activity>
         <activity
-            android:name=".Activities.RegisterProfileDetailsActivity"
+            android:name="co.edcall.app.Activities.RegisterProfileDetailsActivity"
             android:label="@string/title_activity_register_profile_details"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="co.edcall.app.Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="co.edcall.app.Activities.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.RegisterProfileDetailsNewActivity"
+            android:name="co.edcall.app.Activities.RegisterProfileDetailsNewActivity"
             android:label="Profile Details"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="co.edcall.app.Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="co.edcall.app.Activities.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.CollegeCourseInformationActivity"
+            android:name="co.edcall.app.Activities.CollegeCourseInformationActivity"
             android:label="@string/title_activity_college_course_information"
-            android:parentActivityName=".Activities.ProfileActivity"
+            android:parentActivityName="co.edcall.app.Activities.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.ProfileActivity" />
+                android:value="co.edcall.app.Activities.ProfileActivity" />
         </activity>
         <activity
-            android:name=".Activities.ForgotPasswordActivity"
+            android:name="co.edcall.app.Activities.ForgotPasswordActivity"
             android:label="@string/title_activity_forgot_password"
-            android:parentActivityName=".Activities.LoginActivity"
+            android:parentActivityName="co.edcall.app.Activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.LoginActivity" />
+                android:value="co.edcall.app.Activities.LoginActivity" />
         </activity>
         <activity
-            android:name=".Activities.RegisterActivity"
+            android:name="co.edcall.app.Activities.RegisterActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -116,9 +116,9 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.LoginActivity" />
+                android:value="co.edcall.app.Activities.LoginActivity" />
         </activity>
-        <activity android:name=".Activities.LoginActivity">
+        <activity android:name="co.edcall.app.Activities.LoginActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -128,28 +128,28 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".Activities.MainActivity"
+            android:name="co.edcall.app.Activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activities.ProfileActivity"
+            android:name="co.edcall.app.Activities.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="co.edcall.app.Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="co.edcall.app.Activities.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.CourseApplicationNewActivity"
+            android:name="co.edcall.app.Activities.CourseApplicationNewActivity"
             android:label="CourseApplicationNewActivity"
-            android:parentActivityName=".Activities.CourseApplicationChecklistActivity"
+            android:parentActivityName="co.edcall.app.Activities.CourseApplicationChecklistActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.CollegeCourseInformationActivity" />
+                android:value="co.edcall.app.Activities.CollegeCourseInformationActivity" />
         </activity>
     </application>
 

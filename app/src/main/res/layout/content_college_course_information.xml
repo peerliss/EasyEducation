@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activities.CollegeCourseInformationActivity"
+    tools:context="co.edcall.app.Activities.CollegeCourseInformationActivity"
     tools:showIn="@layout/activity_college_course_information">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="618dp"
+        android:layout_height="match_parent"
         android:layout_above="@+id/courseInfoApplyNow_Button"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
@@ -32,10 +32,22 @@
                 android:layout_marginBottom="5dp"
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
-                android:text="Diploma of Nursing"
+                android:text="Certificate IV in Leadership and Management"
                 android:textColor="@color/menu"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/courseInfoCricos_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:paddingStart="25dp"
+                android:paddingEnd="25dp"
+                android:text="Cricos Code: 57946C"
+                android:textColor="@android:color/black"
+                android:textSize="17sp" />
+
 
             <TextView
                 android:id="@+id/courseInfoCode_TextView"
@@ -65,7 +77,7 @@
                         android:layout_alignBaseline="@+id/courseInfoCashBack_TextView"
                         android:paddingStart="25dp"
                         android:paddingBottom="1dp"
-                        android:text="Full Fee: $25,600"
+                        android:text="Tuition: $25,600"
                         android:textColor="@color/menu"
                         android:textSize="18.5sp" />
 
@@ -110,7 +122,7 @@
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="right"
-                android:text="Full fee $6,250 per semester. Cash back $625 per semester.  You pay total $5,625 per semester."
+                android:text="Tuition fee $6,250 per semester. Cash back $625 per semester.  You pay total $5,625 per semester."
                 android:textAlignment="center"
                 android:textColor="#656565"
                 android:textSize="14sp" />
@@ -163,7 +175,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:text="Class Availability: Morning / Evening"
+                        android:text="Class availability: Morning / Evening"
                         android:textColor="@android:color/white"
                         android:textSize="17sp" />
                 </LinearLayout>
@@ -178,6 +190,7 @@
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 android:text="Overview"
+                android:textIsSelectable="false"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />

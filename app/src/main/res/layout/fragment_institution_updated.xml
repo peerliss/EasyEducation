@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_institution"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:defaultFocusHighlightEnabled="false"
+    android:orientation="vertical"
+    android:outlineSpotShadowColor="@android:color/black"
+    android:theme="@style/AppTheme"
+    app:cardBackgroundColor="@color/card_background"
+    tools:context="co.edcall.app.Fragments.InstitutionFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:theme="@style/AppTheme">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:theme="@style/AppTheme">
+
+            <ImageView
+                android:id="@+id/institution_profile_imageview"
+                android:layout_width="102dp"
+                android:layout_height="101dp"
+                android:layout_gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="15dp"
+                android:src="@drawable/college_icon" />
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:theme="@style/AppTheme">
+
+                <TextView
+                    android:id="@+id/institution_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sydney Health Institute"
+                    android:textColor="@color/menu"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme" />
+
+                <TextView
+                    android:id="@+id/institution_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="xymigration"
+                    android:textColor="#95989A"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/institution_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Migration for all international students to lodge their coursesAvailable's on time and enrol  in other institutions. Migration for all international students to lodge their  coursesAvailable's on time and enrol in other institutions. Migration for all international...."
+                    android:textColor="@color/menu"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/institution_coursesAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="5dp"
+                android:text="6 Courses Available"
+                android:textColor="@color/menu"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

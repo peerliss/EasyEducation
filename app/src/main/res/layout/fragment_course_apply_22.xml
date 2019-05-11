@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.CourseApply22Fragment">
+    tools:context="co.edcall.app.Fragments.CourseApply22Fragment">
 
     <ScrollView
         android:layout_width="match_parent"

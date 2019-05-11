@@ -8,7 +8,7 @@
     android:paddingStart="25dp"
     android:paddingEnd="25dp"
     android:paddingBottom="30dp"
-    tools:context=".Fragments.CourseApply14Fragment">
+    tools:context="co.edcall.app.Fragments.CourseApply14Fragment">
 
     <TextView
         android:id="@+id/textView2"

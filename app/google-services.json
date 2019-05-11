@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:847255428378:android:c6e35a1318f1a0d3",
         "android_client_info": {
-          "package_name": "au.com.app.edcall"
+          "package_name": "co.edcall.app"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "847255428378-vo18489ctucnehfa1j9b1a54vromth4g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "au.com.app.edcall",
+            "package_name": "co.edcall.app",
             "certificate_hash": "934345e7a8e7dd6a0306f8bcb3288484f7ef9dc0"
           }
         },

@@ -9,7 +9,7 @@
     android:paddingStart="25dp"
     android:paddingEnd="25dp"
     android:paddingBottom="30dp"
-    tools:context=".Fragments.CourseApply3Fragment">
+    tools:context="co.edcall.app.Fragments.CourseApply3Fragment">
 
     <TextView
         android:layout_width="match_parent"

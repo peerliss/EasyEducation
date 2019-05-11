@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="au.com.app.edcall.Activities.MainActivity">
+    tools:context="co.edcall.app.Activities.MainActivity">
     <item
         android:id="@+id/menu_bottom_navigation_home"
         android:icon="@drawable/cap"
