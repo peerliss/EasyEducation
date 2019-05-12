@@ -54,6 +54,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
     private TextView courseFullFeeSemester;
     private TextView courseCashBackSemester;
     private TextView coursePayableSemester;
+    private TextView enrolmentFeeTv;
     private TextView materialFeeTv;
     private TextView additionalFee1Tv;
     private TextView additionalFee2Tv;
@@ -89,8 +90,10 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
     private boolean sourcesExists = false;
     private DocumentReference chargeRef;
     private String referralCode;
+    private String enrolmentFeePaid = "false";
     private String materialFeePaid = "false";
     private DocumentReference applicationRef;
+    private int enrolmentFeeInt;
     private int materialFeeInt;
 
     @Override
@@ -145,6 +148,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         courseFullFeeSemester = findViewById(R.id.courseApplicationPayment_payment_fullFeeSemester_tv);
         courseCashBackSemester = findViewById(R.id.courseApplicationPayment_payment_cashbackSemester_tv);
         coursePayableSemester = findViewById(R.id.courseApplicationPayment_payment_youPaySemester_tv);
+        enrolmentFeeTv = findViewById(R.id.courseApplicationPayment_enrolmentFee_tv);
         materialFeeTv = findViewById(R.id.courseApplicationPayment_materialFee_tv);
         successfullyPaid = findViewById(R.id.courseApplicationPayment_payment_SuccessfulPayments);
 
@@ -424,6 +428,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                     if (documentSnapshot.getString("status").matches("succeeded")) {
                         Toast.makeText(CourseApplicationPaymentActivity.this, "Payment successful", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
+                        setEnrolmentFeePaid();
                         setMaterialFeePaid();
                         loadSuccessfulPayment();
                     }
@@ -491,6 +496,11 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 if (documentSnapshot.getString("institutionRef") != null) {
                     institutionRefString = documentSnapshot.getString("institutionRef");
                 }
+                if (documentSnapshot.getString("enrolmentFeePaid") != null) {
+                    if (documentSnapshot.getString("enrolmentFeePaid").matches("true")) {
+                        enrolmentFeePaid = documentSnapshot.getString("enrolmentFeePaid");
+                    }
+                }
                 if (documentSnapshot.getString("materialFeePaid") != null) {
                     if (documentSnapshot.getString("materialFeePaid").matches("true")) {
                         materialFeePaid = documentSnapshot.getString("materialFeePaid");
@@ -508,6 +518,10 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setEnrolmentFeePaid() {
+        applicationRef.update("enrolmentFeePaid", "true");
     }
 
     private void setMaterialFeePaid() {
@@ -549,6 +563,10 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
 
                 confirmButton.setText("Pay $" + payableSemesterAmountString);
 
+                enrolmentFeeInt = course.getEnrolmentFee();
+                Double enrolmentFee = Double.valueOf(course.getEnrolmentFee());
+                String enrolmentFeeString = formatter.format(enrolmentFee);
+
                 materialFeeInt = course.getMaterialFee();
                 Double materialFee = Double.valueOf(course.getMaterialFee());
                 String materialFeeString = formatter.format(materialFee);
@@ -560,13 +578,19 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 courseFullFeeSemester.setText("Tuition Fee: $" + fullSemesterFeeString + " per semester");
                 courseCashBackSemester.setText("Cash Back: $" + cashbackSemesterString + " per semester");
                 coursePayableSemester.setText("You Pay: $" + payableSemesterString + " per semester");
+                enrolmentFeeTv.setText("Enrolment Fee: $" + enrolmentFeeString);
                 materialFeeTv.setText("Material Fee: $" + materialFeeString);
+
+                if (!enrolmentFeePaid.matches("true")) {
+                    payableSemesterAmount = payableSemesterAmount + enrolmentFeeInt;
+                    payableSemesterAmountString = formatter.format(payableSemesterAmount);
+                    confirmButton.setText("Pay $" + payableSemesterAmountString);
+                }
 
                 if (!materialFeePaid.matches("true")) {
                     payableSemesterAmount = payableSemesterAmount + materialFeeInt;
                     payableSemesterAmountString = formatter.format(payableSemesterAmount);
                     confirmButton.setText("Pay $" + payableSemesterAmountString);
-//                    Toast.makeText(CourseApplicationPaymentActivity.this, payableSemesterAmountString, Toast.LENGTH_LONG).show();
                 }
 
 //                Toast.makeText(CourseApplicationPaymentActivity.this, String.valueOf(payableSemesterAmount), Toast.LENGTH_LONG).show();
