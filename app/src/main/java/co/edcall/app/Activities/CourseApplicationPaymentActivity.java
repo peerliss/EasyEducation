@@ -524,22 +524,22 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
 
                 Course course = documentSnapshot.toObject(Course.class);
 
-                Double fullFee = Double.valueOf(course.getFullFee());
-                Double fullSemesterFee = (double) (course.getFullFee() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
+                Double fullFee = (double) course.getFullFee();
+                Double fullSemesterFee = (double) (course.getFullFee() / course.getInstallments());
 //                Double fullSemesterFee = 20000.0;
 
                 String fullFeeString = formatter.format(fullFee);
                 String fullSemesterFeeString = formatter.format(fullSemesterFee);
 
-                Double cashback = Double.valueOf(course.getCashback());
-                Double cashbackSemester = (double) (course.getCashback() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
+                Double cashback = (double) course.getCashback();
+                Double cashbackSemester = (double) (course.getCashback() / course.getInstallments());
 
                 String cashbackString = formatter.format(cashback);
                 String cashbackSemesterString = formatter.format(cashbackSemester);
 
                 Double payable = Double.valueOf(course.getPayable());
-                Double payableSemester = (double) (course.getPayable() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
-                payableSemesterAmount = course.getFullFee() / (Integer.valueOf(course.getDuration().substring(0, 1)) * 2);
+                Double payableSemester = (double) (course.getPayable() / course.getInstallments());
+                payableSemesterAmount = (course.getFullFee() / course.getInstallments());
                 loadSuccessfulPayment();
 
                 String payableString = formatter.format(payable);

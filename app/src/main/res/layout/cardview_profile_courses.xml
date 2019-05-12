@@ -28,16 +28,16 @@
             android:text="Diploma of Nursing"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="21sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/courseRecyclerDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 years full time"
+            android:text="104 weeks"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="19sp" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
