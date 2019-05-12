@@ -50,6 +50,8 @@ public class RegisterProfileNameFragment extends Fragment {
     private boolean hasReferralCode = false;
     private boolean isValid = true;
 
+    private static final String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyz0123456789";
+
     String name;
     String surname;
     String fullname;
@@ -142,10 +144,12 @@ public class RegisterProfileNameFragment extends Fragment {
     }
 
     private String createReferralCode() {
-        String referralNameLowercase = name.toLowerCase().concat(surname.substring(0, 1).toLowerCase());
-        int randomNumber = new Random().nextInt((9999 - 1000) + 1) + 1000;
-        String randomNumberString = String.valueOf(randomNumber);
-        String referralCode = referralNameLowercase.concat(randomNumberString);
+//        String referralNameLowercase = name.toLowerCase().concat(surname.substring(0, 1).toLowerCase());
+//        int randomNumber = new Random().nextInt((9999 - 1000) + 1) + 1000;
+//        String randomNumberString = String.valueOf(randomNumber);
+//        String referralCode = referralNameLowercase.concat(randomNumberString);
+
+        String referralCode = randomAlphaNumeric(4);
 
         if (checkIfReferralCodeIsUnique(referralCode)) {
             return referralCode;
@@ -153,6 +157,16 @@ public class RegisterProfileNameFragment extends Fragment {
             createReferralCode();
         }
         return null;
+    }
+
+
+    public static String randomAlphaNumeric(int count) {
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
     }
 
     private boolean checkIfReferralCodeIsUnique(final String referralCode) {

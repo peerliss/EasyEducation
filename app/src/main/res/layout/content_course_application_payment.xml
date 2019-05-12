@@ -57,7 +57,7 @@
                     android:id="@+id/courseApplicationPayment_bonusTitle_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sign up bonus!"
+                    android:text="Cashback"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="24sp"
@@ -68,7 +68,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Did a friend send you here? Get $250 for you and a friend if you enter their referral code during payment."
+                    android:text="Want to get up to 10% cashback? Enter a referral code below."
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/courseApplicationPayment_bonusDetails_tv2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Don't have a referral code? Get a friend to sign up to our app and they get $250 after you successfully enrol using their referral code!"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
 
@@ -143,7 +152,7 @@
                     android:id="@+id/courseApplicationPayment_payment_fullFee_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Full fee - "
+                    android:text="Tuition fee - "
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -169,7 +178,7 @@
                     android:id="@+id/courseApplicationPayment_payment_fullFeeSemester_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Full fee - "
+                    android:text="Tuition fee - "
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -190,6 +199,16 @@
                     android:text="You pay - "
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/courseApplicationPayment_materialFee_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Material Fee - "
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/courseApplicationPayment_payment_SuccessfulPayments"
@@ -216,7 +235,7 @@
                     android:id="@+id/courseApplicationPayment_additionalFees_1_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="Material Fee: $300"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:visibility="gone" />

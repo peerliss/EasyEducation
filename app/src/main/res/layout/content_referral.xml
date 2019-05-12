@@ -81,8 +81,37 @@
                     android:id="@+id/referral_signUpBonus_Tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:text="Get $250 each for you and a friend when your friend signs up for a course and enters your referral code."
+                    android:layout_marginBottom="15dp"
+                    android:text="Get $250 when your friend signs up for a course and enters your referral code."
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="Each student gets up to 10% cashback on all courses when enrolling with a referral code"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/referral_signUpTenBonus_Tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="$1,000 bonus after 10 successful referrals"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/referral_signUpTenRate_Tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="$350 for each enrolment after 10 successful referrals"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />

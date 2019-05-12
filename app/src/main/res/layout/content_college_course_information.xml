@@ -162,13 +162,32 @@
                         android:textSize="17sp" />
 
                     <TextView
+                        android:id="@+id/courseInfoEnrolmentFee_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Enrolment Fee: $250"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/courseInfoMaterialFee_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="Material Fee: $300"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
                         android:id="@+id/courseInfoClassHours_TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:text="Class hours: 20 hours per week"
                         android:textColor="@android:color/white"
-                        android:textSize="17sp" />
+                        android:textSize="17sp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/courseInfoClassAvailability_TextView"
@@ -177,7 +196,8 @@
                         android:gravity="right"
                         android:text="Class availability: Morning / Evening"
                         android:textColor="@android:color/white"
-                        android:textSize="17sp" />
+                        android:textSize="17sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -190,8 +210,8 @@
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 android:text="Overview"
-                android:textIsSelectable="false"
                 android:textColor="@android:color/black"
+                android:textIsSelectable="false"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 

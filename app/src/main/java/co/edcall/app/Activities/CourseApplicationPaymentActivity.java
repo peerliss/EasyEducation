@@ -54,6 +54,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
     private TextView courseFullFeeSemester;
     private TextView courseCashBackSemester;
     private TextView coursePayableSemester;
+    private TextView materialFeeTv;
     private TextView additionalFee1Tv;
     private TextView additionalFee2Tv;
     private TextView additionalFee3Tv;
@@ -87,6 +88,10 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
     private double amountPaid;
     private boolean sourcesExists = false;
     private DocumentReference chargeRef;
+    private String referralCode;
+    private String materialFeePaid = "false";
+    private DocumentReference applicationRef;
+    private int materialFeeInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +114,9 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.getString("referredBy") != null) {
                     mReferredBy.setText(documentSnapshot.getString("referredBy"));
+                }
+                if (documentSnapshot.getString("referralCode") != null) {
+                    referralCode = documentSnapshot.getString("referralCode");
                 }
                 if (documentSnapshot.getString("numberOfApplications") != null) {
                     numberOfApplications = documentSnapshot.getString("numberOfApplications");
@@ -137,6 +145,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         courseFullFeeSemester = findViewById(R.id.courseApplicationPayment_payment_fullFeeSemester_tv);
         courseCashBackSemester = findViewById(R.id.courseApplicationPayment_payment_cashbackSemester_tv);
         coursePayableSemester = findViewById(R.id.courseApplicationPayment_payment_youPaySemester_tv);
+        materialFeeTv = findViewById(R.id.courseApplicationPayment_materialFee_tv);
         successfullyPaid = findViewById(R.id.courseApplicationPayment_payment_SuccessfulPayments);
 
         additionalFee1Tv = findViewById(R.id.courseApplicationPayment_additionalFees_1_tv);
@@ -221,11 +230,15 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                         for (int i = 0; i < numberOfDocs; i++) {
                             if (queryDocumentSnapshots.getDocuments().get(i).getString("referralCode") != null) {
                                 referralQuery = queryDocumentSnapshots.getDocuments().get(i).getString("referralCode");
-
-                                if (referralQuery.matches(referredBy)) {
-                                    uid = queryDocumentSnapshots.getDocuments().get(i).getString("uid");
-                                    enterReferredByDoc();
-                                    isValidRefereeCode = true;
+                                if (!referredBy.equals(referralCode)) {
+                                    if (referralQuery.matches(referredBy)) {
+                                        uid = queryDocumentSnapshots.getDocuments().get(i).getString("uid");
+                                        enterReferredByDoc();
+                                        isValidRefereeCode = true;
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Cannot enter own referral code", Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
@@ -250,9 +263,43 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
         referredBy.put("refereeUid", uid);
         referredBy.put("paid", false);
 
-        refereeReferralRef.set(referredBy);
+//        refereeReferralRef.set(referredBy);
 
-        addReferalInfoToReferee();
+        checkIfReferralAlreadyAdded();
+//        addReferalInfoToReferee();
+    }
+
+    private void checkIfReferralAlreadyAdded() {
+        try {
+            CollectionReference refereeReferredCollectionRef;
+            refereeReferredCollectionRef = db.collection("users").document(uid).collection("referrals");
+            refereeReferredCollectionRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+                private String previouslyReferredUid;
+
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+//                        boolean previouslyReferred = false;
+                        int numberOfDocs = queryDocumentSnapshots.getDocuments().size();
+                        for (int i = 0; i < numberOfDocs; i++) {
+                            if (queryDocumentSnapshots.getDocuments().get(i).getString("referredUid") != null) {
+                                previouslyReferredUid = queryDocumentSnapshots.getDocuments().get(i).getString("referredUid");
+                                if (!previouslyReferredUid.equals(mAuth.getUid())) {
+                                        addReferalInfoToReferee();
+//                                        previouslyReferred = false;
+                                }
+//                                else {
+//                                    Toast.makeText(getApplicationContext(), "Cannot enter own referral code", Toast.LENGTH_LONG).show();
+//                                }
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void addReferalInfoToReferee() {
@@ -377,6 +424,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                     if (documentSnapshot.getString("status").matches("succeeded")) {
                         Toast.makeText(CourseApplicationPaymentActivity.this, "Payment successful", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.INVISIBLE); //To Hide ProgressBar
+                        setMaterialFeePaid();
                         loadSuccessfulPayment();
                     }
                 }
@@ -423,7 +471,7 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
     }
 
     private void loadApplicationStatus(String applicationRefString) {
-        DocumentReference applicationRef = db.collection("users").document(mAuth.getUid()).collection("Applications").document(applicationRefString);
+        applicationRef = db.collection("users").document(mAuth.getUid()).collection("Applications").document(applicationRefString);
         applicationRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -443,6 +491,11 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 if (documentSnapshot.getString("institutionRef") != null) {
                     institutionRefString = documentSnapshot.getString("institutionRef");
                 }
+                if (documentSnapshot.getString("materialFeePaid") != null) {
+                    if (documentSnapshot.getString("materialFeePaid").matches("true")) {
+                        materialFeePaid = documentSnapshot.getString("materialFeePaid");
+                    }
+                }
                 if (documentSnapshot.getString("courseCode") != null) {
                     courseCodeString = documentSnapshot.getString("courseCode");
                     loadPaymentInformation();
@@ -455,6 +508,10 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setMaterialFeePaid() {
+        applicationRef.update("materialFeePaid", "true");
     }
 
     private void loadPaymentInformation() {
@@ -474,8 +531,6 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 String fullFeeString = formatter.format(fullFee);
                 String fullSemesterFeeString = formatter.format(fullSemesterFee);
 
-                confirmButton.setText("Pay $" + fullSemesterFeeString);
-
                 Double cashback = Double.valueOf(course.getCashback());
                 Double cashbackSemester = (double) (course.getCashback() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
 
@@ -490,13 +545,31 @@ public class CourseApplicationPaymentActivity extends AppCompatActivity {
                 String payableString = formatter.format(payable);
                 String payableSemesterString = formatter.format(payableSemester);
 
-                courseFullFee.setText("Full Fee: $" + fullFeeString);
+                String payableSemesterAmountString = formatter.format(payableSemesterAmount);
+
+                confirmButton.setText("Pay $" + payableSemesterAmountString);
+
+                materialFeeInt = course.getMaterialFee();
+                Double materialFee = Double.valueOf(course.getMaterialFee());
+                String materialFeeString = formatter.format(materialFee);
+
+                courseFullFee.setText("Tuition Fee: $" + fullFeeString);
                 courseCashBack.setText("Cash Back: $" + cashbackString);
                 coursePayable.setText("You Pay: $" + payableString);
 
-                courseFullFeeSemester.setText("Full Fee: $" + fullSemesterFeeString + " per semester");
+                courseFullFeeSemester.setText("Tuition Fee: $" + fullSemesterFeeString + " per semester");
                 courseCashBackSemester.setText("Cash Back: $" + cashbackSemesterString + " per semester");
                 coursePayableSemester.setText("You Pay: $" + payableSemesterString + " per semester");
+                materialFeeTv.setText("Material Fee: $" + materialFeeString);
+
+                if (!materialFeePaid.matches("true")) {
+                    payableSemesterAmount = payableSemesterAmount + materialFeeInt;
+                    payableSemesterAmountString = formatter.format(payableSemesterAmount);
+                    confirmButton.setText("Pay $" + payableSemesterAmountString);
+//                    Toast.makeText(CourseApplicationPaymentActivity.this, payableSemesterAmountString, Toast.LENGTH_LONG).show();
+                }
+
+//                Toast.makeText(CourseApplicationPaymentActivity.this, String.valueOf(payableSemesterAmount), Toast.LENGTH_LONG).show();
 
                 if (documentSnapshot.getString("additionalFee1") != null) {
                     findViewById(R.id.courseApplicationPayment_additionalFees_layout).setVisibility(View.VISIBLE);

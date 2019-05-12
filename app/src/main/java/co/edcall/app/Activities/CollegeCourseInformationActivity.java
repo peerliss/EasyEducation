@@ -40,7 +40,9 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
     private TextView courseCricos;
     private TextView courseIntake;
     private TextView courseDuration;
-    private TextView courseFullFee;
+    private TextView courseTuitionFee;
+    private TextView courseEnrolmentFee;
+    private TextView courseMaterialFee;
     private TextView courseCashBack;
     private TextView coursePayable;
     private TextView courseClassHours;
@@ -78,7 +80,9 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
         courseCode = findViewById(R.id.courseInfoCode_TextView);
         courseIntake = findViewById(R.id.courseInfoIntake_TextView);
         courseDuration = findViewById(R.id.courseInfoDuration_TextView);
-        courseFullFee = findViewById(R.id.courseInfoFullFee_TextView);
+        courseTuitionFee = findViewById(R.id.courseInfoFullFee_TextView);
+        courseEnrolmentFee = findViewById(R.id.courseInfoEnrolmentFee_TextView);
+        courseMaterialFee = findViewById(R.id.courseInfoMaterialFee_TextView);
         courseCashBack = findViewById(R.id.courseInfoCashBack_TextView);
         coursePayable = findViewById(R.id.courseInfoYouPay_TextView);
         courseOverview = findViewById(R.id.courseInfoOverview_TextView);
@@ -117,11 +121,16 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
 
                     Double fullFee = Double.valueOf(course.getFullFee());
                     Double fullSemesterFee = (double) (course.getFullFee() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
-//                Double fullSemesterFee = 20000.0;
 
-                    String fullFeeString = formatter.format(fullFee);
+                    String tuitionFeeString = formatter.format(fullFee);
                     String fullSemesterFeeString = formatter.format(fullSemesterFee);
 
+                    Double enrolmentFee = Double.valueOf(course.getEnrolmentFee());
+                    Double materialFee = Double.valueOf(course.getMaterialFee());
+
+                    String enrolmentFeeString = formatter.format(enrolmentFee);
+                    String materialFeeString = formatter.format(materialFee);
+                    
                     Double cashback = Double.valueOf(course.getCashback());
                     Double cashbackSemester = (double) (course.getCashback() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
 
@@ -141,7 +150,9 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
                     courseDuration.setText("Duration: " + course.getDuration());
                     courseClassHours.setText("Class hours: " + course.getHours());
                     courseClassAvailability.setText("Class Availability: " + course.getAvailability());
-                    courseFullFee.setText("Tuition Fee: $" + fullFeeString);
+                    courseTuitionFee.setText("Tuition: $" + tuitionFeeString);
+                    courseEnrolmentFee.setText("Enrolment Fee: $" + enrolmentFeeString);
+                    courseMaterialFee.setText("Material Fee: $" + materialFeeString);
                     courseCashBack.setText("Cash Back: $" + cashbackString);
                     coursePayable.setText("You Pay: $" + payableString);
                     courseOverview.setText(Html.fromHtml(course.getOverview(), 1)); // for 24 api and more
