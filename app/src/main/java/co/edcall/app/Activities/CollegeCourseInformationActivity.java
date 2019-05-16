@@ -119,8 +119,10 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
 
                     course = documentSnapshot.toObject(Course.class);
 
+                    int installments = course.getInstallments();
+
                     Double fullFee = Double.valueOf(course.getFullFee());
-                    Double fullSemesterFee = (double) (course.getFullFee() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
+                    Double fullSemesterFee = (double) (course.getFullFee() / installments);
 
                     String tuitionFeeString = formatter.format(fullFee);
                     String fullSemesterFeeString = formatter.format(fullSemesterFee);
@@ -132,13 +134,13 @@ public class CollegeCourseInformationActivity extends AppCompatActivity {
                     String materialFeeString = formatter.format(materialFee);
                     
                     Double cashback = Double.valueOf(course.getCashback());
-                    Double cashbackSemester = (double) (course.getCashback() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
+                    Double cashbackSemester = (double) (course.getCashback() / installments);
 
                     String cashbackString = formatter.format(cashback);
                     String cashbackSemesterString = formatter.format(cashbackSemester);
 
                     Double payable = Double.valueOf(course.getPayable());
-                    Double payableSemester = (double) (course.getPayable() / (Double.valueOf(course.getDuration().substring(0, 1)) * 2));
+                    Double payableSemester = (double) (course.getPayable() / installments);
 
                     String payableString = formatter.format(payable);
                     String payableSemesterString = formatter.format(payableSemester);

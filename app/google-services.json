@@ -8,14 +8,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:847255428378:android:c6e35a1318f1a0d3",
+        "mobilesdk_app_id": "1:847255428378:android:99d42ac0bafd00e9",
         "android_client_info": {
           "package_name": "co.edcall.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "847255428378-vo18489ctucnehfa1j9b1a54vromth4g.apps.googleusercontent.com",
+          "client_id": "847255428378-d79hfqqk2lof55ojh7bc0ueljfnot74k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "co.edcall.app",
@@ -33,20 +33,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "847255428378-opv96ld8ig221a8l60njlocc78k6rfmh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

@@ -8,11 +8,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,6 +49,7 @@ public class ReferralActivity extends AppCompatActivity {
     private int referralLoadIndex = 1;
     private LinearLayout mAmountEarnedLayout;
     private String referralCodeString;
+    private Uri shareLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +142,9 @@ public class ReferralActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
 //                intent.putExtra(Intent.EXTRA_TEXT, link.toString());
-                intent.putExtra(Intent.EXTRA_TEXT, referralCodeString);
+//                intent.putExtra(Intent.EXTRA_TEXT, referralCodeString);
+//                intent.putExtra(Intent.EXTRA_TEXT, "https://app.edcall.co/share/refer");
+                intent.putExtra(Intent.EXTRA_TEXT, "https://promo.edcall.com.au/share/cashback");
 
                 startActivity(Intent.createChooser(intent, "Share Link"));
             }
@@ -163,18 +168,18 @@ public class ReferralActivity extends AppCompatActivity {
         });
     }
 
-    public static Uri generateContentLink() {
-        Uri baseUrl = Uri.parse("https://easyeducation.page.link/join");
-        String domain = "https://easyeducation.page.link";
+    private Uri generateContentLink() {
+        String link = "https://promo.edcall.com.au/share/" + referralCodeString;
 
-        DynamicLink link = FirebaseDynamicLinks.getInstance()
-                .createDynamicLink()
-                .setLink(baseUrl)
-                .setDomainUriPrefix(domain)
-                .setIosParameters(new DynamicLink.IosParameters.Builder("com.your.bundleid").build())
-                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder("com.your.packageName").build())
+        DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse(link))
+                .setDomainUriPrefix("https://promo.edcall.com.au/share")
+                .setAndroidParameters(
+                        new DynamicLink.AndroidParameters.Builder("co.edcall.app")
+                                .setMinimumVersion(125)
+                                .build())
                 .buildDynamicLink();
 
-        return link.getUri();
+        return dynamicLink.getUri();
     }
 }
