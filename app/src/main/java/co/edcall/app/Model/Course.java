@@ -1,20 +1,23 @@
 package co.edcall.app.Model;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Course {
-    private String name;
-    private String courseCode;
-    private String courseCricos;
-    private String intake;
-    private String duration;
-    private String hours;
-    private String availability;
-    private int fullFee;
-    private int enrolmentFee;
-    private int materialFee;
-    private int cashback;
-    private int payable;
-    private int installments;
-    private String overview;
+    public String name;
+    public String courseCode;
+    public String courseCricos;
+    public String intake;
+    public String duration;
+    public String hours;
+    public String availability;
+    public int fullFee;
+    public int enrolmentFee;
+    public int materialFee;
+    public int cashback;
+    public int payable;
+    public int installments;
+    public String overview;
 
     public Course() {
     }

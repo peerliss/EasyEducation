@@ -2,29 +2,34 @@ package co.edcall.app.Model;
 
 //import android.media.Image;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Institution {
-    private String name;
-    private String location;
-    private String description;
-    private String coursesAvailable;
-    private String hours;
-    private String cricos;
-    private double distance;
-    private int reviews;
-    private double rating;
-    //    private Image agent_profile;
-    private String id;
+    public String name;
+    public String location;
+    public String description;
+    public String coursesAvailable;
+    public String hours;
+    public String cricos;
+    public String profileImageURL;
+    public double distance;
+    public int reviews;
+    public double rating;
+    //    public Image agent_profile;
+    public String id;
 
     public Institution() {
     }
 
-    public Institution(String name, String location, String description, String coursesAvailable, String hours, String cricos, double distance, int reviews, double rating/*, Image agent_profile*/, String id) {
+    public Institution(String name, String location, String description, String coursesAvailable, String hours, String cricos, String profileImageURL, double distance, int reviews, double rating/*, Image agent_profile*/, String id) {
         this.name = name;
         this.location = location;
         this.description = description;
         this.coursesAvailable = coursesAvailable;
         this.hours = hours;
         this.cricos = cricos;
+        this.profileImageURL = profileImageURL;
         this.distance = distance;
         this.reviews = reviews;
         this.rating = rating;
@@ -54,6 +59,10 @@ public class Institution {
 
     public String getCricos() {
         return cricos;
+    }
+
+    public String getProfileImageURL() {
+        return profileImageURL;
     }
 
     public String getId() {
@@ -94,6 +103,10 @@ public class Institution {
 
     public void setCricos(String cricos) {
         this.cricos = cricos;
+    }
+
+    public void setProfileImageURL(String profileImageURL) {
+        this.profileImageURL = profileImageURL;
     }
 
     public void setDistance(double distance) {

@@ -277,9 +277,9 @@ public class CourseApply16Fragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!validateFields()) {
-                    return;
-                }
+//                if (!validateFields()) {
+//                    return;
+//                }
                 ((CourseApplicationNewActivity) getActivity()).addFragment(14);
             }
         });

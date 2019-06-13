@@ -158,14 +158,14 @@ public class CourseApply20Fragment extends Fragment {
         mCurrentQualificationPhotoLayoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (photoTakenAmount <= 4) {
+                if (photoTakenAmount <= 19) {
                     try {
                         verifyPermissions(photoTakenAmount);
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "CurrentQualification Button click - " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Can only take 5 Confirmation of Enrolment photos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Can only take 20 Confirmation of Enrolment photos", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -146,7 +146,7 @@
             android:label="CourseApplicationNewActivity"
             android:parentActivityName="co.edcall.app.Activities.CourseApplicationChecklistActivity"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"
-            android:windowSoftInputMode="stateVisible|adjustPan">
+            android:windowSoftInputMode="stateVisible|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.edcall.app.Activities.CollegeCourseInformationActivity" />

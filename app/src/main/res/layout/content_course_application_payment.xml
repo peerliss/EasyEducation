@@ -77,7 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Don't have a referral code? Get a friend to sign up to our app and they get $250 after you successfully enrol using their referral code!"
+                    android:text="Don't have a referral code? Call us."
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
 

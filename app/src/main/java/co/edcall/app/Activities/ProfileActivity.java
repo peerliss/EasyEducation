@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +30,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -52,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView profileLocation;
     private TextView profileDescription;
     private TextView profileCricos;
+    private TextView profileRTO;
     private Button profileDescriptionButton;
     private Button profileCoursesButton;
 
@@ -73,6 +78,10 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView institution_imageView;
     private int imageLoadIndex = 1;
     private int galleryImagesAmount;
+
+    private Query query;
+    private boolean hasOrder;
+    private DocumentReference courseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,14 +112,13 @@ public class ProfileActivity extends AppCompatActivity {
         if (businessTypeString.matches("Institution")) {
             instituteRef = db.collection("institutions").document(instituteRefString);
             coursesListRef = instituteRef.collection("courses");
-        } else if (businessTypeString.matches("Agent")) {
-            instituteRef = db.collection("agents").document(instituteRefString);
         }
 
         profileName = findViewById(R.id.profileName);
         profileLocation = findViewById(R.id.profileLocation);
         profileDescription = findViewById(R.id.profileDescriptionTextView);
         profileCricos = findViewById(R.id.profileCricos);
+        profileRTO = findViewById(R.id.profileRTO);
         institution_imageView = findViewById(R.id.profileImageView);
 
         profileDescriptionButton = findViewById(R.id.profileDescriptionButton);
@@ -133,18 +141,22 @@ public class ProfileActivity extends AppCompatActivity {
                 profileDescription.setText(institution.getDescription());
                 profileCricos.setText("CRICOS NO: " + institution.getCricos());
 
+                if (documentSnapshot.getString("rto") != null) {
+                    profileRTO.setText("RTO NO: " + documentSnapshot.getString("rto"));
+                    profileRTO.setVisibility(View.VISIBLE);
+                }
+
                 profileImagePhotoRef = firebaseStorage.getReference("institutions/" + institution.getId() + "/profile_image.png");
-                profileImagePhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(getApplicationContext()).load(uri).into(institution_imageView);
-                    }
-                });
+                Glide.with(getApplicationContext()).load(profileImagePhotoRef).into(institution_imageView);
 
                 // Camera functionality - initialize
                 if (documentSnapshot.getString("galleryImagesAmount") != null) {
                     galleryImagesAmount = Integer.valueOf(documentSnapshot.getString("galleryImagesAmount"));
                     loadImages(imageLoadIndex);
+                }
+
+                if (documentSnapshot.getString("longDescription") != null) {
+                    profileDescription.setText(Html.fromHtml(documentSnapshot.getString("longDescription"), 1));
                 }
             }
         });
@@ -152,13 +164,15 @@ public class ProfileActivity extends AppCompatActivity {
         coursesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        galleryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        setupCoursesRecyclerView();
 //        setupGalleryRecyclerView();
+
+        setupCoursesRecyclerView();
 
         selectedBG = getDrawable(R.drawable.profile_buttons_square_border_selected);
         unselectedBG = getDrawable(R.drawable.profile_buttons_square_border_unselected);
 
 //        cloneDocument();
+//        addOrderToCourses();
     }
 
     // Camera functionality
@@ -170,38 +184,30 @@ public class ProfileActivity extends AppCompatActivity {
         galleryImagePhotoRef = firebaseStorage.getReference("institutions/" + instituteRefString
                 + "/gallery/" + String.valueOf(photoNumber) + ".png");
 
-        galleryImagePhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                View photo_imageView = getLayoutInflater().inflate(R.layout.image_gallery, mViewGalleryPhotoLayout, false);
-                mViewGalleryPhotoLayout.addView(photo_imageView);
-                ImageView imageView = photo_imageView.findViewById(R.id.image_gallery_imageview);
+        View photo_imageView = getLayoutInflater().inflate(R.layout.image_gallery, mViewGalleryPhotoLayout, false);
+        mViewGalleryPhotoLayout.addView(photo_imageView);
+        ImageView imageView = photo_imageView.findViewById(R.id.image_gallery_imageview);
 //                Glide.with(mViewGalleryPhotoLayout).load(uri).into(imageView);
-                Glide.with(getApplicationContext()).load(uri).into(imageView);
+        Glide.with(getApplicationContext()).load(galleryImagePhotoRef).into(imageView);
 //                Picasso.get().load(uri).centerCrop().fit().into(imageView);
 
-                addimageLoadIndexAmount();
+        addimageLoadIndexAmount();
 
-                if (imageLoadIndex <= galleryImagesAmount) {
-                    loadImages(imageLoadIndex);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("Image Gallery - Load Failure", e.getMessage());
-            }
-        });
+        if (imageLoadIndex <= galleryImagesAmount) {
+            loadImages(imageLoadIndex);
+        }
     }
 
     private void setupCoursesRecyclerView() {
-        Query query = coursesListRef;
+        query = coursesListRef.orderBy("order");
 
         FirestoreRecyclerOptions<Course> options = new FirestoreRecyclerOptions.Builder<Course>()
                 .setQuery(query, Course.class)
                 .build();
 
         firestoreCourseAdapter = new FirestoreCourseAdapter(options);
+
+//        firestoreCourseAdapter.startListening();
 
         coursesRecyclerView.setAdapter(firestoreCourseAdapter);
 
@@ -301,6 +307,21 @@ public class ProfileActivity extends AppCompatActivity {
                                 .collection("courses")
                                 .document("TEST").set(course);
 //                        instituteRef.collection("courses").document().set(course);
+                    }
+                }
+            }
+        });
+    }
+
+    private void addOrderToCourses() {
+        coursesListRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    int numberOfDocs = queryDocumentSnapshots.getDocuments().size();
+                    for (int i = 0; i < numberOfDocs; i++) {
+                        courseRef = coursesListRef.document(queryDocumentSnapshots.getDocuments().get(i).getString("courseCode"));
+                        courseRef.update("order", i + 1);
                     }
                 }
             }

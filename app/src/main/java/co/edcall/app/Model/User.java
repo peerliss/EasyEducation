@@ -1,5 +1,8 @@
 package co.edcall.app.Model;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class User {
     public String name, surname, fullname, email, number, dob;
 

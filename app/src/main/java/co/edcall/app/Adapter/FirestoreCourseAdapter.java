@@ -27,6 +27,14 @@ public class FirestoreCourseAdapter extends FirestoreRecyclerAdapter<Course, Fir
         holder.courseRecyclerName.setText(course.getName() + " - " + course.getCourseCode());
         holder.courseRecyclerDuration.setText(course.getDuration());
 
+        if (course.getName().matches(course.getCourseCode())) {
+            holder.courseRecyclerName.setText(course.getName());
+        }
+
+        if (course.getName().equals(course.getCourseCode())) {
+            holder.courseRecyclerName.setText(course.getName());
+        }
+
     }
 
     @NonNull

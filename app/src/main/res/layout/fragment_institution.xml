@@ -5,12 +5,12 @@
     android:id="@+id/fragment_institution"
     android:layout_width="match_parent"
     android:layout_height="210dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="1dp"
     android:defaultFocusHighlightEnabled="false"
     android:orientation="vertical"
     android:outlineSpotShadowColor="@android:color/black"
     android:theme="@style/AppTheme"
-    app:cardBackgroundColor="@color/card_background"
+    app:cardBackgroundColor="@color/white"
     tools:context="co.edcall.app.Fragments.InstitutionFragment">
 
     <LinearLayout

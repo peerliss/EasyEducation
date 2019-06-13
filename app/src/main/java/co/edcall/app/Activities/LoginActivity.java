@@ -3,8 +3,10 @@ package co.edcall.app.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -59,10 +61,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPasswordField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                {
-                    switch (keyCode)
-                    {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                             findViewById(R.id.loginButton).performClick();
@@ -116,14 +116,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    if (documentSnapshot.getString("employmentStatus") != null) {
-                                        if (documentSnapshot.getString("name") != null) {
-                                            progressBar.setVisibility(View.GONE);
-                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(intent);
-                                        }
-                                    }
-                                    else {
+                                    if (documentSnapshot.getString("name") != null) {
+                                        progressBar.setVisibility(View.GONE);
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                    } else {
                                         progressBar.setVisibility(View.GONE);
                                         Intent intent = new Intent(getApplicationContext(), RegisterProfileDetailsNewActivity.class);
                                         startActivity(intent);
@@ -132,6 +129,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             });
                         } else {
                             // If sign in fails, display a message to the user.
+                            progressBar.setVisibility(View.GONE);
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -183,16 +181,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             progressBar.setVisibility(View.VISIBLE);
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
             hideKeyboardFrom(getApplicationContext(), v);
-        }
-        else if (i == R.id.registerButton) {
+        } else if (i == R.id.registerButton) {
             Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(intent);
-        }
-        else if (i == R.id.registerText) {
+        } else if (i == R.id.registerText) {
             Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(intent);
-        }
-        else if (i == R.id.forgotPasswordText) {
+        } else if (i == R.id.forgotPasswordText) {
             Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
             startActivity(intent);
         }

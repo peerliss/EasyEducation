@@ -41,17 +41,19 @@ public class ProfileImagesGalleryAdapter extends FirestoreRecyclerAdapter<Instit
         imagePhotoRef = firebaseStorage.getReference("institutions/" + institution.getId()
                 + "/gallery" + "/" + String.valueOf(position) + ".png");
 
-        imagePhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(context).load(uri).into(holder.gallery_imageView);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Failure loading gallery images", Toast.LENGTH_LONG).show();
-            }
-        });
+//        imagePhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Glide.with(context).load(uri).into(holder.gallery_imageView);
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(context, "Failure loading gallery images", Toast.LENGTH_LONG).show();
+//            }
+//        });
+
+        Glide.with(context).load(imagePhotoRef).into(holder.gallery_imageView);
     }
 
     @NonNull

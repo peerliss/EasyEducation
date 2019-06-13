@@ -1,23 +1,26 @@
 package co.edcall.app.Model;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class CourseApplication {
-    private String name, surname, fullname, email, number, dob, gender, countryBirth, street, suburb, state, postCode, currentAddress;
-    private String homeCountryStreet, homeCountrySuburb, homeCountryState, homeCountryPostCode, homeCountry, homeCountryAddress;
-    private String usi;
-    private String passportNumber, passportExpiryDate, countryCitizenship;
-    private String visaType, visaSubclass, visaExpiryDate, visaNumber;
-    private String englishLevel, englishTest, englishTestDate, englishTestResults, englishTestMainLanguageSpoken;
-    private String furtherStudies, furtherStudiesCourse, furtherStudiesInstitution, furtherStudiesCommencementDate;
-    private String highestQualification, highestQualificationName, highestQualificationInstitution, highestQualificationCountryName;
-    private String highestQualification2Name, highestQualification2Institution, highestQualification2CountryName;
-    private String highestQualification3Name, highestQualification3Institution, highestQualification3CountryName;
-    private String issues, issuesMedical, issuesLegal, issuesVisa, issuesAAT, issuesOther;
-    private String issuesMedicalDetails, issuesLegalDetails, issuesVisaDetails, issuesAATDetails, issuesOtherDetails;
-    private String healthInsurance, healthInsuranceProviderName, healthInsuranceMembershipNumber,healthInsuranceExpiryDate;
-    private String currentlyStudying, currentQualificationName, currentQualificationInstitution;
-    private String applyingForRPL, nameChanged, previousName, employmentStatus;
-    private String institutionName, institutionCricos, courseName, courseCode;
-    private String applicationStatus, uid;
+    public String name, surname, fullname, email, number, dob, gender, countryBirth, street, suburb, state, postCode, currentAddress;
+    public String homeCountryStreet, homeCountrySuburb, homeCountryState, homeCountryPostCode, homeCountry, homeCountryAddress;
+    public String usi;
+    public String passportNumber, passportExpiryDate, countryCitizenship;
+    public String visaType, visaSubclass, visaExpiryDate, visaNumber;
+    public String englishLevel, englishTest, englishTestDate, englishTestResults, englishTestMainLanguageSpoken;
+    public String furtherStudies, furtherStudiesCourse, furtherStudiesInstitution, furtherStudiesCommencementDate;
+    public String highestQualification, highestQualificationName, highestQualificationInstitution, highestQualificationCountryName;
+    public String highestQualification2Name, highestQualification2Institution, highestQualification2CountryName;
+    public String highestQualification3Name, highestQualification3Institution, highestQualification3CountryName;
+    public String issues, issuesMedical, issuesLegal, issuesVisa, issuesAAT, issuesOther;
+    public String issuesMedicalDetails, issuesLegalDetails, issuesVisaDetails, issuesAATDetails, issuesOtherDetails;
+    public String healthInsurance, healthInsuranceProviderName, healthInsuranceMembershipNumber,healthInsuranceExpiryDate;
+    public String currentlyStudying, currentQualificationName, currentQualificationInstitution;
+    public String applyingForRPL, nameChanged, previousName, employmentStatus;
+    public String institutionName, institutionCricos, courseName, courseCode;
+    public String applicationStatus, uid;
 
     public CourseApplication() {
 

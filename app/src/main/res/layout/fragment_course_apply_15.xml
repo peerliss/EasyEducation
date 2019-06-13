@@ -29,14 +29,6 @@
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:text="Select all that apply (skip if none)"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
             <Button
                 android:id="@+id/courseApplyIssues_Medical_Button"
                 android:layout_width="match_parent"

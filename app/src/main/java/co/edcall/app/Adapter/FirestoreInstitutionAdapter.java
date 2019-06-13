@@ -47,13 +47,16 @@ public class FirestoreInstitutionAdapter extends FirestoreRecyclerAdapter<Instit
 
         firebaseStorage = FirebaseStorage.getInstance();
         profileImagePhotoRef = firebaseStorage.getReference("institutions/" + institution.getId() + "/profile_image.png");
+//
+//        profileImagePhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Glide.with(context).load(uri).into(holder.institution_imageView);
+//            }
+//        });
 
-        profileImagePhotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(context).load(uri).into(holder.institution_imageView);
-            }
-        });
+//        Glide.with(context).load(institution.getProfileImageURL()).into(holder.institution_imageView);
+        Glide.with(context).load(profileImagePhotoRef).into(holder.institution_imageView);
     }
 
     @NonNull

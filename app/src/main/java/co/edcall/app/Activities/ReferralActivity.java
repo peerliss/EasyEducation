@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,10 +23,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import co.edcall.app.R;
 
@@ -130,6 +133,8 @@ public class ReferralActivity extends AppCompatActivity {
                 if (documentSnapshot.getString("referralCode") != null) {
                     referralCodeString = (documentSnapshot.getString("referralCode"));
                     mReferralCodeTv.setText(referralCodeString);
+
+                    generateContentLink();
                 }
             }
         });
@@ -137,14 +142,9 @@ public class ReferralActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri link = generateContentLink();
-
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-//                intent.putExtra(Intent.EXTRA_TEXT, link.toString());
-//                intent.putExtra(Intent.EXTRA_TEXT, referralCodeString);
-//                intent.putExtra(Intent.EXTRA_TEXT, "https://app.edcall.co/share/refer");
-                intent.putExtra(Intent.EXTRA_TEXT, "https://promo.edcall.com.au/share/cashback");
+                intent.putExtra(Intent.EXTRA_TEXT, shareLink.toString());
 
                 startActivity(Intent.createChooser(intent, "Share Link"));
             }
@@ -168,18 +168,32 @@ public class ReferralActivity extends AppCompatActivity {
         });
     }
 
-    private Uri generateContentLink() {
-        String link = "https://promo.edcall.com.au/share/" + referralCodeString;
+    private void generateContentLink() {
+        try {
+            String link = "https://edcall.com.au/?referredby" + referralCodeString;
 
-        DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse(link))
-                .setDomainUriPrefix("https://promo.edcall.com.au/share")
-                .setAndroidParameters(
-                        new DynamicLink.AndroidParameters.Builder("co.edcall.app")
-                                .setMinimumVersion(125)
-                                .build())
-                .buildDynamicLink();
-
-        return dynamicLink.getUri();
+            Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
+                    .setLink(Uri.parse(link))
+                    .setDomainUriPrefix("https://promo.edcall.com.au/share")
+                    .setAndroidParameters(
+                            new DynamicLink.AndroidParameters.Builder("co.edcall.app")
+                                    .setMinimumVersion(125)
+                                    .build())
+                    .buildShortDynamicLink(ShortDynamicLink.Suffix.SHORT).addOnSuccessListener(new OnSuccessListener<ShortDynamicLink>() {
+                @Override
+                public void onSuccess(ShortDynamicLink shortDynamicLink) {
+                    shareLink = shortDynamicLink.getShortLink();
+//                    Toast.makeText(ReferralActivity.this, shareLink.toString(), Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+//                    Toast.makeText(ReferralActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        catch (Exception e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package co.edcall.app.Fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Random;
 
+import co.edcall.app.Activities.MainActivity;
 import co.edcall.app.Activities.RegisterProfileDetailsNewActivity;
 import co.edcall.app.R;
 
@@ -217,6 +220,26 @@ public class RegisterProfileNameFragment extends Fragment {
         }
 
         return valid;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onBackPressed() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

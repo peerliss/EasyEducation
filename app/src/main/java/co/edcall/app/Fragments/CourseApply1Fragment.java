@@ -293,6 +293,7 @@ public class CourseApply1Fragment extends Fragment {
         }
 
         if (!isGenderSelected) {
+            valid = false;
             Toast.makeText(getContext(), "Please select Male or Female", Toast.LENGTH_SHORT).show();
         }
 

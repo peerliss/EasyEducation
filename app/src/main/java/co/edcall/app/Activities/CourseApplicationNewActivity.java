@@ -1,6 +1,7 @@
 package co.edcall.app.Activities;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -71,6 +73,7 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
     private FirebaseStorage firebaseStorage;
     private DocumentReference instituteRef;
     private DocumentReference courseRef;
+    private View rootView;
 
 
     @Override
@@ -152,6 +155,29 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
         });
 
         setResult(RESULT_OK, intent);
+
+//        adjustKeyboard();
+    }
+
+    private void adjustKeyboard() {
+        rootView = this.findViewById(R.id.main_content).getRootView();
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                rootView.getWindowVisibleDisplayFrame(r);
+                int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
+
+                if (heightDiff > 300) { // if more than 100 pixels, its probably a keyboard...
+                    //ok now we know the keyboard is up...
+                    nextButton.setVisibility(View.GONE);
+
+                }else{
+                    //ok now we know the keyboard is down...
+                    nextButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     public DocumentReference getInstituteRef() {
@@ -303,7 +329,10 @@ public class CourseApplicationNewActivity extends AppCompatActivity {
                 userRef.collection("Applications").document("Application " + numberOfApplicationsString).set(courseApplication);
                 instituteRef.collection("Applications").document(mAuth.getUid()).set(courseApplication);
 
+                instituteRef.collection("Applications").document(mAuth.getUid()).update("applicationStatus", "Pending");
+
                 userRef.collection("Applications").document("Application " + numberOfApplicationsString).update("institutionRef", instituteRef.getId());
+                userRef.collection("Applications").document("Application " + numberOfApplicationsString).update("applicationStatus", "Pending");
 
                 Intent intent = new Intent(getApplicationContext(), CourseApplicationStatusActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
